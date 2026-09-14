@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ระบบแบบประเมินการสอนของครู</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Kanit", sans-serif;
+      background: #f5f7f8;
+      color: #263238;
+      min-height: 100vh;
+    }
+
+    button,
+    input {
+      font-family: inherit;
+    }
+
+    /* =========================
+       LOGIN
+    ========================= */
+
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #26A69A 0%,
+          #66bb6a 50%,
+          #AED581 100%
+        );
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 450px;
+      background: white;
+      border-radius: 24px;
+      padding: 35px;
+      box-shadow: 0 20px 50px rgba(0,0,0,.18);
+    }
+
+    .logo-circle {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 18px;
+
+      border-radius: 50%;
+      background: white;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      color: #26A69A;
+
+      box-shadow:
+        0 8px 25px rgba(0,0,0,.12);
+    }
+
+    .logo-circle svg {
+      width: 42px;
+      height: 42px;
+    }
+
+    .login-title {
+      text-align: center;
+      color: #263238;
+      font-size: 25px;
+      font-weight: 600;
+    }
+
+    .login-subtitle {
+      text-align: center;
+      color: #78909C;
+      margin-top: 5px;
+      margin-bottom: 28px;
+    }
+
+    /* =========================
+       TABS
+    ========================= */
+
+    .tabs {
+      display: flex;
+      background: #f1f5f4;
+      padding: 5px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+    }
+
+    .tab {
+      flex: 1;
+      border: none;
+      padding: 11px;
+      border-radius: 9px;
+
+      background: transparent;
+      color: #607D8B;
+
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .tab.active {
+      background: white;
+      color: #26A69A;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+
+    /* =========================
+       FORM
+    ========================= */
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+      color: #455A64;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper svg {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 19px;
+      color: #90A4AE;
+    }
+
+    .form-control {
+      width: 100%;
+      border: 1px solid #CFD8DC;
+      border-radius: 11px;
+      padding: 12px 14px 12px 43px;
+      outline: none;
+      font-size: 15px;
+      transition: .2s;
+    }
+
+    .form-control:focus {
+      border-color: #26A69A;
+      box-shadow: 0 0 0 3px rgba(38,166,154,.12);
+    }
+
+    .login-button {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 13px;
+
+      background: linear-gradient(
+        135deg,
+        #26A69A,
+        #66BB6A
+      );
+
+      color: white;
+      font-size: 17px;
+      font-weight: 500;
+
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .login-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(38,166,154,.25);
+    }
+
+    .login-footer {
+      margin-top: 25px;
+      padding-top: 18px;
+      border-top: 1px solid #ECEFF1;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+
+      color: #78909C;
+      font-size: 13px;
+    }
+
+    .login-footer svg {
+      width: 17px;
+      color: #26A69A;
+    }
+
+    /* =========================
+       APP
+    ========================= */
+
+    #app {
+      display: none;
+      min-height: 100vh;
+    }
+
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar {
+      width: 250px;
+      background: white;
+      border-right: 1px solid #E0E0E0;
+
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+
+      z-index: 100;
+
+      transition: .3s;
+    }
+
+    .sidebar-header {
+      padding: 25px 20px;
+      border-bottom: 1px solid #ECEFF1;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #E0F2F1;
+      color: #26A69A;
+    }
+
+    .brand-title {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .brand-subtitle {
+      font-size: 11px;
+      color: #90A4AE;
+    }
+
+    .user-box {
+      margin-top: 20px;
+      padding: 12px;
+      background: #F5F7F8;
+      border-radius: 12px;
+    }
+
+    .user-name {
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .user-role {
+      color: #78909C;
+      font-size: 12px;
+    }
+
+    .sidebar-menu {
+      padding: 20px 12px;
+    }
+
+    .menu-item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      border: none;
+      background: transparent;
+
+      padding: 12px 14px;
+      margin-bottom: 5px;
+
+      border-radius: 10px;
+
+      color: #546E7A;
+      text-align: left;
+
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .menu-item:hover,
+    .menu-item.active {
+      background: #E0F2F1;
+      color: #00897B;
+    }
+
+    .menu-item svg {
+      width: 19px;
+    }
+
+    .logout-button {
+      color: #EF5350;
+    }
+
+    /* CONTENT */
+
+    .main-content {
+      margin-left: 250px;
+      width: calc(100% - 250px);
+      padding: 25px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .page-title {
+      font-size: 25px;
+      font-weight: 600;
+    }
+
+    .page-description {
+      color: #78909C;
+      font-size: 14px;
+    }
+
+    .mobile-menu {
+      display: none;
+      border: none;
+      background: white;
+      padding: 9px;
+      border-radius: 9px;
+      cursor: pointer;
+    }
+
+    /* CARDS */
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid #ECEFF1;
+
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 13px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #E0F2F1;
+      color: #26A69A;
+    }
+
+    .stat-number {
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: #78909C;
+    }
+
+    .welcome-card {
+      background: linear-gradient(
+        135deg,
+        #26A69A,
+        #66BB6A
+      );
+
+      color: white;
+      border-radius: 18px;
+      padding: 28px;
+      margin-bottom: 25px;
+    }
+
+    .welcome-card h2 {
+      font-size: 25px;
+      margin-bottom: 7px;
+    }
+
+    .welcome-card p {
+      opacity: .9;
+    }
+
+    .content-card {
+      background: white;
+      border-radius: 16px;
+      padding: 22px;
+      border: 1px solid #ECEFF1;
+    }
+
+    /* LOADING */
+
+    .loading {
+      position: fixed;
+      inset: 0;
+
+      background: rgba(255,255,255,.8);
+
+      display: none;
+      align-items: center;
+      justify-content: center;
+
+      z-index: 9999;
+    }
+
+    .spinner {
+      width: 42px;
+      height: 42px;
+
+      border: 4px solid #E0F2F1;
+      border-top-color: #26A69A;
+
+      border-radius: 50%;
+
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 900px) {
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-left: 0;
+        width: 100%;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
+
+    }
+
+    @media (max-width: 600px) {
+
+      .login-card {
+        padding: 25px 20px;
+      }
+
+      .login-title {
+        font-size: 21px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .main-content {
+        padding: 15px;
+      }
+
+      .page-title {
+        font-size: 21px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+<!-- =========================================
+     LOADING
+========================================= -->
+
+<div class="loading" id="loading">
+  <div class="spinner"></div>
+</div>
+
+
+<!-- =========================================
+     LOGIN PAGE
+========================================= -->
+
+<section class="login-page" id="loginPage">
+
+  <div class="login-card">
+
+    <div class="logo-circle">
+      <i data-lucide="graduation-cap"></i>
+    </div>
+
+    <h1 class="login-title">
+      ระบบแบบประเมินการสอนของครู
+    </h1>
+
+    <p class="login-subtitle">
+      เข้าสู่ระบบเพื่อใช้งาน
+    </p>
+
+
+    <!-- TABS -->
+
+    <div class="tabs">
+
+      <button
+        class="tab active"
+        id="staffTab"
+        onclick="switchLogin('staff')"
+      >
+        ผู้ดูแลระบบ/ครู
+      </button>
+
+      <button
+        class="tab"
+        id="studentTab"
+        onclick="switchLogin('student')"
+      >
+        นักเรียน
+      </button>
+
+    </div>
+
+
+    <!-- STAFF LOGIN -->
+
+    <div id="staffLogin">
+
+      <div class="form-group">
+
+        <label>ชื่อผู้ใช้</label>
+
+        <div class="input-wrapper">
+
+          <i data-lucide="user"></i>
+
+          <input
+            type="text"
+            id="username"
+            class="form-control"
+            placeholder="กรอกชื่อผู้ใช้"
+          >
+
+        </div>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>รหัสผ่าน</label>
+
+        <div class="input-wrapper">
+
+          <i data-lucide="lock"></i>
+
+          <input
+            type="password"
+            id="password"
+            class="form-control"
+            placeholder="กรอกรหัสผ่าน"
+          >
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- STUDENT LOGIN -->
+
+    <div id="studentLogin" style="display:none;">
+
+      <div class="form-group">
+
+        <label>รหัสนักเรียน</label>
+
+        <div class="input-wrapper">
+
+          <i data-lucide="graduation-cap"></i>
+
+          <input
+            type="text"
+            id="studentId"
+            class="form-control"
+            placeholder="กรอกรหัสนักเรียน"
+          >
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <button
+      class="login-button"
+      onclick="login()"
+    >
+      <i data-lucide="log-in" style="width:18px;vertical-align:middle;"></i>
+      เข้าสู่ระบบ
+    </button>
+
+
+    <div class="login-footer">
+
+      <i data-lucide="shield-check"></i>
+
+      ระบบปลอดภัย เข้าใช้งานได้อย่างมั่นใจ
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================
+     APPLICATION
+========================================= -->
+
+<div id="app">
+
+  <div class="app-layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar" id="sidebar">
+
+      <div class="sidebar-header">
+
+        <div class="brand">
+
+          <div class="brand-icon">
+            <i data-lucide="graduation-cap"></i>
+          </div>
+
+          <div>
+            <div class="brand-title">
+              ระบบประเมินการสอน
+            </div>
+
+            <div class="brand-subtitle">
+              Teacher Evaluation
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="user-box">
+
+          <div
+            class="user-name"
+            id="displayUserName"
+          >
+            -
+          </div>
+
+          <div
+            class="user-role"
+            id="displayUserRole"
+          >
+            -
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <nav class="sidebar-menu">
+
+        <button
+          class="menu-item active"
+          onclick="showPage('dashboard')"
+        >
+          <i data-lucide="layout-dashboard"></i>
+          Dashboard
+        </button>
+
+
+        <button
+          class="menu-item"
+          onclick="showPage('classes')"
+        >
+          <i data-lucide="school"></i>
+          ห้องเรียน
+        </button>
+
+
+        <button
+          class="menu-item"
+          onclick="showPage('subjects')"
+        >
+          <i data-lucide="book-open"></i>
+          รายวิชา
+        </button>
+
+
+        <button
+          class="menu-item"
+          onclick="showPage('students')"
+        >
+          <i data-lucide="users"></i>
+          นักเรียน
+        </button>
+
+
+        <button
+          class="menu-item"
+          onclick="showPage('evaluations')"
+        >
+          <i data-lucide="clipboard-check"></i>
+          ผลการประเมิน
+        </button>
+
+
+        <button
+          class="menu-item logout-button"
+          onclick="logout()"
+        >
+          <i data-lucide="log-out"></i>
+          ออกจากระบบ
+        </button>
+
+      </nav>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main-content">
+
+      <div class="topbar">
+
+        <div>
+
+          <button
+            class="mobile-menu"
+            onclick="toggleSidebar()"
+          >
+            <i data-lucide="menu"></i>
+          </button>
+
+        </div>
+
+        <div>
+          <div class="page-title" id="pageTitle">
+            Dashboard
+          </div>
+
+          <div class="page-description">
+            ระบบแบบประเมินการสอนของครู
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- DASHBOARD -->
+
+      <section id="dashboardPage">
+
+        <div class="welcome-card">
+
+          <h2>
+            ยินดีต้อนรับ 👋
+          </h2>
+
+          <p id="welcomeText">
+            ระบบพร้อมใช้งาน
+          </p>
+
+        </div>
+
+
+        <div class="stats-grid">
+
+          <div class="stat-card">
+
+            <div class="stat-icon">
+              <i data-lucide="book-open"></i>
+            </div>
+
+            <div>
+
+              <div class="stat-number" id="subjectCount">
+                -
+              </div>
+
+              <div class="stat-label">
+                รายวิชา
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-icon">
+              <i data-lucide="users"></i>
+            </div>
+
+            <div>
+
+              <div class="stat-number" id="studentCount">
+                -
+              </div>
+
+              <div class="stat-label">
+                นักเรียน
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-icon">
+              <i data-lucide="clipboard-check"></i>
+            </div>
+
+            <div>
+
+              <div class="stat-number" id="evaluationCount">
+                -
+              </div>
+
+              <div class="stat-label">
+                แบบประเมิน
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-icon">
+              <i data-lucide="bar-chart-3"></i>
+            </div>
+
+            <div>
+
+              <div class="stat-number">
+                -
+              </div>
+
+              <div class="stat-label">
+                คะแนนเฉลี่ย
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="content-card">
+
+          <h3 style="margin-bottom:10px;">
+            🎓 ระบบพร้อมเชื่อมต่อฐานข้อมูล
+          </h3>
+
+          <p style="color:#78909C;">
+            ข้อมูลของระบบจะถูกอ่านและบันทึกผ่าน
+            Google Apps Script และ Google Sheets
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- CLASSES -->
+
+      <section
+        id="classesPage"
+        style="display:none;"
+      >
+
+        <div class="content-card">
+
+          <h3>🏫 จัดการห้องเรียน</h3>
+
+          <p style="color:#78909C;margin-top:8px;">
+            ส่วนจัดการห้องเรียนจะเชื่อมกับ Google Sheets
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- SUBJECTS -->
+
+      <section
+        id="subjectsPage"
+        style="display:none;"
+      >
+
+        <div class="content-card">
+
+          <h3>📚 จัดการรายวิชา</h3>
+
+          <p style="color:#78909C;margin-top:8px;">
+            ส่วนจัดการรายวิชาจะเชื่อมกับ Google Sheets
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- STUDENTS -->
+
+      <section
+        id="studentsPage"
+        style="display:none;"
+      >
+
+        <div class="content-card">
+
+          <h3>👨‍🎓 จัดการนักเรียน</h3>
+
+          <p style="color:#78909C;margin-top:8px;">
+            ส่วนจัดการนักเรียนจะเชื่อมกับ Google Sheets
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- EVALUATIONS -->
+
+      <section
+        id="evaluationsPage"
+        style="display:none;"
+      >
+
+        <div class="content-card">
+
+          <h3>📊 ผลการประเมิน</h3>
+
+          <p style="color:#78909C;margin-top:8px;">
+            ส่วนแสดงผลการประเมินจะพัฒนาในขั้นถัดไป
+          </p>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  /* ========================================
+     API URL
+  ======================================== */
+
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycbyQEQLczvcmqenKi7xQM6c9w_LIQuilzAQYsopJI6y5hRzKHq4jqHIYVGskz-EENK8L/exec";
+
+
+  let loginMode = "staff";
+  let currentUser = null;
+
+
+  /* ========================================
+     INITIALIZE ICONS
+  ======================================== */
+
+  lucide.createIcons();
+
+
+  /* ========================================
+     LOGIN TAB
+  ======================================== */
+
+  function switchLogin(mode) {
+
+    loginMode = mode;
+
+    const staffTab =
+      document.getElementById("staffTab");
+
+    const studentTab =
+      document.getElementById("studentTab");
+
+    const staffLogin =
+      document.getElementById("staffLogin");
+
+    const studentLogin =
+      document.getElementById("studentLogin");
+
+
+    if (mode === "staff") {
+
+      staffTab.classList.add("active");
+      studentTab.classList.remove("active");
+
+      staffLogin.style.display = "block";
+      studentLogin.style.display = "none";
+
+    } else {
+
+      staffTab.classList.remove("active");
+      studentTab.classList.add("active");
+
+      staffLogin.style.display = "none";
+      studentLogin.style.display = "block";
+
+    }
+
+  }
+
+
+  /* ========================================
+     LOGIN
+  ======================================== */
+
+  async function login() {
+
+    showLoading(true);
+
+    try {
+
+      if (loginMode === "staff") {
+
+        const username =
+          document.getElementById("username").value.trim();
+
+        const password =
+          document.getElementById("password").value.trim();
+
+
+        if (!username || !password) {
+
+          showLoading(false);
+
+          Swal.fire({
+            icon: "warning",
+            title: "กรุณากรอกข้อมูล",
+            text: "กรุณากรอกชื่อผู้ใช้และรหัสผ่าน"
+          });
+
+          return;
+        }
+
+
+        const response =
+          await fetch(API_URL, {
+
+            method: "POST",
+
+            body: JSON.stringify({
+              action: "login",
+              username: username,
+              password: password
+            })
+
+          });
+
+
+        const result =
+          await response.json();
+
+
+        showLoading(false);
+
+
+        if (!result.success) {
+
+          Swal.fire({
+            icon: "error",
+            title: "เข้าสู่ระบบไม่สำเร็จ",
+            text: result.message
+          });
+
+          return;
+        }
+
+
+        currentUser = result.user;
+
+        openApplication();
+
+
+      } else {
+
+        /*
+         * ระบบ Login นักเรียนจะเชื่อมกับ
+         * ตาราง Students ในขั้นถัดไป
+         */
+
+        const studentId =
+          document
+            .getElementById("studentId")
+            .value.trim();
+
+
+        if (!studentId) {
+
+          showLoading(false);
+
+          Swal.fire({
+            icon: "warning",
+            title: "กรุณากรอกรหัสนักเรียน",
+            text: "กรุณากรอกรหัสนักเรียนก่อนเข้าสู่ระบบ"
+          });
+
+          return;
+        }
+
+
+        showLoading(false);
+
+        Swal.fire({
+          icon: "info",
+          title: "กำลังพัฒนาส่วนนี้",
+          text: "ระบบเข้าสำหรับนักเรียนจะเชื่อมกับรายชื่อนักเรียนในขั้นถัดไป"
+        });
+
+      }
+
+    } catch (error) {
+
+      showLoading(false);
+
+      console.error(error);
+
+      Swal.fire({
+        icon: "error",
+        title: "ไม่สามารถเชื่อมต่อระบบได้",
+        text: "กรุณาตรวจสอบ URL ของ Apps Script และการตั้งค่า Web App"
+      });
+
+    }
+
+  }
+
+
+  /* ========================================
+     OPEN APPLICATION
+  ======================================== */
+
+  function openApplication() {
+
+    document
+      .getElementById("loginPage")
+      .style.display = "none";
+
+    document
+      .getElementById("app")
+      .style.display = "block";
+
+
+    document
+      .getElementById("displayUserName")
+      .textContent =
+      currentUser.full_name;
+
+
+    document
+      .getElementById("displayUserRole")
+      .textContent =
+      currentUser.role === "admin"
+        ? "ผู้ดูแลระบบ"
+        : "ครู";
+
+
+    document
+      .getElementById("welcomeText")
+      .textContent =
+      "เข้าสู่ระบบในชื่อ " +
+      currentUser.full_name;
+
+
+    loadDashboard();
+
+    lucide.createIcons();
+
+  }
+
+
+  /* ========================================
+     DASHBOARD
+  ======================================== */
+
+  async function loadDashboard() {
+
+    try {
+
+      const subjects =
+        await getData("getSubjects");
+
+      const students =
+        await getData("getStudents");
+
+      document
+        .getElementById("subjectCount")
+        .textContent =
+        subjects.length;
+
+
+      document
+        .getElementById("studentCount")
+        .textContent =
+        students.length;
+
+
+      document
+        .getElementById("evaluationCount")
+        .textContent =
+        "0";
+
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
+  }
+
+
+  /* ========================================
+     GET DATA
+  ======================================== */
+
+  async function getData(action) {
+
+    const response =
+      await fetch(
+        API_URL +
+        "?action=" +
+        encodeURIComponent(action)
+      );
+
+    const result =
+      await response.json();
+
+
+    if (!result.success) {
+
+      throw new Error(
+        result.message ||
+        "เกิดข้อผิดพลาด"
+      );
+
+    }
+
+
+    return result.data || [];
+
+  }
+
+
+  /* ========================================
+     PAGE
+  ======================================== */
+
+  function showPage(page) {
+
+    const pages = [
+      "dashboard",
+      "classes",
+      "subjects",
+      "students",
+      "evaluations"
+    ];
+
+
+    pages.forEach(name => {
+
+      const element =
+        document.getElementById(
+          name + "Page"
+        );
+
+      if (element) {
+
+        element.style.display =
+          name === page
+            ? "block"
+            : "none";
+
+      }
+
+    });
+
+
+    const titles = {
+
+      dashboard: "Dashboard",
+      classes: "จัดการห้องเรียน",
+      subjects: "จัดการรายวิชา",
+      students: "จัดการนักเรียน",
+      evaluations: "ผลการประเมิน"
+
+    };
+
+
+    document
+      .getElementById("pageTitle")
+      .textContent =
+      titles[page];
+
+
+    document
+      .querySelectorAll(".menu-item")
+      .forEach(item => {
+
+        item.classList.remove("active");
+
+      });
+
+
+    if (
+      window.innerWidth <= 900
+    ) {
+
+      document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+    }
+
+  }
+
+
+  /* ========================================
+     SIDEBAR
+  ======================================== */
+
+  function toggleSidebar() {
+
+    document
+      .getElementById("sidebar")
+      .classList.toggle("open");
+
+  }
+
+
+  /* ========================================
+     LOGOUT
+  ======================================== */
+
+  function logout() {
+
+    Swal.fire({
+
+      icon: "question",
+
+      title: "ออกจากระบบ?",
+
+      text: "คุณต้องการออกจากระบบหรือไม่",
+
+      showCancelButton: true,
+
+      confirmButtonText: "ออกจากระบบ",
+
+      cancelButtonText: "ยกเลิก"
+
+    }).then(result => {
+
+      if (result.isConfirmed) {
+
+        currentUser = null;
+
+        document
+          .getElementById("app")
+          .style.display = "none";
+
+        document
+          .getElementById("loginPage")
+          .style.display = "flex";
+
+
+        document
+          .getElementById("username")
+          .value = "";
+
+        document
+          .getElementById("password")
+          .value = "";
+
+      }
+
+    });
+
+  }
+
+
+  /* ========================================
+     LOADING
+  ======================================== */
+
+  function showLoading(show) {
+
+    document
+      .getElementById("loading")
+      .style.display =
+      show ? "flex" : "none";
+
+  }
+
+</script>
+
+</body>
+</html>
