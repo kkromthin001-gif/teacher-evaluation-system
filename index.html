@@ -1,24 +1,47 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>ระบบแบบประเมินการสอนของครู</title>
 
+
   <!-- Google Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
   <link
     href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap"
     rel="stylesheet"
   >
 
+
   <!-- SweetAlert2 -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/sweetalert2@11"
+  ></script>
+
 
   <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script
+    src="https://unpkg.com/lucide@latest"
+  ></script>
+
 
   <style>
 
@@ -28,6 +51,7 @@
       padding: 0;
     }
 
+
     body {
       font-family: "Kanit", sans-serif;
       background: #f5f7f8;
@@ -35,540 +59,1128 @@
       min-height: 100vh;
     }
 
+
     button,
-    input {
+    input,
+    select,
+    textarea {
       font-family: inherit;
     }
 
-    /* =========================
+
+    button {
+      cursor: pointer;
+    }
+
+
+    /* ========================================
        LOGIN
-    ========================= */
+    ======================================== */
 
     .login-page {
+
       min-height: 100vh;
+
       display: flex;
+
       justify-content: center;
+
       align-items: center;
+
       padding: 20px;
 
       background:
         linear-gradient(
           135deg,
           #26A69A 0%,
-          #66bb6a 50%,
+          #66BB6A 50%,
           #AED581 100%
         );
+
     }
+
 
     .login-card {
+
       width: 100%;
+
       max-width: 450px;
+
       background: white;
+
       border-radius: 24px;
+
       padding: 35px;
-      box-shadow: 0 20px 50px rgba(0,0,0,.18);
+
+      box-shadow:
+        0 20px 50px rgba(0,0,0,.18);
+
     }
 
+
     .logo-circle {
+
       width: 80px;
+
       height: 80px;
+
       margin: 0 auto 18px;
 
       border-radius: 50%;
+
       background: white;
 
       display: flex;
+
       align-items: center;
+
       justify-content: center;
 
       color: #26A69A;
 
       box-shadow:
         0 8px 25px rgba(0,0,0,.12);
+
     }
+
 
     .logo-circle svg {
+
       width: 42px;
+
       height: 42px;
+
     }
+
 
     .login-title {
+
       text-align: center;
+
       color: #263238;
+
       font-size: 25px;
+
       font-weight: 600;
+
     }
+
 
     .login-subtitle {
+
       text-align: center;
+
       color: #78909C;
+
       margin-top: 5px;
+
       margin-bottom: 28px;
+
     }
 
-    /* =========================
+
+    /* ========================================
        TABS
-    ========================= */
+    ======================================== */
 
     .tabs {
+
       display: flex;
+
       background: #f1f5f4;
+
       padding: 5px;
+
       border-radius: 12px;
+
       margin-bottom: 25px;
+
     }
 
+
     .tab {
+
       flex: 1;
+
       border: none;
+
       padding: 11px;
+
       border-radius: 9px;
 
       background: transparent;
+
       color: #607D8B;
 
       cursor: pointer;
+
       font-size: 15px;
+
     }
+
 
     .tab.active {
+
       background: white;
+
       color: #26A69A;
+
       font-weight: 600;
-      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+
+      box-shadow:
+        0 2px 8px rgba(0,0,0,.08);
+
     }
 
-    /* =========================
+
+    /* ========================================
        FORM
-    ========================= */
+    ======================================== */
 
     .form-group {
+
       margin-bottom: 18px;
+
     }
+
 
     .form-group label {
+
       display: block;
+
       margin-bottom: 7px;
+
       font-size: 14px;
+
       color: #455A64;
+
     }
+
 
     .input-wrapper {
+
       position: relative;
+
     }
+
 
     .input-wrapper svg {
+
       position: absolute;
+
       left: 13px;
+
       top: 50%;
+
       transform: translateY(-50%);
+
       width: 19px;
+
       color: #90A4AE;
+
     }
+
 
     .form-control {
+
       width: 100%;
+
       border: 1px solid #CFD8DC;
+
       border-radius: 11px;
+
       padding: 12px 14px 12px 43px;
+
       outline: none;
+
       font-size: 15px;
+
       transition: .2s;
+
+      background: white;
+
     }
+
 
     .form-control:focus {
+
       border-color: #26A69A;
-      box-shadow: 0 0 0 3px rgba(38,166,154,.12);
+
+      box-shadow:
+        0 0 0 3px rgba(38,166,154,.12);
+
     }
 
+
     .login-button {
+
       width: 100%;
+
       border: none;
+
       border-radius: 12px;
+
       padding: 13px;
 
-      background: linear-gradient(
-        135deg,
-        #26A69A,
-        #66BB6A
-      );
+      background:
+        linear-gradient(
+          135deg,
+          #26A69A,
+          #66BB6A
+        );
 
       color: white;
+
       font-size: 17px;
+
       font-weight: 500;
 
       cursor: pointer;
+
       transition: .2s;
+
     }
+
 
     .login-button:hover {
+
       transform: translateY(-1px);
-      box-shadow: 0 8px 18px rgba(38,166,154,.25);
+
+      box-shadow:
+        0 8px 18px rgba(38,166,154,.25);
+
     }
 
+
     .login-footer {
+
       margin-top: 25px;
+
       padding-top: 18px;
+
       border-top: 1px solid #ECEFF1;
 
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       gap: 7px;
 
       color: #78909C;
+
       font-size: 13px;
+
     }
+
 
     .login-footer svg {
+
       width: 17px;
+
       color: #26A69A;
+
     }
 
-    /* =========================
+
+    /* ========================================
        APP
-    ========================= */
+    ======================================== */
 
     #app {
+
       display: none;
+
       min-height: 100vh;
+
     }
+
 
     .app-layout {
+
       display: flex;
+
       min-height: 100vh;
+
     }
 
-    /* SIDEBAR */
+
+    /* ========================================
+       SIDEBAR
+    ======================================== */
 
     .sidebar {
+
       width: 250px;
+
       background: white;
+
       border-right: 1px solid #E0E0E0;
 
       position: fixed;
+
       left: 0;
+
       top: 0;
+
       bottom: 0;
 
       z-index: 100;
 
       transition: .3s;
+
     }
+
 
     .sidebar-header {
+
       padding: 25px 20px;
+
       border-bottom: 1px solid #ECEFF1;
+
     }
+
 
     .brand {
+
       display: flex;
+
       align-items: center;
+
       gap: 10px;
+
     }
 
+
     .brand-icon {
+
       width: 42px;
+
       height: 42px;
+
       border-radius: 12px;
 
       display: flex;
+
       align-items: center;
+
       justify-content: center;
 
       background: #E0F2F1;
+
       color: #26A69A;
+
     }
+
 
     .brand-title {
+
       font-weight: 600;
+
       font-size: 16px;
+
     }
+
 
     .brand-subtitle {
+
       font-size: 11px;
+
       color: #90A4AE;
+
     }
+
 
     .user-box {
+
       margin-top: 20px;
+
       padding: 12px;
+
       background: #F5F7F8;
+
       border-radius: 12px;
+
     }
+
 
     .user-name {
+
       font-weight: 500;
+
       font-size: 14px;
+
     }
+
 
     .user-role {
+
       color: #78909C;
+
       font-size: 12px;
+
     }
+
 
     .sidebar-menu {
+
       padding: 20px 12px;
+
     }
 
+
     .menu-item {
+
       width: 100%;
+
       display: flex;
+
       align-items: center;
+
       gap: 12px;
 
       border: none;
+
       background: transparent;
 
       padding: 12px 14px;
+
       margin-bottom: 5px;
 
       border-radius: 10px;
 
       color: #546E7A;
+
       text-align: left;
 
       cursor: pointer;
+
       font-size: 14px;
+
+      transition: .2s;
+
     }
+
 
     .menu-item:hover,
     .menu-item.active {
+
       background: #E0F2F1;
+
       color: #00897B;
+
     }
+
 
     .menu-item svg {
+
       width: 19px;
+
     }
+
 
     .logout-button {
+
       color: #EF5350;
+
     }
 
-    /* CONTENT */
+
+    .logout-button:hover {
+
+      background: #FFEBEE;
+
+      color: #D32F2F;
+
+    }
+
+
+    /* ========================================
+       CONTENT
+    ======================================== */
 
     .main-content {
+
       margin-left: 250px;
+
       width: calc(100% - 250px);
+
       padding: 25px;
+
     }
+
 
     .topbar {
+
       display: flex;
+
       justify-content: space-between;
+
       align-items: center;
+
       margin-bottom: 25px;
+
     }
+
 
     .page-title {
+
       font-size: 25px;
+
       font-weight: 600;
+
     }
+
 
     .page-description {
+
       color: #78909C;
+
       font-size: 14px;
+
     }
+
 
     .mobile-menu {
+
       display: none;
+
       border: none;
+
       background: white;
+
       padding: 9px;
+
       border-radius: 9px;
+
       cursor: pointer;
+
     }
 
-    /* CARDS */
+
+    /* ========================================
+       CARDS
+    ======================================== */
 
     .stats-grid {
+
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
       gap: 18px;
+
       margin-bottom: 25px;
+
     }
 
+
     .stat-card {
+
       background: white;
+
       padding: 20px;
+
       border-radius: 16px;
+
       border: 1px solid #ECEFF1;
 
       display: flex;
+
       align-items: center;
+
       gap: 15px;
+
     }
 
+
     .stat-icon {
+
       width: 48px;
+
       height: 48px;
+
       border-radius: 13px;
 
       display: flex;
+
       align-items: center;
+
       justify-content: center;
 
       background: #E0F2F1;
+
       color: #26A69A;
+
+      flex-shrink: 0;
+
     }
+
 
     .stat-number {
+
       font-size: 24px;
+
       font-weight: 600;
+
     }
+
 
     .stat-label {
+
       font-size: 13px;
+
       color: #78909C;
+
     }
+
 
     .welcome-card {
-      background: linear-gradient(
-        135deg,
-        #26A69A,
-        #66BB6A
-      );
+
+      background:
+        linear-gradient(
+          135deg,
+          #26A69A,
+          #66BB6A
+        );
 
       color: white;
+
       border-radius: 18px;
+
       padding: 28px;
+
       margin-bottom: 25px;
+
     }
+
 
     .welcome-card h2 {
+
       font-size: 25px;
+
       margin-bottom: 7px;
+
     }
+
 
     .welcome-card p {
+
       opacity: .9;
+
     }
+
 
     .content-card {
+
       background: white;
+
       border-radius: 16px;
+
       padding: 22px;
+
       border: 1px solid #ECEFF1;
+
     }
 
-    /* LOADING */
+
+    /* ========================================
+       TABLE
+    ======================================== */
+
+    .data-table {
+
+      width: 100%;
+
+      border-collapse: collapse;
+
+    }
+
+
+    .data-table th {
+
+      padding: 12px;
+
+      background: #E0F2F1;
+
+      white-space: nowrap;
+
+      font-weight: 500;
+
+    }
+
+
+    .data-table td {
+
+      padding: 12px;
+
+      border-bottom:
+        1px solid #ECEFF1;
+
+    }
+
+
+    .data-table tbody tr:hover {
+
+      background: #FAFAFA;
+
+    }
+
+
+    /* ========================================
+       LOADING
+    ======================================== */
 
     .loading {
+
       position: fixed;
+
       inset: 0;
 
-      background: rgba(255,255,255,.8);
+      background:
+        rgba(255,255,255,.8);
 
       display: none;
+
       align-items: center;
+
       justify-content: center;
 
       z-index: 9999;
+
     }
 
+
     .spinner {
+
       width: 42px;
+
       height: 42px;
 
       border: 4px solid #E0F2F1;
+
       border-top-color: #26A69A;
 
       border-radius: 50%;
 
-      animation: spin 1s linear infinite;
+      animation:
+        spin 1s linear infinite;
+
     }
 
+
     @keyframes spin {
+
       to {
         transform: rotate(360deg);
       }
+
     }
 
-    /* MOBILE */
+
+    /* ========================================
+       MODAL
+    ======================================== */
+
+    .modal {
+
+      display: none;
+
+      position: fixed;
+
+      inset: 0;
+
+      background:
+        rgba(0,0,0,.45);
+
+      z-index: 9998;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 20px;
+
+    }
+
+
+    .modal-content {
+
+      width: 100%;
+
+      max-width: 500px;
+
+      max-height: 90vh;
+
+      overflow-y: auto;
+
+      background: white;
+
+      border-radius: 18px;
+
+      padding: 25px;
+
+      box-shadow:
+        0 20px 50px rgba(0,0,0,.2);
+
+    }
+
+
+    .modal-header {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      margin-bottom: 20px;
+
+    }
+
+
+    .modal-subtitle {
+
+      color: #78909C;
+
+      font-size: 13px;
+
+      margin-top: 4px;
+
+    }
+
+
+    .modal-close {
+
+      border: none;
+
+      background: #F5F7F8;
+
+      border-radius: 50%;
+
+      width: 36px;
+
+      height: 36px;
+
+      cursor: pointer;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+    }
+
+
+    .modal-actions {
+
+      display: flex;
+
+      justify-content: flex-end;
+
+      gap: 10px;
+
+      margin-top: 25px;
+
+    }
+
+
+    .cancel-button {
+
+      border: none;
+
+      padding: 11px 20px;
+
+      border-radius: 10px;
+
+      background: #ECEFF1;
+
+      cursor: pointer;
+
+      font-family: inherit;
+
+    }
+
+
+    /* ========================================
+       MOBILE
+    ======================================== */
 
     @media (max-width: 900px) {
 
       .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
+
+        grid-template-columns:
+          repeat(2, 1fr);
+
       }
+
 
       .sidebar {
-        transform: translateX(-100%);
+
+        transform:
+          translateX(-100%);
+
       }
+
 
       .sidebar.open {
-        transform: translateX(0);
+
+        transform:
+          translateX(0);
+
+        box-shadow:
+          10px 0 30px rgba(0,0,0,.15);
+
       }
+
 
       .main-content {
+
         margin-left: 0;
+
         width: 100%;
+
       }
 
+
       .mobile-menu {
-        display: block;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
       }
 
     }
 
+
     @media (max-width: 600px) {
 
       .login-card {
+
         padding: 25px 20px;
+
       }
+
 
       .login-title {
+
         font-size: 21px;
+
       }
+
 
       .stats-grid {
+
         grid-template-columns: 1fr;
+
       }
+
 
       .main-content {
+
         padding: 15px;
+
       }
 
+
       .page-title {
+
         font-size: 21px;
+
+      }
+
+
+      .content-card {
+
+        padding: 16px;
+
+      }
+
+
+      .welcome-card {
+
+        padding: 22px;
+
+      }
+
+
+      .welcome-card h2 {
+
+        font-size: 21px;
+
+      }
+
+
+      .modal-content {
+
+        padding: 20px;
+
       }
 
     }
 
   </style>
+
 </head>
 
+
 <body>
+
 
 <!-- =========================================
      LOADING
 ========================================= -->
 
-<div class="loading" id="loading">
+<div
+  class="loading"
+  id="loading"
+>
+
   <div class="spinner"></div>
+
 </div>
+
 
 
 <!-- =========================================
      LOGIN PAGE
 ========================================= -->
 
-<section class="login-page" id="loginPage">
+<section
+  class="login-page"
+  id="loginPage"
+>
 
   <div class="login-card">
 
+
     <div class="logo-circle">
+
       <i data-lucide="graduation-cap"></i>
+
     </div>
 
+
     <h1 class="login-title">
+
       ระบบแบบประเมินการสอนของครู
+
     </h1>
 
+
     <p class="login-subtitle">
+
       เข้าสู่ระบบเพื่อใช้งาน
+
     </p>
+
 
 
     <!-- TABS -->
@@ -583,6 +1195,7 @@
         ผู้ดูแลระบบ/ครู
       </button>
 
+
       <button
         class="tab"
         id="studentTab"
@@ -594,23 +1207,29 @@
     </div>
 
 
+
     <!-- STAFF LOGIN -->
 
     <div id="staffLogin">
 
       <div class="form-group">
 
-        <label>ชื่อผู้ใช้</label>
+        <label>
+          ชื่อผู้ใช้
+        </label>
+
 
         <div class="input-wrapper">
 
           <i data-lucide="user"></i>
+
 
           <input
             type="text"
             id="username"
             class="form-control"
             placeholder="กรอกชื่อผู้ใช้"
+            autocomplete="username"
           >
 
         </div>
@@ -618,19 +1237,25 @@
       </div>
 
 
+
       <div class="form-group">
 
-        <label>รหัสผ่าน</label>
+        <label>
+          รหัสผ่าน
+        </label>
+
 
         <div class="input-wrapper">
 
           <i data-lucide="lock"></i>
+
 
           <input
             type="password"
             id="password"
             class="form-control"
             placeholder="กรอกรหัสผ่าน"
+            autocomplete="current-password"
           >
 
         </div>
@@ -640,17 +1265,25 @@
     </div>
 
 
+
     <!-- STUDENT LOGIN -->
 
-    <div id="studentLogin" style="display:none;">
+    <div
+      id="studentLogin"
+      style="display:none;"
+    >
 
       <div class="form-group">
 
-        <label>รหัสนักเรียน</label>
+        <label>
+          รหัสนักเรียน
+        </label>
+
 
         <div class="input-wrapper">
 
           <i data-lucide="graduation-cap"></i>
+
 
           <input
             type="text"
@@ -666,13 +1299,21 @@
     </div>
 
 
+
     <button
       class="login-button"
       onclick="login()"
     >
-      <i data-lucide="log-in" style="width:18px;vertical-align:middle;"></i>
+
+      <i
+        data-lucide="log-in"
+        style="width:18px;vertical-align:middle;"
+      ></i>
+
       เข้าสู่ระบบ
+
     </button>
+
 
 
     <div class="login-footer">
@@ -688,6 +1329,7 @@
 </section>
 
 
+
 <!-- =========================================
      APPLICATION
 ========================================= -->
@@ -696,19 +1338,31 @@
 
   <div class="app-layout">
 
-    <!-- SIDEBAR -->
 
-    <aside class="sidebar" id="sidebar">
+    <!-- =====================================
+         SIDEBAR
+    ====================================== -->
+
+    <aside
+      class="sidebar"
+      id="sidebar"
+    >
+
 
       <div class="sidebar-header">
+
 
         <div class="brand">
 
           <div class="brand-icon">
+
             <i data-lucide="graduation-cap"></i>
+
           </div>
 
+
           <div>
+
             <div class="brand-title">
               ระบบประเมินการสอน
             </div>
@@ -716,9 +1370,11 @@
             <div class="brand-subtitle">
               Teacher Evaluation
             </div>
+
           </div>
 
         </div>
+
 
 
         <div class="user-box">
@@ -729,6 +1385,7 @@
           >
             -
           </div>
+
 
           <div
             class="user-role"
@@ -742,65 +1399,99 @@
       </div>
 
 
+
+      <!-- MENU -->
+
       <nav class="sidebar-menu">
+
 
         <button
           class="menu-item active"
           onclick="showPage('dashboard')"
         >
+
           <i data-lucide="layout-dashboard"></i>
+
           Dashboard
+
         </button>
+
+
+
         <button
-           class="menu-item"
+          class="menu-item"
           onclick="showPage('users')"
-         >
+        >
+
           <i data-lucide="user-cog"></i>
-           ผู้ใช้งาน
-          </button>
+
+          ผู้ใช้งาน
+
+        </button>
+
+
 
         <button
           class="menu-item"
           onclick="showPage('classes')"
         >
+
           <i data-lucide="school"></i>
+
           ห้องเรียน
+
         </button>
+
 
 
         <button
           class="menu-item"
           onclick="showPage('subjects')"
         >
+
           <i data-lucide="book-open"></i>
+
           รายวิชา
+
         </button>
+
 
 
         <button
           class="menu-item"
           onclick="showPage('students')"
         >
+
           <i data-lucide="users"></i>
+
           นักเรียน
+
         </button>
+
 
 
         <button
           class="menu-item"
           onclick="showPage('evaluations')"
         >
+
           <i data-lucide="clipboard-check"></i>
+
           ผลการประเมิน
+
         </button>
+
 
 
         <button
           class="menu-item logout-button"
           onclick="logout()"
         >
+
           <i data-lucide="log-out"></i>
+
           ออกจากระบบ
+
         </button>
 
       </nav>
@@ -808,45 +1499,67 @@
     </aside>
 
 
-    <!-- MAIN -->
+
+    <!-- =====================================
+         MAIN CONTENT
+    ====================================== -->
 
     <main class="main-content">
 
+
       <div class="topbar">
+
 
         <div>
 
           <button
             class="mobile-menu"
             onclick="toggleSidebar()"
+            aria-label="เปิดเมนู"
           >
+
             <i data-lucide="menu"></i>
+
           </button>
 
         </div>
 
-        <div>
-          <div class="page-title" id="pageTitle">
+
+        <div style="flex:1;margin-left:12px;">
+
+          <div
+            class="page-title"
+            id="pageTitle"
+          >
             Dashboard
           </div>
 
+
           <div class="page-description">
+
             ระบบแบบประเมินการสอนของครู
+
           </div>
+
         </div>
 
       </div>
 
 
-      <!-- DASHBOARD -->
+
+      <!-- =====================================
+           DASHBOARD
+      ====================================== -->
 
       <section id="dashboardPage">
+
 
         <div class="welcome-card">
 
           <h2>
             ยินดีต้อนรับ 👋
           </h2>
+
 
           <p id="welcomeText">
             ระบบพร้อมใช้งาน
@@ -855,19 +1568,30 @@
         </div>
 
 
+
         <div class="stats-grid">
+
+
+          <!-- SUBJECT -->
 
           <div class="stat-card">
 
             <div class="stat-icon">
+
               <i data-lucide="book-open"></i>
+
             </div>
+
 
             <div>
 
-              <div class="stat-number" id="subjectCount">
+              <div
+                class="stat-number"
+                id="subjectCount"
+              >
                 -
               </div>
+
 
               <div class="stat-label">
                 รายวิชา
@@ -878,17 +1602,27 @@
           </div>
 
 
+
+          <!-- STUDENT -->
+
           <div class="stat-card">
 
             <div class="stat-icon">
+
               <i data-lucide="users"></i>
+
             </div>
+
 
             <div>
 
-              <div class="stat-number" id="studentCount">
+              <div
+                class="stat-number"
+                id="studentCount"
+              >
                 -
               </div>
+
 
               <div class="stat-label">
                 นักเรียน
@@ -899,17 +1633,27 @@
           </div>
 
 
+
+          <!-- EVALUATION -->
+
           <div class="stat-card">
 
             <div class="stat-icon">
+
               <i data-lucide="clipboard-check"></i>
+
             </div>
+
 
             <div>
 
-              <div class="stat-number" id="evaluationCount">
+              <div
+                class="stat-number"
+                id="evaluationCount"
+              >
                 -
               </div>
+
 
               <div class="stat-label">
                 แบบประเมิน
@@ -920,17 +1664,27 @@
           </div>
 
 
+
+          <!-- SCORE -->
+
           <div class="stat-card">
 
             <div class="stat-icon">
+
               <i data-lucide="bar-chart-3"></i>
+
             </div>
+
 
             <div>
 
-              <div class="stat-number">
+              <div
+                class="stat-number"
+                id="averageScore"
+              >
                 -
               </div>
+
 
               <div class="stat-label">
                 คะแนนเฉลี่ย
@@ -943,151 +1697,164 @@
         </div>
 
 
+
         <div class="content-card">
 
           <h3 style="margin-bottom:10px;">
+
             🎓 ระบบพร้อมเชื่อมต่อฐานข้อมูล
+
           </h3>
 
+
           <p style="color:#78909C;">
+
             ข้อมูลของระบบจะถูกอ่านและบันทึกผ่าน
             Google Apps Script และ Google Sheets
+
           </p>
 
         </div>
 
       </section>
 
-     <!-- =========================================
-     USERS
-========================================= -->
 
-<section
-  id="usersPage"
-  style="display:none;"
->
 
-  <div class="content-card">
+      <!-- =====================================
+           USERS
+      ====================================== -->
 
-    <div style="
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:15px;
-      margin-bottom:20px;
-      flex-wrap:wrap;
-    ">
-
-      <div>
-
-        <h3>
-          👥 จัดการผู้ใช้งาน
-        </h3>
-
-        <p style="
-          color:#78909C;
-          margin-top:5px;
-        ">
-          จัดการบัญชีผู้ดูแลระบบและครู
-        </p>
-
-      </div>
-
-      <button
-        class="login-button"
-        style="
-          width:auto;
-          padding:10px 18px;
-          font-size:14px;
-        "
-        onclick="openUserModal()"
+      <section
+        id="usersPage"
+        style="display:none;"
       >
 
-        <i
-          data-lucide="user-plus"
-          style="width:17px;vertical-align:middle;"
-        ></i>
-
-        เพิ่มผู้ใช้งาน
-
-      </button>
-
-    </div>
+        <div class="content-card">
 
 
-    <div style="
-      overflow-x:auto;
-    ">
-
-      <table style="
-        width:100%;
-        border-collapse:collapse;
-      ">
-
-        <thead>
-
-          <tr style="
-            background:#E0F2F1;
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:15px;
+            margin-bottom:20px;
+            flex-wrap:wrap;
           ">
 
-            <th style="padding:12px;">
-              ลำดับ
-            </th>
 
-            <th style="padding:12px;">
-              ชื่อผู้ใช้
-            </th>
+            <div>
 
-            <th style="padding:12px;">
-              ชื่อ-นามสกุล
-            </th>
-
-            <th style="padding:12px;">
-              บทบาท
-            </th>
-
-            <th style="padding:12px;">
-              สถานะ
-            </th>
-
-            <th style="padding:12px;">
-              จัดการ
-            </th>
-
-          </tr>
-
-        </thead>
+              <h3>
+                👥 จัดการผู้ใช้งาน
+              </h3>
 
 
-        <tbody id="usersTableBody">
-
-          <tr>
-
-            <td
-              colspan="6"
-              style="
-                padding:25px;
-                text-align:center;
+              <p style="
                 color:#78909C;
+                margin-top:5px;
+              ">
+
+                จัดการบัญชีผู้ดูแลระบบและครู
+
+              </p>
+
+            </div>
+
+
+
+            <button
+              class="login-button"
+              style="
+                width:auto;
+                padding:10px 18px;
+                font-size:14px;
               "
+              onclick="openUserModal()"
             >
 
-              กำลังโหลดข้อมูล...
+              <i
+                data-lucide="user-plus"
+                style="width:17px;vertical-align:middle;"
+              ></i>
 
-            </td>
+              เพิ่มผู้ใช้งาน
 
-          </tr>
+            </button>
 
-        </tbody>
+          </div>
 
-      </table>
 
-    </div>
 
-  </div>
+          <div style="overflow-x:auto;">
 
-</section>
-      <!-- CLASSES -->
+            <table class="data-table">
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    ลำดับ
+                  </th>
+
+                  <th>
+                    ชื่อผู้ใช้
+                  </th>
+
+                  <th>
+                    ชื่อ-นามสกุล
+                  </th>
+
+                  <th>
+                    บทบาท
+                  </th>
+
+                  <th>
+                    สถานะ
+                  </th>
+
+                  <th>
+                    จัดการ
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody id="usersTableBody">
+
+                <tr>
+
+                  <td
+                    colspan="6"
+                    style="
+                      text-align:center;
+                      color:#78909C;
+                    "
+                  >
+
+                    กำลังโหลดข้อมูล...
+
+                  </td>
+
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- =====================================
+           CLASSES
+      ====================================== -->
 
       <section
         id="classesPage"
@@ -1096,18 +1863,122 @@
 
         <div class="content-card">
 
-          <h3>🏫 จัดการห้องเรียน</h3>
 
-          <p style="color:#78909C;margin-top:8px;">
-            ส่วนจัดการห้องเรียนจะเชื่อมกับ Google Sheets
-          </p>
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:15px;
+            margin-bottom:20px;
+            flex-wrap:wrap;
+          ">
+
+
+            <div>
+
+              <h3>
+                🏫 จัดการห้องเรียน
+              </h3>
+
+
+              <p style="
+                color:#78909C;
+                margin-top:5px;
+              ">
+
+                จัดการระดับชั้นและห้องเรียน
+
+              </p>
+
+            </div>
+
+
+
+            <button
+              class="login-button"
+              style="
+                width:auto;
+                padding:10px 18px;
+                font-size:14px;
+              "
+              onclick="openClassModal()"
+            >
+
+              <i
+                data-lucide="plus"
+                style="width:17px;vertical-align:middle;"
+              ></i>
+
+              เพิ่มห้องเรียน
+
+            </button>
+
+          </div>
+
+
+
+          <div style="overflow-x:auto;">
+
+            <table class="data-table">
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    ลำดับ
+                  </th>
+
+                  <th>
+                    ชื่อห้องเรียน
+                  </th>
+
+                  <th>
+                    ระดับการศึกษา
+                  </th>
+
+                  <th>
+                    จัดการ
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody id="classesTableBody">
+
+                <tr>
+
+                  <td
+                    colspan="4"
+                    style="
+                      text-align:center;
+                      color:#78909C;
+                    "
+                  >
+
+                    กำลังโหลดข้อมูล...
+
+                  </td>
+
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
 
         </div>
 
       </section>
 
 
-      <!-- SUBJECTS -->
+
+      <!-- =====================================
+           SUBJECTS
+      ====================================== -->
 
       <section
         id="subjectsPage"
@@ -1116,10 +1987,18 @@
 
         <div class="content-card">
 
-          <h3>📚 จัดการรายวิชา</h3>
+          <h3>
+            📚 จัดการรายวิชา
+          </h3>
 
-          <p style="color:#78909C;margin-top:8px;">
-            ส่วนจัดการรายวิชาจะเชื่อมกับ Google Sheets
+
+          <p style="
+            color:#78909C;
+            margin-top:8px;
+          ">
+
+            ส่วนจัดการรายวิชาจะพัฒนาในขั้นถัดไป
+
           </p>
 
         </div>
@@ -1127,7 +2006,10 @@
       </section>
 
 
-      <!-- STUDENTS -->
+
+      <!-- =====================================
+           STUDENTS
+      ====================================== -->
 
       <section
         id="studentsPage"
@@ -1136,10 +2018,18 @@
 
         <div class="content-card">
 
-          <h3>👨‍🎓 จัดการนักเรียน</h3>
+          <h3>
+            👨‍🎓 จัดการนักเรียน
+          </h3>
 
-          <p style="color:#78909C;margin-top:8px;">
-            ส่วนจัดการนักเรียนจะเชื่อมกับ Google Sheets
+
+          <p style="
+            color:#78909C;
+            margin-top:8px;
+          ">
+
+            ส่วนจัดการนักเรียนจะพัฒนาในขั้นถัดไป
+
           </p>
 
         </div>
@@ -1147,7 +2037,10 @@
       </section>
 
 
-      <!-- EVALUATIONS -->
+
+      <!-- =====================================
+           EVALUATIONS
+      ====================================== -->
 
       <section
         id="evaluationsPage"
@@ -1156,15 +2049,24 @@
 
         <div class="content-card">
 
-          <h3>📊 ผลการประเมิน</h3>
+          <h3>
+            📊 ผลการประเมิน
+          </h3>
 
-          <p style="color:#78909C;margin-top:8px;">
+
+          <p style="
+            color:#78909C;
+            margin-top:8px;
+          ">
+
             ส่วนแสดงผลการประเมินจะพัฒนาในขั้นถัดไป
+
           </p>
 
         </div>
 
       </section>
+
 
     </main>
 
@@ -1173,1064 +2075,20 @@
 </div>
 
 
-<script>
 
-  /* ========================================
-     API URL
-  ======================================== */
-
-  const API_URL =
-    "https://script.google.com/macros/s/AKfycbyQEQLczvcmqenKi7xQM6c9w_LIQuilzAQYsopJI6y5hRzKHq4jqHIYVGskz-EENK8L/exec";
-
-
-  let loginMode = "staff";
-  let currentUser = null;
-
-
-  /* ========================================
-     INITIALIZE ICONS
-  ======================================== */
-
-  lucide.createIcons();
-
-
-  /* ========================================
-     LOGIN TAB
-  ======================================== */
-
-  function switchLogin(mode) {
-
-    loginMode = mode;
-
-    const staffTab =
-      document.getElementById("staffTab");
-
-    const studentTab =
-      document.getElementById("studentTab");
-
-    const staffLogin =
-      document.getElementById("staffLogin");
-
-    const studentLogin =
-      document.getElementById("studentLogin");
-
-
-    if (mode === "staff") {
-
-      staffTab.classList.add("active");
-      studentTab.classList.remove("active");
-
-      staffLogin.style.display = "block";
-      studentLogin.style.display = "none";
-
-    } else {
-
-      staffTab.classList.remove("active");
-      studentTab.classList.add("active");
-
-      staffLogin.style.display = "none";
-      studentLogin.style.display = "block";
-
-    }
-
-  }
-
-
-  /* ========================================
-     LOGIN
-  ======================================== */
-
-  async function login() {
-
-    showLoading(true);
-
-    try {
-
-      if (loginMode === "staff") {
-
-        const username =
-          document.getElementById("username").value.trim();
-
-        const password =
-          document.getElementById("password").value.trim();
-
-
-        if (!username || !password) {
-
-          showLoading(false);
-
-          Swal.fire({
-            icon: "warning",
-            title: "กรุณากรอกข้อมูล",
-            text: "กรุณากรอกชื่อผู้ใช้และรหัสผ่าน"
-          });
-
-          return;
-        }
-
-
-        const response =
-          await fetch(API_URL, {
-
-            method: "POST",
-
-            body: JSON.stringify({
-              action: "login",
-              username: username,
-              password: password
-            })
-
-          });
-
-
-        const result =
-          await response.json();
-
-
-        showLoading(false);
-
-
-        if (!result.success) {
-
-          Swal.fire({
-            icon: "error",
-            title: "เข้าสู่ระบบไม่สำเร็จ",
-            text: result.message
-          });
-
-          return;
-        }
-
-
-        currentUser = result.user;
-
-        openApplication();
-
-
-      } else {
-
-        /*
-         * ระบบ Login นักเรียนจะเชื่อมกับ
-         * ตาราง Students ในขั้นถัดไป
-         */
-
-        const studentId =
-          document
-            .getElementById("studentId")
-            .value.trim();
-
-
-        if (!studentId) {
-
-          showLoading(false);
-
-          Swal.fire({
-            icon: "warning",
-            title: "กรุณากรอกรหัสนักเรียน",
-            text: "กรุณากรอกรหัสนักเรียนก่อนเข้าสู่ระบบ"
-          });
-
-          return;
-        }
-
-
-        showLoading(false);
-
-        Swal.fire({
-          icon: "info",
-          title: "กำลังพัฒนาส่วนนี้",
-          text: "ระบบเข้าสำหรับนักเรียนจะเชื่อมกับรายชื่อนักเรียนในขั้นถัดไป"
-        });
-
-      }
-
-    } catch (error) {
-
-      showLoading(false);
-
-      console.error(error);
-
-      Swal.fire({
-        icon: "error",
-        title: "ไม่สามารถเชื่อมต่อระบบได้",
-        text: "กรุณาตรวจสอบ URL ของ Apps Script และการตั้งค่า Web App"
-      });
-
-    }
-
-  }
-
-
-  /* ========================================
-     OPEN APPLICATION
-  ======================================== */
-
-  function openApplication() {
-
-    document
-      .getElementById("loginPage")
-      .style.display = "none";
-
-    document
-      .getElementById("app")
-      .style.display = "block";
-
-
-    document
-      .getElementById("displayUserName")
-      .textContent =
-      currentUser.full_name;
-
-
-    document
-      .getElementById("displayUserRole")
-      .textContent =
-      currentUser.role === "admin"
-        ? "ผู้ดูแลระบบ"
-        : "ครู";
-
-
-    document
-      .getElementById("welcomeText")
-      .textContent =
-      "เข้าสู่ระบบในชื่อ " +
-      currentUser.full_name;
-
-
-    loadDashboard();
-
-    lucide.createIcons();
-
-  }
-
-
-  /* ========================================
-     DASHBOARD
-  ======================================== */
-
-  async function loadDashboard() {
-
-    try {
-
-      const subjects =
-        await getData("getSubjects");
-
-      const students =
-        await getData("getStudents");
-
-      document
-        .getElementById("subjectCount")
-        .textContent =
-        subjects.length;
-
-
-      document
-        .getElementById("studentCount")
-        .textContent =
-        students.length;
-
-
-      document
-        .getElementById("evaluationCount")
-        .textContent =
-        "0";
-
-
-    } catch (error) {
-
-      console.error(error);
-
-    }
-
-  }
-
-
-  /* ========================================
-     GET DATA
-  ======================================== */
-
-  async function getData(action) {
-
-    const response =
-      await fetch(
-        API_URL +
-        "?action=" +
-        encodeURIComponent(action)
-      );
-
-    const result =
-      await response.json();
-
-
-    if (!result.success) {
-
-      throw new Error(
-        result.message ||
-        "เกิดข้อผิดพลาด"
-      );
-
-    }
-
-
-    return result.data || [];
-
-  }
-
-
-  /* ========================================
-     PAGE
-  ======================================== */
-
-  function showPage(page) {
-
-    const pages = [
-       "dashboard",
-       "users",
-       "classes",
-       "subjects",
-       "students",
-       "evaluations"
-    ];
-
-
-    pages.forEach(name => {
-
-      const element =
-        document.getElementById(
-          name + "Page"
-        );
-
-      if (element) {
-
-        element.style.display =
-          name === page
-            ? "block"
-            : "none";
-
-      }
-
-    });
-
-
-    const titles = {
-
-        dashboard: "Dashboard",
-        users: "จัดการผู้ใช้งาน",
-        classes: "จัดการห้องเรียน",
-        subjects: "จัดการรายวิชา",
-        students: "จัดการนักเรียน",
-        evaluations: "ผลการประเมิน"
-
-    };
-
-
-    document
-      .getElementById("pageTitle")
-      .textContent =
-      titles[page];
-
-
-    document
-      .querySelectorAll(".menu-item")
-      .forEach(item => {
-
-        item.classList.remove("active");
-
-      });
-       if (page === "users") {
-          loadUsersPage();
-        }
-
-    if (
-      window.innerWidth <= 900
-    ) {
-
-      document
-        .getElementById("sidebar")
-        .classList.remove("open");
-
-    }
-
-  }
-
-
-  /* ========================================
-     SIDEBAR
-  ======================================== */
-
-  function toggleSidebar() {
-
-    document
-      .getElementById("sidebar")
-      .classList.toggle("open");
-
-  }
-
-
-  /* ========================================
-     LOGOUT
-  ======================================== */
-
-  function logout() {
-
-    Swal.fire({
-
-      icon: "question",
-
-      title: "ออกจากระบบ?",
-
-      text: "คุณต้องการออกจากระบบหรือไม่",
-
-      showCancelButton: true,
-
-      confirmButtonText: "ออกจากระบบ",
-
-      cancelButtonText: "ยกเลิก"
-
-    }).then(result => {
-
-      if (result.isConfirmed) {
-
-        currentUser = null;
-
-        document
-          .getElementById("app")
-          .style.display = "none";
-
-        document
-          .getElementById("loginPage")
-          .style.display = "flex";
-
-
-        document
-          .getElementById("username")
-          .value = "";
-
-        document
-          .getElementById("password")
-          .value = "";
-
-      }
-
-    });
-
-  }
-
-
-  /* ========================================
-     LOADING
-  ======================================== */
-
-  function showLoading(show) {
-
-    document
-      .getElementById("loading")
-      .style.display =
-      show ? "flex" : "none";
-
-  }
-/* ========================================
-   USER MANAGEMENT
-======================================== */
-
-let usersData = [];
-
-
-/* เปิดหน้า Users */
-
-async function loadUsersPage() {
-
-  await loadUsers();
-
-}
-
-
-/* โหลดข้อมูล Users */
-
-async function loadUsers() {
-
-  const tbody =
-    document.getElementById("usersTableBody");
-
-  if (!tbody) return;
-
-
-  tbody.innerHTML = `
-    <tr>
-      <td colspan="6"
-          style="
-            padding:25px;
-            text-align:center;
-            color:#78909C;
-          ">
-        กำลังโหลดข้อมูล...
-      </td>
-    </tr>
-  `;
-
-
-  try {
-
-    usersData =
-      await getData("getUsers");
-
-    renderUsers();
-
-  } catch (error) {
-
-    console.error(error);
-
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="6"
-            style="
-              padding:25px;
-              text-align:center;
-              color:#EF5350;
-            ">
-          ไม่สามารถโหลดข้อมูลได้
-        </td>
-      </tr>
-    `;
-
-  }
-
-}
-
-
-/* แสดงข้อมูล Users */
-
-function renderUsers() {
-
-  const tbody =
-    document.getElementById(
-      "usersTableBody"
-    );
-
-  if (!tbody) return;
-
-
-  if (!usersData.length) {
-
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="6"
-            style="
-              padding:25px;
-              text-align:center;
-              color:#78909C;
-            ">
-          ยังไม่มีข้อมูลผู้ใช้งาน
-        </td>
-      </tr>
-    `;
-
-    return;
-
-  }
-
-
-  tbody.innerHTML =
-    usersData.map((user, index) => {
-
-      const role =
-        user.role === "admin"
-          ? "ผู้ดูแลระบบ"
-          : "ครู";
-
-
-      return `
-
-        <tr style="
-          border-bottom:1px solid #ECEFF1;
-        ">
-
-          <td style="
-            padding:12px;
-            text-align:center;
-          ">
-            ${index + 1}
-          </td>
-
-          <td style="padding:12px;">
-            ${escapeHtml(user.username)}
-          </td>
-
-          <td style="padding:12px;">
-            ${escapeHtml(user.full_name)}
-          </td>
-
-          <td style="padding:12px;">
-
-            <span style="
-              background:#E0F2F1;
-              color:#00897B;
-              padding:5px 10px;
-              border-radius:20px;
-              font-size:12px;
-            ">
-              ${role}
-            </span>
-
-          </td>
-
-          <td style="padding:12px;">
-
-            <span style="
-              background:#E8F5E9;
-              color:#2E7D32;
-              padding:5px 10px;
-              border-radius:20px;
-              font-size:12px;
-            ">
-              ${user.status === "active"
-                ? "ใช้งาน"
-                : "ปิดใช้งาน"}
-            </span>
-
-          </td>
-
-          <td style="padding:12px;">
-
-            <button
-              onclick="editUser('${user.id}')"
-              style="
-                border:none;
-                background:#E0F2F1;
-                color:#00897B;
-                padding:7px 9px;
-                border-radius:8px;
-                cursor:pointer;
-                margin-right:5px;
-              "
-              title="แก้ไข"
-            >
-              <i
-                data-lucide="edit-3"
-                style="width:16px;"
-              ></i>
-            </button>
-
-
-            <button
-              onclick="deleteUser('${user.id}')"
-              style="
-                border:none;
-                background:#FFEBEE;
-                color:#EF5350;
-                padding:7px 9px;
-                border-radius:8px;
-                cursor:pointer;
-              "
-              title="ลบ"
-            >
-              <i
-                data-lucide="trash-2"
-                style="width:16px;"
-              ></i>
-            </button>
-
-          </td>
-
-        </tr>
-
-      `;
-
-    }).join("");
-
-
-  lucide.createIcons();
-
-}
-
-
-/* เพิ่ม User */
-
-function openUserModal() {
-
-  document.getElementById("userId").value = "";
-
-  document.getElementById("userUsername").value = "";
-
-  document.getElementById("userPassword").value = "";
-
-  document.getElementById("userFullName").value = "";
-
-  document.getElementById("userRole").value = "teacher";
-
-
-  document.getElementById("userModalTitle")
-    .textContent = "เพิ่มผู้ใช้งาน";
-
-
-  document.getElementById("userModal")
-    .style.display = "flex";
-
-
-  lucide.createIcons();
-
-}
-
-
-/* ปิด Modal */
-
-function closeUserModal() {
-
-  document.getElementById("userModal")
-    .style.display = "none";
-
-}
-
-
-/* แก้ไข User */
-
-function editUser(id) {
-
-  const user =
-    usersData.find(
-      item => String(item.id) === String(id)
-    );
-
-  if (!user) return;
-
-
-  document.getElementById("userId").value =
-    user.id;
-
-  document.getElementById("userUsername").value =
-    user.username;
-
-  document.getElementById("userPassword").value =
-    user.password;
-
-  document.getElementById("userFullName").value =
-    user.full_name;
-
-  document.getElementById("userRole").value =
-    user.role;
-
-
-  document.getElementById("userModalTitle")
-    .textContent = "แก้ไขผู้ใช้งาน";
-
-
-  document.getElementById("userModal")
-    .style.display = "flex";
-
-
-  lucide.createIcons();
-
-}
-
-
-/* บันทึก User */
-
-async function saveUser() {
-
-  const id =
-    document.getElementById("userId").value.trim();
-
-  const username =
-    document.getElementById("userUsername")
-      .value.trim();
-
-  const password =
-    document.getElementById("userPassword")
-      .value;
-
-  const fullName =
-    document.getElementById("userFullName")
-      .value.trim();
-
-  const role =
-    document.getElementById("userRole").value;
-
-
-  if (!username || !password || !fullName) {
-
-    Swal.fire({
-      icon: "warning",
-      title: "กรุณากรอกข้อมูล",
-      text: "กรุณากรอกข้อมูลให้ครบทุกช่อง"
-    });
-
-    return;
-
-  }
-
-
-  const action =
-    id
-      ? "updateUser"
-      : "addUser";
-
-
-  const confirm =
-    await Swal.fire({
-
-      icon: "question",
-
-      title: id
-        ? "ยืนยันการแก้ไข?"
-        : "ยืนยันการเพิ่ม?",
-
-      showCancelButton: true,
-
-      confirmButtonText: "ยืนยัน",
-
-      cancelButtonText: "ยกเลิก"
-
-    });
-
-
-  if (!confirm.isConfirmed)
-    return;
-
-
-  showLoading(true);
-
-
-  try {
-
-    const response =
-      await fetch(API_URL, {
-
-        method: "POST",
-
-        body: JSON.stringify({
-
-          action: action,
-
-          id: id,
-
-          username: username,
-
-          password: password,
-
-          full_name: fullName,
-
-          role: role
-
-        })
-
-      });
-
-
-    const result =
-      await response.json();
-
-
-    showLoading(false);
-
-
-    if (!result.success) {
-
-      throw new Error(
-        result.message ||
-        "บันทึกข้อมูลไม่สำเร็จ"
-      );
-
-    }
-
-
-    closeUserModal();
-
-    await loadUsers();
-
-
-    Swal.fire({
-
-      icon: "success",
-
-      title: "สำเร็จ",
-
-      text: result.message,
-
-      timer: 1500,
-
-      showConfirmButton: false
-
-    });
- 
-  } catch (error) {
-
-    showLoading(false);
-
-    console.error(error);
-
-    Swal.fire({
-
-      icon: "error",
-
-      title: "เกิดข้อผิดพลาด",
-
-      text: error.message
-
-    });
-
-  }
-
-}
-
-
-/* ลบ User */
-
-async function deleteUser(id) {
-
-  const user =
-    usersData.find(
-      item => String(item.id) === String(id)
-    );
-
-  if (!user) return;
-
-
-  const confirm =
-    await Swal.fire({
-
-      icon: "warning",
-
-      title: "ยืนยันการลบ?",
-
-      text:
-        "ต้องการลบ " +
-        user.full_name +
-        " ใช่หรือไม่",
-
-      showCancelButton: true,
-
-      confirmButtonText: "ลบข้อมูล",
-
-      cancelButtonText: "ยกเลิก",
-
-      confirmButtonColor: "#EF5350"
-
-    });
-
-
-  if (!confirm.isConfirmed)
-    return;
-
-
-  showLoading(true);
-
-
-  try {
-
-    const response =
-      await fetch(API_URL, {
-
-        method: "POST",
-
-        body: JSON.stringify({
-
-          action: "deleteUser",
-
-          id: id
-
-        })
-
-      });
-
-
-    const result =
-      await response.json();
-
-
-    showLoading(false);
-
-
-    if (!result.success) {
-
-      throw new Error(
-        result.message ||
-        "ลบข้อมูลไม่สำเร็จ"
-      );
-
-    }
-
-
-    await loadUsers();
-
-
-    Swal.fire({
-
-      icon: "success",
-
-      title: "ลบข้อมูลสำเร็จ",
-
-      timer: 1200,
-
-      showConfirmButton: false
-
-    });
-
-
-  } catch (error) {
-
-    showLoading(false);
-
-    Swal.fire({
-
-      icon: "error",
-
-      title: "เกิดข้อผิดพลาด",
-
-      text: error.message
-
-    });
-
-  }
-
-}
-
-
-/* ป้องกัน HTML */
-
-function escapeHtml(value) {
-
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-
-}
-</script>
 <!-- =========================================
      USER MODAL
 ========================================= -->
 
 <div
+  class="modal"
   id="userModal"
-  style="
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.45);
-    z-index:9998;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-  "
 >
 
-  <div style="
-    width:100%;
-    max-width:500px;
-    background:white;
-    border-radius:18px;
-    padding:25px;
-    box-shadow:0 20px 50px rgba(0,0,0,.2);
-  ">
+  <div class="modal-content">
 
-    <div style="
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:20px;
-    ">
+
+    <div class="modal-header">
 
       <div>
 
@@ -2238,26 +2096,18 @@ function escapeHtml(value) {
           เพิ่มผู้ใช้งาน
         </h3>
 
-        <p style="
-          color:#78909C;
-          font-size:13px;
-          margin-top:4px;
-        ">
+
+        <p class="modal-subtitle">
           กรอกข้อมูลผู้ใช้งาน
         </p>
 
       </div>
 
+
       <button
+        class="modal-close"
         onclick="closeUserModal()"
-        style="
-          border:none;
-          background:#F5F7F8;
-          border-radius:50%;
-          width:36px;
-          height:36px;
-          cursor:pointer;
-        "
+        aria-label="ปิด"
       >
 
         <i data-lucide="x"></i>
@@ -2267,10 +2117,12 @@ function escapeHtml(value) {
     </div>
 
 
+
     <input
       type="hidden"
       id="userId"
     >
+
 
 
     <div class="form-group">
@@ -2279,15 +2131,18 @@ function escapeHtml(value) {
         ชื่อผู้ใช้
       </label>
 
+
       <input
         type="text"
         id="userUsername"
         class="form-control"
         style="padding-left:14px;"
         placeholder="เช่น teacher01"
+        autocomplete="off"
       >
 
     </div>
+
 
 
     <div class="form-group">
@@ -2296,15 +2151,31 @@ function escapeHtml(value) {
         รหัสผ่าน
       </label>
 
+
       <input
         type="password"
         id="userPassword"
         class="form-control"
         style="padding-left:14px;"
         placeholder="กรอกรหัสผ่าน"
+        autocomplete="new-password"
       >
 
+
+      <small
+        id="passwordHelp"
+        style="
+          display:block;
+          color:#78909C;
+          font-size:12px;
+          margin-top:5px;
+        "
+      >
+        กรอกรหัสผ่านสำหรับผู้ใช้งานใหม่
+      </small>
+
     </div>
+
 
 
     <div class="form-group">
@@ -2312,6 +2183,7 @@ function escapeHtml(value) {
       <label>
         ชื่อ-นามสกุล
       </label>
+
 
       <input
         type="text"
@@ -2324,11 +2196,13 @@ function escapeHtml(value) {
     </div>
 
 
+
     <div class="form-group">
 
       <label>
         บทบาท
       </label>
+
 
       <select
         id="userRole"
@@ -2349,23 +2223,13 @@ function escapeHtml(value) {
     </div>
 
 
-    <div style="
-      display:flex;
-      justify-content:flex-end;
-      gap:10px;
-      margin-top:25px;
-    ">
+
+    <div class="modal-actions">
+
 
       <button
+        class="cancel-button"
         onclick="closeUserModal()"
-        style="
-          border:none;
-          padding:11px 20px;
-          border-radius:10px;
-          background:#ECEFF1;
-          cursor:pointer;
-          font-family:inherit;
-        "
       >
         ยกเลิก
       </button>
@@ -2394,5 +2258,2412 @@ function escapeHtml(value) {
   </div>
 
 </div>
-</body> 
+
+
+
+<!-- =========================================
+     CLASS MODAL
+========================================= -->
+
+<div
+  class="modal"
+  id="classModal"
+>
+
+  <div class="modal-content">
+
+
+    <div class="modal-header">
+
+      <div>
+
+        <h3 id="classModalTitle">
+          เพิ่มห้องเรียน
+        </h3>
+
+
+        <p class="modal-subtitle">
+          กรอกข้อมูลห้องเรียน
+        </p>
+
+      </div>
+
+
+      <button
+        class="modal-close"
+        onclick="closeClassModal()"
+        aria-label="ปิด"
+      >
+
+        <i data-lucide="x"></i>
+
+      </button>
+
+    </div>
+
+
+
+    <input
+      type="hidden"
+      id="classId"
+    >
+
+
+
+    <div class="form-group">
+
+      <label>
+        ชื่อห้องเรียน
+      </label>
+
+
+      <input
+        type="text"
+        id="className"
+        class="form-control"
+        style="padding-left:14px;"
+        placeholder="เช่น ม.2/1"
+      >
+
+    </div>
+
+
+
+    <div class="form-group">
+
+      <label>
+        ระดับการศึกษา
+      </label>
+
+
+      <select
+        id="classLevel"
+        class="form-control"
+        style="padding-left:14px;"
+      >
+
+        <option value="ประถมศึกษา">
+          ประถมศึกษา
+        </option>
+
+        <option value="มัธยมศึกษา">
+          มัธยมศึกษา
+        </option>
+
+      </select>
+
+    </div>
+
+
+
+    <div class="modal-actions">
+
+
+      <button
+        class="cancel-button"
+        onclick="closeClassModal()"
+      >
+        ยกเลิก
+      </button>
+
+
+      <button
+        onclick="saveClass()"
+        class="login-button"
+        style="
+          width:auto;
+          padding:11px 22px;
+        "
+      >
+
+        <i
+          data-lucide="save"
+          style="width:17px;vertical-align:middle;"
+        ></i>
+
+        บันทึก
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- =========================================
+     JAVASCRIPT
+========================================= -->
+
+<script>
+
+
+/* ========================================
+   API URL
+======================================== */
+
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbyQEQLczvcmqenKi7xQM6c9w_LIQuilzAQYsopJI6y5hRzKHq4jqHIYVGskz-EENK8L/exec";
+
+
+let loginMode = "staff";
+
+let currentUser = null;
+
+let usersData = [];
+
+let classesData = [];
+
+
+
+/* ========================================
+   INITIALIZE
+======================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    lucide.createIcons();
+
+  }
+);
+
+
+
+/* ========================================
+   LOGIN TAB
+======================================== */
+
+function switchLogin(mode) {
+
+  loginMode = mode;
+
+
+  const staffTab =
+    document.getElementById("staffTab");
+
+  const studentTab =
+    document.getElementById("studentTab");
+
+  const staffLogin =
+    document.getElementById("staffLogin");
+
+  const studentLogin =
+    document.getElementById("studentLogin");
+
+
+  if (mode === "staff") {
+
+    staffTab.classList.add("active");
+
+    studentTab.classList.remove("active");
+
+    staffLogin.style.display = "block";
+
+    studentLogin.style.display = "none";
+
+  } else {
+
+    staffTab.classList.remove("active");
+
+    studentTab.classList.add("active");
+
+    staffLogin.style.display = "none";
+
+    studentLogin.style.display = "block";
+
+  }
+
+}
+
+
+
+/* ========================================
+   LOGIN
+======================================== */
+
+async function login() {
+
+  if (loginMode === "staff") {
+
+    const username =
+      document
+        .getElementById("username")
+        .value
+        .trim();
+
+
+    const password =
+      document
+        .getElementById("password")
+        .value
+        .trim();
+
+
+    if (!username || !password) {
+
+      Swal.fire({
+        icon: "warning",
+        title: "กรุณากรอกข้อมูล",
+        text: "กรุณากรอกชื่อผู้ใช้และรหัสผ่าน"
+      });
+
+      return;
+
+    }
+
+
+    showLoading(true);
+
+
+    try {
+
+      const response =
+        await fetch(
+          API_URL,
+          {
+            method: "POST",
+
+            body: JSON.stringify({
+              action: "login",
+              username: username,
+              password: password
+            })
+          }
+        );
+
+
+      const result =
+        await response.json();
+
+
+      showLoading(false);
+
+
+      if (!result.success) {
+
+        Swal.fire({
+          icon: "error",
+          title: "เข้าสู่ระบบไม่สำเร็จ",
+          text:
+            result.message ||
+            "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง"
+        });
+
+        return;
+
+      }
+
+
+      currentUser =
+        result.user;
+
+
+      openApplication();
+
+
+    } catch (error) {
+
+      showLoading(false);
+
+      console.error(error);
+
+
+      Swal.fire({
+        icon: "error",
+        title: "ไม่สามารถเชื่อมต่อระบบได้",
+        text:
+          "กรุณาตรวจสอบ URL ของ Apps Script และการตั้งค่า Web App"
+      });
+
+    }
+
+
+  } else {
+
+
+    const studentId =
+      document
+        .getElementById("studentId")
+        .value
+        .trim();
+
+
+    if (!studentId) {
+
+      Swal.fire({
+        icon: "warning",
+        title: "กรุณากรอกรหัสนักเรียน",
+        text:
+          "กรุณากรอกรหัสนักเรียนก่อนเข้าสู่ระบบ"
+      });
+
+      return;
+
+    }
+
+
+    Swal.fire({
+      icon: "info",
+      title: "กำลังพัฒนาส่วนนี้",
+      text:
+        "ระบบเข้าสำหรับนักเรียนจะเชื่อมกับรายชื่อนักเรียนในขั้นถัดไป"
+    });
+
+  }
+
+}
+
+
+
+/* ========================================
+   OPEN APPLICATION
+======================================== */
+
+function openApplication() {
+
+  document
+    .getElementById("loginPage")
+    .style.display = "none";
+
+
+  document
+    .getElementById("app")
+    .style.display = "block";
+
+
+  document
+    .getElementById("displayUserName")
+    .textContent =
+      currentUser.full_name || "-";
+
+
+  document
+    .getElementById("displayUserRole")
+    .textContent =
+      currentUser.role === "admin"
+        ? "ผู้ดูแลระบบ"
+        : "ครู";
+
+
+  document
+    .getElementById("welcomeText")
+    .textContent =
+      "เข้าสู่ระบบในชื่อ " +
+      (currentUser.full_name || "");
+
+
+  showPage("dashboard");
+
+
+  loadDashboard();
+
+
+  lucide.createIcons();
+
+}
+
+
+
+/* ========================================
+   DASHBOARD
+======================================== */
+
+async function loadDashboard() {
+
+  try {
+
+    const subjects =
+      await getData("getSubjects");
+
+
+    const students =
+      await getData("getStudents");
+
+
+    document
+      .getElementById("subjectCount")
+      .textContent =
+        subjects.length;
+
+
+    document
+      .getElementById("studentCount")
+      .textContent =
+        students.length;
+
+
+    /*
+     * จะเชื่อมจำนวนแบบประเมิน
+     * ในขั้นพัฒนาระบบผลการประเมิน
+     */
+
+    document
+      .getElementById("evaluationCount")
+      .textContent =
+        "0";
+
+
+    document
+      .getElementById("averageScore")
+      .textContent =
+        "-";
+
+
+  } catch (error) {
+
+    console.error(
+      "Dashboard Error:",
+      error
+    );
+
+  }
+
+}
+
+
+
+/* ========================================
+   GET DATA
+======================================== */
+
+async function getData(action) {
+
+  const response =
+    await fetch(
+      API_URL +
+      "?action=" +
+      encodeURIComponent(action)
+    );
+
+
+  if (!response.ok) {
+
+    throw new Error(
+      "ไม่สามารถเชื่อมต่อ API ได้"
+    );
+
+  }
+
+
+  const result =
+    await response.json();
+
+
+  if (!result.success) {
+
+    throw new Error(
+      result.message ||
+      "เกิดข้อผิดพลาด"
+    );
+
+  }
+
+
+  return result.data || [];
+
+}
+
+
+
+/* ========================================
+   PAGE
+======================================== */
+
+function showPage(page) {
+
+
+  const pages = [
+    "dashboard",
+    "users",
+    "classes",
+    "subjects",
+    "students",
+    "evaluations"
+  ];
+
+
+  pages.forEach(
+    name => {
+
+      const element =
+        document.getElementById(
+          name + "Page"
+        );
+
+
+      if (element) {
+
+        element.style.display =
+          name === page
+            ? "block"
+            : "none";
+
+      }
+
+    }
+  );
+
+
+
+  const titles = {
+
+    dashboard:
+      "Dashboard",
+
+    users:
+      "จัดการผู้ใช้งาน",
+
+    classes:
+      "จัดการห้องเรียน",
+
+    subjects:
+      "จัดการรายวิชา",
+
+    students:
+      "จัดการนักเรียน",
+
+    evaluations:
+      "ผลการประเมิน"
+
+  };
+
+
+
+  document
+    .getElementById("pageTitle")
+    .textContent =
+      titles[page] ||
+      "Dashboard";
+
+
+
+  /*
+   * ตั้ง Active Menu
+   */
+
+  document
+    .querySelectorAll(".menu-item")
+    .forEach(
+      item => {
+
+        item.classList.remove(
+          "active"
+        );
+
+      }
+    );
+
+
+  const activeMenu =
+    document.querySelector(
+      `.menu-item[onclick="showPage('${page}')"]`
+    );
+
+
+  if (activeMenu) {
+
+    activeMenu.classList.add(
+      "active"
+    );
+
+  }
+
+
+
+  /*
+   * โหลดข้อมูลตามหน้า
+   */
+
+  if (page === "users") {
+
+    loadUsersPage();
+
+  }
+
+
+  if (page === "classes") {
+
+    loadClassesPage();
+
+  }
+
+
+
+  /*
+   * ปิด Sidebar บนมือถือ
+   */
+
+  if (
+    window.innerWidth <= 900
+  ) {
+
+    document
+      .getElementById("sidebar")
+      .classList.remove("open");
+
+  }
+
+
+  lucide.createIcons();
+
+}
+
+
+
+/* ========================================
+   SIDEBAR
+======================================== */
+
+function toggleSidebar() {
+
+  document
+    .getElementById("sidebar")
+    .classList.toggle("open");
+
+}
+
+
+
+/* ========================================
+   LOGOUT
+======================================== */
+
+function logout() {
+
+  Swal.fire({
+
+    icon: "question",
+
+    title: "ออกจากระบบ?",
+
+    text:
+      "คุณต้องการออกจากระบบหรือไม่",
+
+    showCancelButton: true,
+
+    confirmButtonText:
+      "ออกจากระบบ",
+
+    cancelButtonText:
+      "ยกเลิก"
+
+  }).then(
+    result => {
+
+      if (!result.isConfirmed)
+        return;
+
+
+      currentUser = null;
+
+
+      document
+        .getElementById("app")
+        .style.display =
+          "none";
+
+
+      document
+        .getElementById("loginPage")
+        .style.display =
+          "flex";
+
+
+      document
+        .getElementById("username")
+        .value = "";
+
+
+      document
+        .getElementById("password")
+        .value = "";
+
+
+      document
+        .getElementById("studentId")
+        .value = "";
+
+
+      switchLogin("staff");
+
+    }
+  );
+
+}
+
+
+
+/* ========================================
+   LOADING
+======================================== */
+
+function showLoading(show) {
+
+  document
+    .getElementById("loading")
+    .style.display =
+      show
+        ? "flex"
+        : "none";
+
+}
+
+
+
+/* ========================================
+   CLASS MANAGEMENT
+======================================== */
+
+
+/* โหลดหน้า Classes */
+
+async function loadClassesPage() {
+
+  await loadClasses();
+
+}
+
+
+
+/* โหลดข้อมูล Classes */
+
+async function loadClasses() {
+
+  const tbody =
+    document.getElementById(
+      "classesTableBody"
+    );
+
+
+  if (!tbody)
+    return;
+
+
+  tbody.innerHTML = `
+
+    <tr>
+
+      <td
+        colspan="4"
+        style="
+          padding:25px;
+          text-align:center;
+          color:#78909C;
+        "
+      >
+
+        กำลังโหลดข้อมูล...
+
+      </td>
+
+    </tr>
+
+  `;
+
+
+  try {
+
+    classesData =
+      await getData(
+        "getClasses"
+      );
+
+
+    renderClasses();
+
+
+  } catch (error) {
+
+    console.error(
+      "Classes Error:",
+      error
+    );
+
+
+    tbody.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="4"
+          style="
+            padding:25px;
+            text-align:center;
+            color:#EF5350;
+          "
+        >
+
+          ไม่สามารถโหลดข้อมูลได้
+
+        </td>
+
+      </tr>
+
+    `;
+
+  }
+
+}
+
+
+
+/* แสดง Classes */
+
+function renderClasses() {
+
+  const tbody =
+    document.getElementById(
+      "classesTableBody"
+    );
+
+
+  if (!tbody)
+    return;
+
+
+  if (!classesData.length) {
+
+    tbody.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="4"
+          style="
+            padding:25px;
+            text-align:center;
+            color:#78909C;
+          "
+        >
+
+          ยังไม่มีข้อมูลห้องเรียน
+
+        </td>
+
+      </tr>
+
+    `;
+
+    return;
+
+  }
+
+
+
+  tbody.innerHTML =
+    classesData
+      .map(
+        (item, index) => {
+
+
+          const level =
+            item.level ||
+            item.education_level ||
+            "-";
+
+
+          return `
+
+            <tr>
+
+              <td style="
+                text-align:center;
+              ">
+                ${index + 1}
+              </td>
+
+
+              <td>
+
+                ${escapeHtml(
+                  item.class_name
+                )}
+
+              </td>
+
+
+              <td>
+
+                <span style="
+                  background:#E0F2F1;
+                  color:#00897B;
+                  padding:5px 10px;
+                  border-radius:20px;
+                  font-size:12px;
+                  white-space:nowrap;
+                ">
+
+                  ${escapeHtml(level)}
+
+                </span>
+
+              </td>
+
+
+              <td>
+
+
+                <button
+                  onclick="editClass('${escapeHtml(item.id)}')"
+                  style="
+                    border:none;
+                    background:#E0F2F1;
+                    color:#00897B;
+                    padding:7px 9px;
+                    border-radius:8px;
+                    cursor:pointer;
+                    margin-right:5px;
+                  "
+                  title="แก้ไข"
+                >
+
+                  <i
+                    data-lucide="edit-3"
+                    style="width:16px;"
+                  ></i>
+
+                </button>
+
+
+
+                <button
+                  onclick="deleteClass('${escapeHtml(item.id)}')"
+                  style="
+                    border:none;
+                    background:#FFEBEE;
+                    color:#EF5350;
+                    padding:7px 9px;
+                    border-radius:8px;
+                    cursor:pointer;
+                  "
+                  title="ลบ"
+                >
+
+                  <i
+                    data-lucide="trash-2"
+                    style="width:16px;"
+                  ></i>
+
+                </button>
+
+
+              </td>
+
+            </tr>
+
+          `;
+
+        }
+      )
+      .join("");
+
+
+  lucide.createIcons();
+
+}
+
+
+
+/* เปิด Class Modal */
+
+function openClassModal() {
+
+  document
+    .getElementById("classId")
+    .value = "";
+
+
+  document
+    .getElementById("className")
+    .value = "";
+
+
+  document
+    .getElementById("classLevel")
+    .value =
+      "มัธยมศึกษา";
+
+
+  document
+    .getElementById("classModalTitle")
+    .textContent =
+      "เพิ่มห้องเรียน";
+
+
+  document
+    .getElementById("classModal")
+    .style.display =
+      "flex";
+
+
+  setTimeout(
+    () => {
+
+      document
+        .getElementById("className")
+        .focus();
+
+    },
+    100
+  );
+
+
+  lucide.createIcons();
+
+}
+
+
+
+/* ปิด Class Modal */
+
+function closeClassModal() {
+
+  document
+    .getElementById("classModal")
+    .style.display =
+      "none";
+
+}
+
+
+
+/* แก้ไข Class */
+
+function editClass(id) {
+
+  const item =
+    classesData.find(
+      row =>
+        String(row.id) ===
+        String(id)
+    );
+
+
+  if (!item) {
+
+    Swal.fire({
+      icon: "error",
+      title: "ไม่พบข้อมูล",
+      text: "ไม่พบข้อมูลห้องเรียน"
+    });
+
+    return;
+
+  }
+
+
+  document
+    .getElementById("classId")
+    .value =
+      item.id;
+
+
+  document
+    .getElementById("className")
+    .value =
+      item.class_name || "";
+
+
+  document
+    .getElementById("classLevel")
+    .value =
+      item.level ||
+      item.education_level ||
+      "มัธยมศึกษา";
+
+
+  document
+    .getElementById("classModalTitle")
+    .textContent =
+      "แก้ไขห้องเรียน";
+
+
+  document
+    .getElementById("classModal")
+    .style.display =
+      "flex";
+
+
+  setTimeout(
+    () => {
+
+      document
+        .getElementById("className")
+        .focus();
+
+    },
+    100
+  );
+
+
+  lucide.createIcons();
+
+}
+
+
+
+/* บันทึก Class */
+
+async function saveClass() {
+
+  const id =
+    document
+      .getElementById("classId")
+      .value
+      .trim();
+
+
+  const className =
+    document
+      .getElementById("className")
+      .value
+      .trim();
+
+
+  const educationLevel =
+    document
+      .getElementById("classLevel")
+      .value;
+
+
+  if (!className) {
+
+    Swal.fire({
+      icon: "warning",
+      title: "กรุณากรอกข้อมูล",
+      text: "กรุณากรอกชื่อห้องเรียน"
+    });
+
+    return;
+
+  }
+
+
+  if (!educationLevel) {
+
+    Swal.fire({
+      icon: "warning",
+      title: "กรุณาเลือกระดับการศึกษา",
+      text: "กรุณาเลือกระดับการศึกษา"
+    });
+
+    return;
+
+  }
+
+
+  const action =
+    id
+      ? "updateClass"
+      : "addClass";
+
+
+  const confirm =
+    await Swal.fire({
+
+      icon: "question",
+
+      title:
+        id
+          ? "ยืนยันการแก้ไข?"
+          : "ยืนยันการเพิ่ม?",
+
+      text:
+        id
+          ? "ต้องการบันทึกการแก้ไขห้องเรียนหรือไม่"
+          : "ต้องการเพิ่มห้องเรียนนี้หรือไม่",
+
+      showCancelButton: true,
+
+      confirmButtonText:
+        "ยืนยัน",
+
+      cancelButtonText:
+        "ยกเลิก"
+
+    });
+
+
+  if (!confirm.isConfirmed)
+    return;
+
+
+  showLoading(true);
+
+
+  try {
+
+    const response =
+      await fetch(
+        API_URL,
+        {
+
+          method: "POST",
+
+          body: JSON.stringify({
+
+            action: action,
+
+            id: id,
+
+            class_name:
+              className,
+
+            education_level:
+              educationLevel
+
+          })
+
+        }
+      );
+
+
+    const result =
+      await response.json();
+
+
+    showLoading(false);
+
+
+    if (!result.success) {
+
+      throw new Error(
+        result.message ||
+        "บันทึกข้อมูลห้องเรียนไม่สำเร็จ"
+      );
+
+    }
+
+
+    closeClassModal();
+
+
+    await loadClasses();
+
+
+    Swal.fire({
+
+      icon: "success",
+
+      title: "สำเร็จ",
+
+      text:
+        result.message ||
+        "บันทึกข้อมูลห้องเรียนเรียบร้อยแล้ว",
+
+      timer: 1500,
+
+      showConfirmButton: false
+
+    });
+
+
+  } catch (error) {
+
+    showLoading(false);
+
+    console.error(error);
+
+
+    Swal.fire({
+
+      icon: "error",
+
+      title: "เกิดข้อผิดพลาด",
+
+      text:
+        error.message ||
+        "ไม่สามารถบันทึกข้อมูลได้"
+
+    });
+
+  }
+
+}
+
+
+
+/* ลบ Class */
+
+async function deleteClass(id) {
+
+  const item =
+    classesData.find(
+      row =>
+        String(row.id) ===
+        String(id)
+    );
+
+
+  if (!item)
+    return;
+
+
+  const confirm =
+    await Swal.fire({
+
+      icon: "warning",
+
+      title: "ยืนยันการลบ?",
+
+      text:
+        "ต้องการลบห้อง " +
+        (item.class_name || "") +
+        " ใช่หรือไม่",
+
+      showCancelButton: true,
+
+      confirmButtonText:
+        "ลบข้อมูล",
+
+      cancelButtonText:
+        "ยกเลิก",
+
+      confirmButtonColor:
+        "#EF5350"
+
+    });
+
+
+  if (!confirm.isConfirmed)
+    return;
+
+
+  showLoading(true);
+
+
+  try {
+
+    const response =
+      await fetch(
+        API_URL,
+        {
+
+          method: "POST",
+
+          body: JSON.stringify({
+
+            action:
+              "deleteClass",
+
+            id:
+              id
+
+          })
+
+        }
+      );
+
+
+    const result =
+      await response.json();
+
+
+    showLoading(false);
+
+
+    if (!result.success) {
+
+      throw new Error(
+        result.message ||
+        "ลบห้องเรียนไม่สำเร็จ"
+      );
+
+    }
+
+
+    await loadClasses();
+
+
+    Swal.fire({
+
+      icon: "success",
+
+      title:
+        "ลบข้อมูลสำเร็จ",
+
+      text:
+        result.message ||
+        "ลบข้อมูลห้องเรียนเรียบร้อยแล้ว",
+
+      timer: 1200,
+
+      showConfirmButton: false
+
+    });
+
+
+  } catch (error) {
+
+    showLoading(false);
+
+    console.error(error);
+
+
+    Swal.fire({
+
+      icon: "error",
+
+      title:
+        "เกิดข้อผิดพลาด",
+
+      text:
+        error.message ||
+        "ไม่สามารถลบข้อมูลได้"
+
+    });
+
+  }
+
+}
+
+
+
+/* ========================================
+   USER MANAGEMENT
+======================================== */
+
+
+/* เปิดหน้า Users */
+
+async function loadUsersPage() {
+
+  await loadUsers();
+
+}
+
+
+
+/* โหลดข้อมูล Users */
+
+async function loadUsers() {
+
+  const tbody =
+    document.getElementById(
+      "usersTableBody"
+    );
+
+
+  if (!tbody)
+    return;
+
+
+  tbody.innerHTML = `
+
+    <tr>
+
+      <td
+        colspan="6"
+        style="
+          padding:25px;
+          text-align:center;
+          color:#78909C;
+        "
+      >
+
+        กำลังโหลดข้อมูล...
+
+      </td>
+
+    </tr>
+
+  `;
+
+
+  try {
+
+    usersData =
+      await getData(
+        "getUsers"
+      );
+
+
+    renderUsers();
+
+
+  } catch (error) {
+
+    console.error(
+      "Users Error:",
+      error
+    );
+
+
+    tbody.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="6"
+          style="
+            padding:25px;
+            text-align:center;
+            color:#EF5350;
+          "
+        >
+
+          ไม่สามารถโหลดข้อมูลได้
+
+        </td>
+
+      </tr>
+
+    `;
+
+  }
+
+}
+
+
+
+/* แสดง Users */
+
+function renderUsers() {
+
+  const tbody =
+    document.getElementById(
+      "usersTableBody"
+    );
+
+
+  if (!tbody)
+    return;
+
+
+  if (!usersData.length) {
+
+    tbody.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="6"
+          style="
+            padding:25px;
+            text-align:center;
+            color:#78909C;
+          "
+        >
+
+          ยังไม่มีข้อมูลผู้ใช้งาน
+
+        </td>
+
+      </tr>
+
+    `;
+
+    return;
+
+  }
+
+
+
+  tbody.innerHTML =
+    usersData
+      .map(
+        (user, index) => {
+
+
+          const role =
+            user.role === "admin"
+              ? "ผู้ดูแลระบบ"
+              : "ครู";
+
+
+          const status =
+            user.status === "active"
+              ? "ใช้งาน"
+              : "ปิดใช้งาน";
+
+
+          return `
+
+            <tr>
+
+
+              <td style="
+                text-align:center;
+              ">
+
+                ${index + 1}
+
+              </td>
+
+
+
+              <td>
+
+                ${escapeHtml(
+                  user.username
+                )}
+
+              </td>
+
+
+
+              <td>
+
+                ${escapeHtml(
+                  user.full_name
+                )}
+
+              </td>
+
+
+
+              <td>
+
+                <span style="
+                  background:#E0F2F1;
+                  color:#00897B;
+                  padding:5px 10px;
+                  border-radius:20px;
+                  font-size:12px;
+                  white-space:nowrap;
+                ">
+
+                  ${role}
+
+                </span>
+
+              </td>
+
+
+
+              <td>
+
+                <span style="
+                  background:${
+                    user.status === "active"
+                      ? "#E8F5E9"
+                      : "#FFEBEE"
+                  };
+                  color:${
+                    user.status === "active"
+                      ? "#2E7D32"
+                      : "#C62828"
+                  };
+                  padding:5px 10px;
+                  border-radius:20px;
+                  font-size:12px;
+                  white-space:nowrap;
+                ">
+
+                  ${status}
+
+                </span>
+
+              </td>
+
+
+
+              <td>
+
+
+                <button
+                  onclick="editUser('${escapeHtml(user.id)}')"
+                  style="
+                    border:none;
+                    background:#E0F2F1;
+                    color:#00897B;
+                    padding:7px 9px;
+                    border-radius:8px;
+                    cursor:pointer;
+                    margin-right:5px;
+                  "
+                  title="แก้ไข"
+                >
+
+                  <i
+                    data-lucide="edit-3"
+                    style="width:16px;"
+                  ></i>
+
+                </button>
+
+
+
+                <button
+                  onclick="deleteUser('${escapeHtml(user.id)}')"
+                  style="
+                    border:none;
+                    background:#FFEBEE;
+                    color:#EF5350;
+                    padding:7px 9px;
+                    border-radius:8px;
+                    cursor:pointer;
+                  "
+                  title="ลบ"
+                >
+
+                  <i
+                    data-lucide="trash-2"
+                    style="width:16px;"
+                  ></i>
+
+                </button>
+
+
+              </td>
+
+            </tr>
+
+          `;
+
+        }
+      )
+      .join("");
+
+
+  lucide.createIcons();
+
+}
+
+
+
+/* เปิด User Modal */
+
+function openUserModal() {
+
+  document
+    .getElementById("userId")
+    .value = "";
+
+
+  document
+    .getElementById("userUsername")
+    .value = "";
+
+
+  document
+    .getElementById("userPassword")
+    .value = "";
+
+
+  document
+    .getElementById("userFullName")
+    .value = "";
+
+
+  document
+    .getElementById("userRole")
+    .value =
+      "teacher";
+
+
+  document
+    .getElementById("userModalTitle")
+    .textContent =
+      "เพิ่มผู้ใช้งาน";
+
+
+  document
+    .getElementById("passwordHelp")
+    .textContent =
+      "กรอกรหัสผ่านสำหรับผู้ใช้งานใหม่";
+
+
+  document
+    .getElementById("userModal")
+    .style.display =
+      "flex";
+
+
+  setTimeout(
+    () => {
+
+      document
+        .getElementById("userUsername")
+        .focus();
+
+    },
+    100
+  );
+
+
+  lucide.createIcons();
+
+}
+
+
+
+/* ปิด User Modal */
+
+function closeUserModal() {
+
+  document
+    .getElementById("userModal")
+    .style.display =
+      "none";
+
+}
+
+
+
+/* แก้ไข User */
+
+function editUser(id) {
+
+  const user =
+    usersData.find(
+      item =>
+        String(item.id) ===
+        String(id)
+    );
+
+
+  if (!user) {
+
+    Swal.fire({
+      icon: "error",
+      title: "ไม่พบข้อมูล",
+      text: "ไม่พบข้อมูลผู้ใช้งาน"
+    });
+
+    return;
+
+  }
+
+
+  document
+    .getElementById("userId")
+    .value =
+      user.id;
+
+
+  document
+    .getElementById("userUsername")
+    .value =
+      user.username || "";
+
+
+  /*
+   * ไม่ดึง Password จาก Google Sheets
+   * เพื่อความปลอดภัย
+   */
+
+  document
+    .getElementById("userPassword")
+    .value = "";
+
+
+  document
+    .getElementById("userFullName")
+    .value =
+      user.full_name || "";
+
+
+  document
+    .getElementById("userRole")
+    .value =
+      user.role || "teacher";
+
+
+  document
+    .getElementById("userModalTitle")
+    .textContent =
+      "แก้ไขผู้ใช้งาน";
+
+
+  document
+    .getElementById("passwordHelp")
+    .textContent =
+      "หากไม่ต้องการเปลี่ยนรหัสผ่าน ให้เว้นว่างไว้";
+
+
+  document
+    .getElementById("userModal")
+    .style.display =
+      "flex";
+
+
+  setTimeout(
+    () => {
+
+      document
+        .getElementById("userFullName")
+        .focus();
+
+    },
+    100
+  );
+
+
+  lucide.createIcons();
+
+}
+
+
+
+/* บันทึก User */
+
+async function saveUser() {
+
+  const id =
+    document
+      .getElementById("userId")
+      .value
+      .trim();
+
+
+  const username =
+    document
+      .getElementById("userUsername")
+      .value
+      .trim();
+
+
+  const password =
+    document
+      .getElementById("userPassword")
+      .value;
+
+
+  const fullName =
+    document
+      .getElementById("userFullName")
+      .value
+      .trim();
+
+
+  const role =
+    document
+      .getElementById("userRole")
+      .value;
+
+
+
+  if (!username) {
+
+    Swal.fire({
+      icon: "warning",
+      title: "กรุณากรอกข้อมูล",
+      text: "กรุณากรอกชื่อผู้ใช้"
+    });
+
+    return;
+
+  }
+
+
+  if (!id && !password) {
+
+    Swal.fire({
+      icon: "warning",
+      title: "กรุณากรอกรหัสผ่าน",
+      text:
+        "ผู้ใช้งานใหม่ต้องกำหนดรหัสผ่าน"
+    });
+
+    return;
+
+  }
+
+
+  if (!fullName) {
+
+    Swal.fire({
+      icon: "warning",
+      title: "กรุณากรอกข้อมูล",
+      text: "กรุณากรอกชื่อ-นามสกุล"
+    });
+
+    return;
+
+  }
+
+
+
+  const action =
+    id
+      ? "updateUser"
+      : "addUser";
+
+
+
+  const confirm =
+    await Swal.fire({
+
+      icon: "question",
+
+      title:
+        id
+          ? "ยืนยันการแก้ไข?"
+          : "ยืนยันการเพิ่ม?",
+
+      text:
+        id
+          ? "ต้องการบันทึกการแก้ไขผู้ใช้งานหรือไม่"
+          : "ต้องการเพิ่มผู้ใช้งานนี้หรือไม่",
+
+      showCancelButton: true,
+
+      confirmButtonText:
+        "ยืนยัน",
+
+      cancelButtonText:
+        "ยกเลิก"
+
+    });
+
+
+  if (!confirm.isConfirmed)
+    return;
+
+
+
+  showLoading(true);
+
+
+  try {
+
+    const response =
+      await fetch(
+        API_URL,
+        {
+
+          method: "POST",
+
+          body: JSON.stringify({
+
+            action:
+              action,
+
+            id:
+              id,
+
+            username:
+              username,
+
+            password:
+              password,
+
+            full_name:
+              fullName,
+
+            role:
+              role
+
+          })
+
+        }
+      );
+
+
+    const result =
+      await response.json();
+
+
+    showLoading(false);
+
+
+    if (!result.success) {
+
+      throw new Error(
+        result.message ||
+        "บันทึกข้อมูลไม่สำเร็จ"
+      );
+
+    }
+
+
+    closeUserModal();
+
+
+    await loadUsers();
+
+
+    Swal.fire({
+
+      icon: "success",
+
+      title: "สำเร็จ",
+
+      text:
+        result.message ||
+        "บันทึกข้อมูลเรียบร้อยแล้ว",
+
+      timer: 1500,
+
+      showConfirmButton: false
+
+    });
+
+
+  } catch (error) {
+
+    showLoading(false);
+
+    console.error(error);
+
+
+    Swal.fire({
+
+      icon: "error",
+
+      title: "เกิดข้อผิดพลาด",
+
+      text:
+        error.message ||
+        "ไม่สามารถบันทึกข้อมูลได้"
+
+    });
+
+  }
+
+}
+
+
+
+/* ลบ User */
+
+async function deleteUser(id) {
+
+  const user =
+    usersData.find(
+      item =>
+        String(item.id) ===
+        String(id)
+    );
+
+
+  if (!user)
+    return;
+
+
+  const confirm =
+    await Swal.fire({
+
+      icon: "warning",
+
+      title:
+        "ยืนยันการลบ?",
+
+      text:
+        "ต้องการลบ " +
+        (user.full_name || "") +
+        " ใช่หรือไม่",
+
+      showCancelButton: true,
+
+      confirmButtonText:
+        "ลบข้อมูล",
+
+      cancelButtonText:
+        "ยกเลิก",
+
+      confirmButtonColor:
+        "#EF5350"
+
+    });
+
+
+  if (!confirm.isConfirmed)
+    return;
+
+
+  showLoading(true);
+
+
+  try {
+
+    const response =
+      await fetch(
+        API_URL,
+        {
+
+          method: "POST",
+
+          body: JSON.stringify({
+
+            action:
+              "deleteUser",
+
+            id:
+              id
+
+          })
+
+        }
+      );
+
+
+    const result =
+      await response.json();
+
+
+    showLoading(false);
+
+
+    if (!result.success) {
+
+      throw new Error(
+        result.message ||
+        "ลบข้อมูลไม่สำเร็จ"
+      );
+
+    }
+
+
+    await loadUsers();
+
+
+    Swal.fire({
+
+      icon: "success",
+
+      title:
+        "ลบข้อมูลสำเร็จ",
+
+      text:
+        result.message ||
+        "ลบข้อมูลผู้ใช้งานเรียบร้อยแล้ว",
+
+      timer: 1200,
+
+      showConfirmButton: false
+
+    });
+
+
+  } catch (error) {
+
+    showLoading(false);
+
+    console.error(error);
+
+
+    Swal.fire({
+
+      icon: "error",
+
+      title:
+        "เกิดข้อผิดพลาด",
+
+      text:
+        error.message ||
+        "ไม่สามารถลบข้อมูลได้"
+
+    });
+
+  }
+
+}
+
+
+
+/* ========================================
+   ESCAPE HTML
+======================================== */
+
+function escapeHtml(value) {
+
+  return String(value ?? "")
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+
+/* ========================================
+   CLOSE MODAL WHEN CLICK OUTSIDE
+======================================== */
+
+document.addEventListener(
+  "click",
+  event => {
+
+    const userModal =
+      document.getElementById(
+        "userModal"
+      );
+
+
+    const classModal =
+      document.getElementById(
+        "classModal"
+      );
+
+
+    if (
+      event.target ===
+      userModal
+    ) {
+
+      closeUserModal();
+
+    }
+
+
+    if (
+      event.target ===
+      classModal
+    ) {
+
+      closeClassModal();
+
+    }
+
+  }
+);
+
+
+
+/* ========================================
+   ENTER KEY LOGIN
+======================================== */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key === "Enter" &&
+      document
+        .getElementById("loginPage")
+        .style.display !== "none"
+    ) {
+
+      login();
+
+    }
+
+  }
+);
+
+
+</script>
+
+
+</body>
+
 </html>
