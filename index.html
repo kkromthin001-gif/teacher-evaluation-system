@@ -1,4669 +1,556 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
-
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>ระบบแบบประเมินการสอนของครู</title>
-
-
-  <!-- Google Font -->
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  >
-
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  >
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet"
-  >
-
-
-  <!-- SweetAlert2 -->
-  <script
-    src="https://cdn.jsdelivr.net/npm/sweetalert2@11"
-  ></script>
-
-
-  <!-- Lucide Icons -->
-  <script
-    src="https://unpkg.com/lucide@latest"
-  ></script>
-
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-
-    body {
-      font-family: "Kanit", sans-serif;
-      background: #f5f7f8;
-      color: #263238;
-      min-height: 100vh;
-    }
-
-
-    button,
-    input,
-    select,
-    textarea {
-      font-family: inherit;
-    }
-
-
-    button {
-      cursor: pointer;
-    }
-
-
-    /* ========================================
-       LOGIN
-    ======================================== */
-
-    .login-page {
-
-      min-height: 100vh;
-
-      display: flex;
-
-      justify-content: center;
-
-      align-items: center;
-
-      padding: 20px;
-
-      background:
-        linear-gradient(
-          135deg,
-          #26A69A 0%,
-          #66BB6A 50%,
-          #AED581 100%
-        );
-
-    }
-
-
-    .login-card {
-
-      width: 100%;
-
-      max-width: 450px;
-
-      background: white;
-
-      border-radius: 24px;
-
-      padding: 35px;
-
-      box-shadow:
-        0 20px 50px rgba(0,0,0,.18);
-
-    }
-
-
-    .logo-circle {
-
-      width: 80px;
-
-      height: 80px;
-
-      margin: 0 auto 18px;
-
-      border-radius: 50%;
-
-      background: white;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      color: #26A69A;
-
-      box-shadow:
-        0 8px 25px rgba(0,0,0,.12);
-
-    }
-
-
-    .logo-circle svg {
-
-      width: 42px;
-
-      height: 42px;
-
-    }
-
-
-    .login-title {
-
-      text-align: center;
-
-      color: #263238;
-
-      font-size: 25px;
-
-      font-weight: 600;
-
-    }
-
-
-    .login-subtitle {
-
-      text-align: center;
-
-      color: #78909C;
-
-      margin-top: 5px;
-
-      margin-bottom: 28px;
-
-    }
-
-
-    /* ========================================
-       TABS
-    ======================================== */
-
-    .tabs {
-
-      display: flex;
-
-      background: #f1f5f4;
-
-      padding: 5px;
-
-      border-radius: 12px;
-
-      margin-bottom: 25px;
-
-    }
-
-
-    .tab {
-
-      flex: 1;
-
-      border: none;
-
-      padding: 11px;
-
-      border-radius: 9px;
-
-      background: transparent;
-
-      color: #607D8B;
-
-      cursor: pointer;
-
-      font-size: 15px;
-
-    }
-
-
-    .tab.active {
-
-      background: white;
-
-      color: #26A69A;
-
-      font-weight: 600;
-
-      box-shadow:
-        0 2px 8px rgba(0,0,0,.08);
-
-    }
-
-
-    /* ========================================
-       FORM
-    ======================================== */
-
-    .form-group {
-
-      margin-bottom: 18px;
-
-    }
-
-
-    .form-group label {
-
-      display: block;
-
-      margin-bottom: 7px;
-
-      font-size: 14px;
-
-      color: #455A64;
-
-    }
-
-
-    .input-wrapper {
-
-      position: relative;
-
-    }
-
-
-    .input-wrapper svg {
-
-      position: absolute;
-
-      left: 13px;
-
-      top: 50%;
-
-      transform: translateY(-50%);
-
-      width: 19px;
-
-      color: #90A4AE;
-
-    }
-
-
-    .form-control {
-
-      width: 100%;
-
-      border: 1px solid #CFD8DC;
-
-      border-radius: 11px;
-
-      padding: 12px 14px 12px 43px;
-
-      outline: none;
-
-      font-size: 15px;
-
-      transition: .2s;
-
-      background: white;
-
-    }
-
-
-    .form-control:focus {
-
-      border-color: #26A69A;
-
-      box-shadow:
-        0 0 0 3px rgba(38,166,154,.12);
-
-    }
-
-
-    .login-button {
-
-      width: 100%;
-
-      border: none;
-
-      border-radius: 12px;
-
-      padding: 13px;
-
-      background:
-        linear-gradient(
-          135deg,
-          #26A69A,
-          #66BB6A
-        );
-
-      color: white;
-
-      font-size: 17px;
-
-      font-weight: 500;
-
-      cursor: pointer;
-
-      transition: .2s;
-
-    }
-
-
-    .login-button:hover {
-
-      transform: translateY(-1px);
-
-      box-shadow:
-        0 8px 18px rgba(38,166,154,.25);
-
-    }
-
-
-    .login-footer {
-
-      margin-top: 25px;
-
-      padding-top: 18px;
-
-      border-top: 1px solid #ECEFF1;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      gap: 7px;
-
-      color: #78909C;
-
-      font-size: 13px;
-
-    }
-
-
-    .login-footer svg {
-
-      width: 17px;
-
-      color: #26A69A;
-
-    }
-
-
-    /* ========================================
-       APP
-    ======================================== */
-
-    #app {
-
-      display: none;
-
-      min-height: 100vh;
-
-    }
-
-
-    .app-layout {
-
-      display: flex;
-
-      min-height: 100vh;
-
-    }
-
-
-    /* ========================================
-       SIDEBAR
-    ======================================== */
-
-    .sidebar {
-
-      width: 250px;
-
-      background: white;
-
-      border-right: 1px solid #E0E0E0;
-
-      position: fixed;
-
-      left: 0;
-
-      top: 0;
-
-      bottom: 0;
-
-      z-index: 100;
-
-      transition: .3s;
-
-    }
-
-
-    .sidebar-header {
-
-      padding: 25px 20px;
-
-      border-bottom: 1px solid #ECEFF1;
-
-    }
-
-
-    .brand {
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 10px;
-
-    }
-
-
-    .brand-icon {
-
-      width: 42px;
-
-      height: 42px;
-
-      border-radius: 12px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      background: #E0F2F1;
-
-      color: #26A69A;
-
-    }
-
-
-    .brand-title {
-
-      font-weight: 600;
-
-      font-size: 16px;
-
-    }
-
-
-    .brand-subtitle {
-
-      font-size: 11px;
-
-      color: #90A4AE;
-
-    }
-
-
-    .user-box {
-
-      margin-top: 20px;
-
-      padding: 12px;
-
-      background: #F5F7F8;
-
-      border-radius: 12px;
-
-    }
-
-
-    .user-name {
-
-      font-weight: 500;
-
-      font-size: 14px;
-
-    }
-
-
-    .user-role {
-
-      color: #78909C;
-
-      font-size: 12px;
-
-    }
-
-
-    .sidebar-menu {
-
-      padding: 20px 12px;
-
-    }
-
-
-    .menu-item {
-
-      width: 100%;
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 12px;
-
-      border: none;
-
-      background: transparent;
-
-      padding: 12px 14px;
-
-      margin-bottom: 5px;
-
-      border-radius: 10px;
-
-      color: #546E7A;
-
-      text-align: left;
-
-      cursor: pointer;
-
-      font-size: 14px;
-
-      transition: .2s;
-
-    }
-
-
-    .menu-item:hover,
-    .menu-item.active {
-
-      background: #E0F2F1;
-
-      color: #00897B;
-
-    }
-
-
-    .menu-item svg {
-
-      width: 19px;
-
-    }
-
-
-    .logout-button {
-
-      color: #EF5350;
-
-    }
-
-
-    .logout-button:hover {
-
-      background: #FFEBEE;
-
-      color: #D32F2F;
-
-    }
-
-
-    /* ========================================
-       CONTENT
-    ======================================== */
-
-    .main-content {
-
-      margin-left: 250px;
-
-      width: calc(100% - 250px);
-
-      padding: 25px;
-
-    }
-
-
-    .topbar {
-
-      display: flex;
-
-      justify-content: space-between;
-
-      align-items: center;
-
-      margin-bottom: 25px;
-
-    }
-
-
-    .page-title {
-
-      font-size: 25px;
-
-      font-weight: 600;
-
-    }
-
-
-    .page-description {
-
-      color: #78909C;
-
-      font-size: 14px;
-
-    }
-
-
-    .mobile-menu {
-
-      display: none;
-
-      border: none;
-
-      background: white;
-
-      padding: 9px;
-
-      border-radius: 9px;
-
-      cursor: pointer;
-
-    }
-
-
-    /* ========================================
-       CARDS
-    ======================================== */
-
-    .stats-grid {
-
-      display: grid;
-
-      grid-template-columns:
-        repeat(4, 1fr);
-
-      gap: 18px;
-
-      margin-bottom: 25px;
-
-    }
-
-
-    .stat-card {
-
-      background: white;
-
-      padding: 20px;
-
-      border-radius: 16px;
-
-      border: 1px solid #ECEFF1;
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 15px;
-
-    }
-
-
-    .stat-icon {
-
-      width: 48px;
-
-      height: 48px;
-
-      border-radius: 13px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      background: #E0F2F1;
-
-      color: #26A69A;
-
-      flex-shrink: 0;
-
-    }
-
-
-    .stat-number {
-
-      font-size: 24px;
-
-      font-weight: 600;
-
-    }
-
-
-    .stat-label {
-
-      font-size: 13px;
-
-      color: #78909C;
-
-    }
-
-
-    .welcome-card {
-
-      background:
-        linear-gradient(
-          135deg,
-          #26A69A,
-          #66BB6A
-        );
-
-      color: white;
-
-      border-radius: 18px;
-
-      padding: 28px;
-
-      margin-bottom: 25px;
-
-    }
-
-
-    .welcome-card h2 {
-
-      font-size: 25px;
-
-      margin-bottom: 7px;
-
-    }
-
-
-    .welcome-card p {
-
-      opacity: .9;
-
-    }
-
-
-    .content-card {
-
-      background: white;
-
-      border-radius: 16px;
-
-      padding: 22px;
-
-      border: 1px solid #ECEFF1;
-
-    }
-
-
-    /* ========================================
-       TABLE
-    ======================================== */
-
-    .data-table {
-
-      width: 100%;
-
-      border-collapse: collapse;
-
-    }
-
-
-    .data-table th {
-
-      padding: 12px;
-
-      background: #E0F2F1;
-
-      white-space: nowrap;
-
-      font-weight: 500;
-
-    }
-
-
-    .data-table td {
-
-      padding: 12px;
-
-      border-bottom:
-        1px solid #ECEFF1;
-
-    }
-
-
-    .data-table tbody tr:hover {
-
-      background: #FAFAFA;
-
-    }
-
-
-    /* ========================================
-       LOADING
-    ======================================== */
-
-    .loading {
-
-      position: fixed;
-
-      inset: 0;
-
-      background:
-        rgba(255,255,255,.8);
-
-      display: none;
-
-      align-items: center;
-
-      justify-content: center;
-
-      z-index: 9999;
-
-    }
-
-
-    .spinner {
-
-      width: 42px;
-
-      height: 42px;
-
-      border: 4px solid #E0F2F1;
-
-      border-top-color: #26A69A;
-
-      border-radius: 50%;
-
-      animation:
-        spin 1s linear infinite;
-
-    }
-
-
-    @keyframes spin {
-
-      to {
-        transform: rotate(360deg);
-      }
-
-    }
-
-
-    /* ========================================
-       MODAL
-    ======================================== */
-
-    .modal {
-
-      display: none;
-
-      position: fixed;
-
-      inset: 0;
-
-      background:
-        rgba(0,0,0,.45);
-
-      z-index: 9998;
-
-      align-items: center;
-
-      justify-content: center;
-
-      padding: 20px;
-
-    }
-
-
-    .modal-content {
-
-      width: 100%;
-
-      max-width: 500px;
-
-      max-height: 90vh;
-
-      overflow-y: auto;
-
-      background: white;
-
-      border-radius: 18px;
-
-      padding: 25px;
-
-      box-shadow:
-        0 20px 50px rgba(0,0,0,.2);
-
-    }
-
-
-    .modal-header {
-
-      display: flex;
-
-      justify-content: space-between;
-
-      align-items: center;
-
-      margin-bottom: 20px;
-
-    }
-
-
-    .modal-subtitle {
-
-      color: #78909C;
-
-      font-size: 13px;
-
-      margin-top: 4px;
-
-    }
-
-
-    .modal-close {
-
-      border: none;
-
-      background: #F5F7F8;
-
-      border-radius: 50%;
-
-      width: 36px;
-
-      height: 36px;
-
-      cursor: pointer;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-    }
-
-
-    .modal-actions {
-
-      display: flex;
-
-      justify-content: flex-end;
-
-      gap: 10px;
-
-      margin-top: 25px;
-
-    }
-
-
-    .cancel-button {
-
-      border: none;
-
-      padding: 11px 20px;
-
-      border-radius: 10px;
-
-      background: #ECEFF1;
-
-      cursor: pointer;
-
-      font-family: inherit;
-
-    }
-
-
-    /* ========================================
-       MOBILE
-    ======================================== */
-
-    @media (max-width: 900px) {
-
-      .stats-grid {
-
-        grid-template-columns:
-          repeat(2, 1fr);
-
-      }
-
-
-      .sidebar {
-
-        transform:
-          translateX(-100%);
-
-      }
-
-
-      .sidebar.open {
-
-        transform:
-          translateX(0);
-
-        box-shadow:
-          10px 0 30px rgba(0,0,0,.15);
-
-      }
-
-
-      .main-content {
-
-        margin-left: 0;
-
-        width: 100%;
-
-      }
-
-
-      .mobile-menu {
-
-        display: flex;
-
-        align-items: center;
-
-        justify-content: center;
-
-      }
-
-    }
-
-
-    @media (max-width: 600px) {
-
-      .login-card {
-
-        padding: 25px 20px;
-
-      }
-
-
-      .login-title {
-
-        font-size: 21px;
-
-      }
-
-
-      .stats-grid {
-
-        grid-template-columns: 1fr;
-
-      }
-
-
-      .main-content {
-
-        padding: 15px;
-
-      }
-
-
-      .page-title {
-
-        font-size: 21px;
-
-      }
-
-
-      .content-card {
-
-        padding: 16px;
-
-      }
-
-
-      .welcome-card {
-
-        padding: 22px;
-
-      }
-
-
-      .welcome-card h2 {
-
-        font-size: 21px;
-
-      }
-
-
-      .modal-content {
-
-        padding: 20px;
-
-      }
-
-    }
-
-  </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ระบบแบบประเมินการสอนของครู</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+:root{
+  --teal:#26A69A; --green:#AED581; --yellow:#FFCA28;
+  --orange:#FF8A65; --red:#EF5350; --dark:#263238;
+  --muted:#78909C; --bg:#F5F8F8; --white:#fff; --border:#E3ECEB;
+  --shadow:0 8px 25px rgba(38,166,154,.10);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Kanit',sans-serif;background:var(--bg);color:var(--dark)}
+button,input,select,textarea{font-family:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.app{min-height:100vh}
+.sidebar{
+  position:fixed;left:0;top:0;bottom:0;width:255px;background:#fff;
+  border-right:1px solid var(--border);z-index:100;padding:20px 14px;
+}
+.brand{display:flex;align-items:center;gap:12px;padding:8px 10px 22px}
+.brand-icon{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--teal),var(--green));
+display:grid;place-items:center;color:#fff}
+.brand h2{font-size:17px;margin:0}.brand small{color:var(--muted)}
+.menu{display:flex;flex-direction:column;gap:6px}
+.menu button{
+  border:0;background:transparent;color:#607D8B;text-align:left;padding:12px 14px;border-radius:12px;
+  display:flex;align-items:center;gap:12px;font-size:15px;width:100%;
+}
+.menu button:hover,.menu button.active{background:#E8F5F3;color:#178B80}
+.main{margin-left:255px;min-height:100vh}
+.topbar{height:72px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50}
+.page-title{font-size:21px;font-weight:600}.user-mini{display:flex;align-items:center;gap:10px}
+.avatar{width:38px;height:38px;border-radius:50%;background:#E0F2F1;color:#16877D;display:grid;place-items:center;font-weight:600}
+.content{padding:26px;max-width:1500px;margin:auto}
+.hamburger{display:none;border:0;background:transparent}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:22px}
+.card{background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:20px}
+.stat{display:flex;justify-content:space-between;align-items:center}.stat-label{color:var(--muted);font-size:14px}.stat-value{font-size:28px;font-weight:600;margin-top:5px}
+.stat-icon{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:#E8F5F3;color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card-title{font-size:18px;font-weight:600;margin:0 0 16px}
+.chart-wrap{height:300px;position:relative}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.btn{border:0;border-radius:11px;padding:9px 15px;font-size:14px;display:inline-flex;align-items:center;gap:7px}
+.btn-primary{background:var(--teal);color:#fff}.btn-primary:hover{filter:brightness(.95)}
+.btn-secondary{background:#ECEFF1;color:#455A64}.btn-danger{background:#FFEBEE;color:#C62828}.btn-warning{background:#FFF8E1;color:#8D6E00}
+.input,.select,.textarea{
+  width:100%;border:1px solid #CFD8DC;border-radius:10px;padding:10px 12px;outline:none;background:#fff;
+}
+.input:focus,.select:focus,.textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(38,166,154,.10)}
+.table-wrap{overflow-x:auto}.table{width:100%;border-collapse:collapse;min-width:720px}
+.table th,.table td{padding:12px 10px;border-bottom:1px solid var(--border);text-align:left;font-size:14px;vertical-align:middle}
+.table th{background:#F8FAFA;color:#546E7A;font-weight:500}
+.badge{display:inline-flex;padding:4px 9px;border-radius:999px;font-size:12px;background:#ECEFF1;color:#546E7A}
+.badge.green{background:#E8F5E9;color:#2E7D32}.badge.orange{background:#FFF3E0;color:#EF6C00}
+.empty{text-align:center;color:#90A4AE;padding:35px!important}
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.42);display:none;align-items:center;justify-content:center;padding:18px;z-index:300}
+.modal-backdrop.show{display:flex}.modal{width:min(650px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:20px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.modal-header h3{margin:0}
+.close{border:0;background:#ECEFF1;border-radius:10px;width:38px;height:38px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field.full{grid-column:1/-1}.field label{display:block;font-size:13px;margin-bottom:6px;color:#546E7A}
+.modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
+.login-page{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,#E8F5F3,#F4F9E8)}
+.login-box{width:min(430px,100%);background:#fff;border-radius:25px;box-shadow:0 20px 60px rgba(38,166,154,.16);overflow:hidden}
+.login-head{background:linear-gradient(135deg,var(--teal),#8BCB74);padding:30px;text-align:center;color:#fff}
+.login-logo{width:72px;height:72px;border-radius:50%;background:#fff;color:var(--teal);display:grid;place-items:center;margin:auto auto 13px}
+.login-head h1{font-size:22px;margin:0 0 5px}.login-head p{margin:0;opacity:.9;font-size:14px}
+.login-body{padding:24px}.tabs{display:grid;grid-template-columns:1fr 1fr;background:#F1F5F4;border-radius:12px;padding:4px;margin-bottom:20px}
+.tabs button{border:0;background:transparent;padding:10px;border-radius:9px;color:#607D8B}.tabs button.active{background:#fff;color:var(--teal);box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.login-footer{text-align:center;color:#78909C;font-size:12px;padding-top:18px}
+.student-head{background:linear-gradient(135deg,#26A69A,#AED581);color:#fff;border-radius:18px;padding:22px;margin-bottom:20px}
+.question{border:1px solid var(--border);border-radius:15px;padding:17px;margin-bottom:13px;background:#fff}
+.q-text{font-size:15px;margin-bottom:12px}.q-no{color:var(--teal);font-weight:600}
+.rating{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.rating label{border:1px solid #CFD8DC;border-radius:10px;padding:9px 5px;text-align:center;cursor:pointer;font-size:13px;color:#607D8B}
+.rating input{display:none}.rating input:checked+span{display:block;background:#E8F5F3;color:#16877D;font-weight:600;border-radius:8px;padding:5px}
+.progress{height:8px;background:#ECEFF1;border-radius:10px;overflow:hidden;margin:10px 0 20px}.progress-bar{height:100%;background:linear-gradient(90deg,var(--teal),var(--green));width:0}
+.notice{padding:13px 15px;border-radius:12px;background:#E8F5F3;color:#276E68;font-size:13px;margin-bottom:16px}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:90}
+@media(max-width:900px){.sidebar{transform:translateX(-100%);transition:.25s}.sidebar.open{transform:translateX(0)}.overlay.show{display:block}.main{margin-left:0}.hamburger{display:block}.cards{grid-template-columns:repeat(2,1fr)}.grid2,.grid3{grid-template-columns:1fr}.topbar{padding:0 15px}.content{padding:18px}}
+@media(max-width:600px){.cards{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.rating{grid-template-columns:1fr 1fr}.rating label:last-child{grid-column:1/-1}.page-title{font-size:18px}.content{padding:13px}}
+</style>
 </head>
-
 
 <body>
 
+<div id="loginPage" class="login-page">
+  <div class="login-box">
+    <div class="login-head">
+      <div class="login-logo"><i data-lucide="graduation-cap"></i></div>
+      <h1>ระบบแบบประเมินการสอนของครู</h1>
+      <p>เข้าสู่ระบบเพื่อใช้งาน</p>
+    </div>
+    <div class="login-body">
+      <div class="tabs">
+        <button id="staffTab" class="active" onclick="switchLogin('staff')">ครู / ผู้ดูแลระบบ</button>
+        <button id="studentTab" onclick="switchLogin('student')">นักเรียน</button>
+      </div>
 
-<!-- =========================================
-     LOADING
-========================================= -->
+      <form id="staffForm" onsubmit="staffLogin(event)">
+        <div class="field" style="margin-bottom:13px">
+          <label>ชื่อผู้ใช้งาน</label>
+          <input id="loginUsername" class="input" required placeholder="กรอกชื่อผู้ใช้งาน">
+        </div>
+        <div class="field">
+          <label>รหัสผ่าน</label>
+          <input id="loginPassword" class="input" type="password" required placeholder="กรอกรหัสผ่าน">
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:18px">เข้าสู่ระบบ</button>
+      </form>
 
-<div
-  class="loading"
-  id="loading"
->
-
-  <div class="spinner"></div>
-
+      <form id="studentForm" class="hidden" onsubmit="studentLogin(event)">
+        <div class="field">
+          <label>รหัสนักเรียน</label>
+          <input id="studentLoginId" class="input" required placeholder="เช่น 12345">
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:18px">เข้าสู่แบบประเมิน</button>
+      </form>
+      <div class="login-footer">🛡️ ระบบปลอดภัย เข้าใช้งานได้อย่างมั่นใจ</div>
+    </div>
+  </div>
 </div>
 
+<div id="app" class="app hidden">
+  <div id="overlay" class="overlay" onclick="closeSidebar()"></div>
 
-
-<!-- =========================================
-     LOGIN PAGE
-========================================= -->
-
-<section
-  class="login-page"
-  id="loginPage"
->
-
-  <div class="login-card">
-
-
-    <div class="logo-circle">
-
-      <i data-lucide="graduation-cap"></i>
-
+  <aside id="sidebar" class="sidebar">
+    <div class="brand">
+      <div class="brand-icon"><i data-lucide="graduation-cap"></i></div>
+      <div><h2>Teacher Eval</h2><small>ระบบประเมินการสอน</small></div>
     </div>
-
-
-    <h1 class="login-title">
-
-      ระบบแบบประเมินการสอนของครู
-
-    </h1>
-
-
-    <p class="login-subtitle">
-
-      เข้าสู่ระบบเพื่อใช้งาน
-
-    </p>
-
-
-
-    <!-- TABS -->
-
-    <div class="tabs">
-
-      <button
-        class="tab active"
-        id="staffTab"
-        onclick="switchLogin('staff')"
-      >
-        ผู้ดูแลระบบ/ครู
-      </button>
-
-
-      <button
-        class="tab"
-        id="studentTab"
-        onclick="switchLogin('student')"
-      >
-        นักเรียน
-      </button>
-
+    <div class="menu">
+      <button data-page="dashboard" onclick="showPage('dashboard')"><i data-lucide="layout-dashboard"></i> Dashboard</button>
+      <button data-page="users" class="admin-only" onclick="showPage('users')"><i data-lucide="users"></i> ผู้ใช้งาน</button>
+      <button data-page="classes" class="admin-only" onclick="showPage('classes')"><i data-lucide="school"></i> ชั้นเรียน</button>
+      <button data-page="years" class="admin-only" onclick="showPage('years')"><i data-lucide="calendar-days"></i> ปีการศึกษา</button>
+      <button data-page="subjects" onclick="showPage('subjects')"><i data-lucide="book-open"></i> รายวิชา</button>
+      <button data-page="students" onclick="showPage('students')"><i data-lucide="graduation-cap"></i> นักเรียน</button>
+      <button data-page="evaluations" onclick="showPage('evaluations')"><i data-lucide="clipboard-check"></i> ผลประเมิน</button>
+      <button data-page="logout" onclick="logout()"><i data-lucide="log-out"></i> ออกจากระบบ</button>
     </div>
+  </aside>
 
+  <main class="main">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="hamburger" onclick="openSidebar()"><i data-lucide="menu"></i></button>
+        <div id="pageTitle" class="page-title">Dashboard</div>
+      </div>
+      <div class="user-mini">
+        <div id="userName" style="font-size:14px"></div>
+        <div class="avatar"><i data-lucide="user-round"></i></div>
+      </div>
+    </header>
 
+    <div class="content">
 
-    <!-- STAFF LOGIN -->
+      <!-- DASHBOARD -->
+      <section id="page-dashboard" class="page">
+        <div class="cards">
+          <div class="card stat"><div><div class="stat-label">ผู้ใช้งาน</div><div id="statUsers" class="stat-value">0</div></div><div class="stat-icon"><i data-lucide="users"></i></div></div>
+          <div class="card stat"><div><div class="stat-label">รายวิชา</div><div id="statSubjects" class="stat-value">0</div></div><div class="stat-icon"><i data-lucide="book-open"></i></div></div>
+          <div class="card stat"><div><div class="stat-label">นักเรียน</div><div id="statStudents" class="stat-value">0</div></div><div class="stat-icon"><i data-lucide="graduation-cap"></i></div></div>
+          <div class="card stat"><div><div class="stat-label">การประเมิน</div><div id="statEvaluations" class="stat-value">0</div></div><div class="stat-icon"><i data-lucide="clipboard-check"></i></div></div>
+        </div>
+        <div class="grid2">
+          <div class="card"><h3 class="card-title">สัดส่วนการประเมินตามระดับการศึกษา</h3><div class="chart-wrap"><canvas id="levelChart"></canvas></div></div>
+          <div class="card"><h3 class="card-title">คะแนนเฉลี่ยรายข้อ</h3><div class="chart-wrap"><canvas id="itemChart"></canvas></div></div>
+        </div>
+      </section>
 
-    <div id="staffLogin">
+      <!-- USERS -->
+      <section id="page-users" class="page hidden">
+        <div class="card">
+          <div class="toolbar"><div><h3 class="card-title" style="margin:0">จัดการผู้ใช้งาน</h3><small style="color:#78909C">ผู้ดูแลระบบและครู</small></div><button class="btn btn-primary" onclick="openUserModal()"><i data-lucide="plus"></i> เพิ่มผู้ใช้งาน</button></div>
+          <div class="table-wrap"><table class="table"><thead><tr><th>ชื่อผู้ใช้</th><th>ชื่อ-สกุล</th><th>บทบาท</th><th>สถานะ</th><th>จัดการ</th></tr></thead><tbody id="usersBody"></tbody></table></div>
+        </div>
+      </section>
 
-      <div class="form-group">
+      <!-- CLASSES -->
+      <section id="page-classes" class="page hidden">
+        <div class="card">
+          <div class="toolbar"><h3 class="card-title" style="margin:0">จัดการชั้นเรียน</h3><button class="btn btn-primary" onclick="openClassModal()"><i data-lucide="plus"></i> เพิ่มชั้นเรียน</button></div>
+          <div class="table-wrap"><table class="table"><thead><tr><th>ชั้นเรียน</th><th>ระดับ</th><th>จัดการ</th></tr></thead><tbody id="classesBody"></tbody></table></div>
+        </div>
+      </section>
 
-        <label>
-          ชื่อผู้ใช้
-        </label>
+      <!-- YEARS -->
+      <section id="page-years" class="page hidden">
+        <div class="card">
+          <div class="toolbar"><h3 class="card-title" style="margin:0">ปีการศึกษา</h3><button class="btn btn-primary" onclick="openYearModal()"><i data-lucide="plus"></i> เพิ่มปีการศึกษา</button></div>
+          <div class="table-wrap"><table class="table"><thead><tr><th>ปีการศึกษา</th><th>จัดการ</th></tr></thead><tbody id="yearsBody"></tbody></table></div>
+        </div>
+      </section>
 
+      <!-- SUBJECTS -->
+      <section id="page-subjects" class="page hidden">
+        <div class="card">
+          <div class="toolbar"><div><h3 class="card-title" style="margin:0">จัดการรายวิชา</h3><small style="color:#78909C">ผูกรายวิชากับครู ชั้นเรียน และปีการศึกษา</small></div><button class="btn btn-primary" onclick="openSubjectModal()"><i data-lucide="plus"></i> เพิ่มรายวิชา</button></div>
+          <div class="table-wrap"><table class="table"><thead><tr><th>รายวิชา</th><th>ครู</th><th>ชั้นเรียน</th><th>ปีการศึกษา</th><th>จัดการ</th></tr></thead><tbody id="subjectsBody"></tbody></table></div>
+        </div>
+      </section>
 
-        <div class="input-wrapper">
+      <!-- STUDENTS -->
+      <section id="page-students" class="page hidden">
+        <div class="card">
+          <div class="toolbar"><div><h3 class="card-title" style="margin:0">จัดการนักเรียน</h3><small style="color:#78909C">เพิ่มข้อมูลนักเรียนเพื่อใช้เข้าสู่แบบประเมิน</small></div><button class="btn btn-primary" onclick="openStudentModal()"><i data-lucide="plus"></i> เพิ่มนักเรียน</button></div>
+          <div class="table-wrap"><table class="table"><thead><tr><th>รหัสนักเรียน</th><th>ชื่อ-สกุล</th><th>ชั้นเรียน</th><th>จัดการ</th></tr></thead><tbody id="studentsBody"></tbody></table></div>
+        </div>
+      </section>
 
-          <i data-lucide="user"></i>
+      <!-- EVALUATIONS -->
+      <section id="page-evaluations" class="page hidden">
+        <div class="card">
+          <div class="toolbar">
+            <div><h3 class="card-title" style="margin:0">ผลการประเมินการสอน</h3><small style="color:#78909C">สรุปจากแบบประเมินที่นักเรียนส่ง</small></div>
+            <button class="btn btn-secondary" onclick="loadAllData()"><i data-lucide="refresh-cw"></i> รีเฟรช</button>
+          </div>
+          <div class="grid3" style="margin-bottom:18px">
+            <div><label style="font-size:13px;color:#607D8B">ครู</label><select id="filterTeacher" class="select" onchange="renderEvaluations()"></select></div>
+            <div><label style="font-size:13px;color:#607D8B">รายวิชา</label><select id="filterSubject" class="select" onchange="renderEvaluations()"></select></div>
+            <div><label style="font-size:13px;color:#607D8B">ปีการศึกษา</label><select id="filterYear" class="select" onchange="renderEvaluations()"></select></div>
+          </div>
+          <div id="evaluationSummary" class="notice">ยังไม่มีข้อมูลการประเมิน</div>
+          <div class="table-wrap"><table class="table"><thead><tr><th>นักเรียน</th><th>ครู</th><th>รายวิชา</th><th>ปี</th><th>คะแนนเฉลี่ย</th><th>ร้อยละ</th><th>วันที่</th></tr></thead><tbody id="evaluationsBody"></tbody></table></div>
+        </div>
+      </section>
 
-
-          <input
-            type="text"
-            id="username"
-            class="form-control"
-            placeholder="กรอกชื่อผู้ใช้"
-            autocomplete="username"
-          >
-
+      <!-- STUDENT EVALUATION -->
+      <section id="page-student-evaluation" class="page hidden">
+        <div class="student-head">
+          <div style="font-size:13px;opacity:.9">แบบประเมินการสอน</div>
+          <div id="studentWelcome" style="font-size:22px;font-weight:600"></div>
+          <div id="studentMeta" style="font-size:14px;opacity:.9"></div>
         </div>
 
-      </div>
-
-
-
-      <div class="form-group">
-
-        <label>
-          รหัสผ่าน
-        </label>
-
-
-        <div class="input-wrapper">
-
-          <i data-lucide="lock"></i>
-
-
-          <input
-            type="password"
-            id="password"
-            class="form-control"
-            placeholder="กรอกรหัสผ่าน"
-            autocomplete="current-password"
-          >
-
+        <div class="card" style="margin-bottom:18px">
+          <div class="form-grid">
+            <div class="field"><label>รายวิชา</label><select id="studentSubject" class="select" onchange="updateStudentMeta()"></select></div>
+            <div class="field"><label>ชั้นเรียน</label><input id="studentClass" class="input" readonly></div>
+            <div class="field"><label>ครูผู้สอน</label><input id="studentTeacher" class="input" readonly></div>
+            <div class="field"><label>ปีการศึกษา</label><input id="studentYear" class="input" readonly></div>
+          </div>
         </div>
 
-      </div>
-
+        <div class="card">
+          <div class="notice">กรุณาเลือกคะแนนให้ครบทั้ง 20 ข้อ โดย 5 = ดีเยี่ยม และ 1 = กำลังพัฒนา</div>
+          <div class="progress"><div id="progressBar" class="progress-bar"></div></div>
+          <form id="evaluationForm" onsubmit="submitStudentEvaluation(event)">
+            <div id="questionsContainer"></div>
+            <div class="field" style="margin-top:20px"><label>สิ่งที่อยากชื่นชมหรือบอกครูผู้สอน (ไม่บังคับ)</label><textarea id="teacherThought" class="textarea" rows="3" placeholder="เขียนความคิดเห็นได้ตามความเหมาะสม"></textarea></div>
+            <div class="field" style="margin-top:14px"><label>ข้อเสนอแนะเพื่อพัฒนาการสอน (ไม่บังคับ)</label><textarea id="suggestion" class="textarea" rows="3" placeholder="ข้อเสนอแนะเพิ่มเติม"></textarea></div>
+            <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:20px;flex-wrap:wrap">
+              <button type="button" class="btn btn-secondary" onclick="logoutStudent()">ออกจากแบบประเมิน</button>
+              <button type="submit" class="btn btn-primary"><i data-lucide="send"></i> ส่งแบบประเมิน</button>
+            </div>
+          </form>
+        </div>
+      </section>
     </div>
-
-
-
-    <!-- STUDENT LOGIN -->
-
-    <div
-      id="studentLogin"
-      style="display:none;"
-    >
-
-      <div class="form-group">
-
-        <label>
-          รหัสนักเรียน
-        </label>
-
-
-        <div class="input-wrapper">
-
-          <i data-lucide="graduation-cap"></i>
-
-
-          <input
-            type="text"
-            id="studentId"
-            class="form-control"
-            placeholder="กรอกรหัสนักเรียน"
-          >
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-
-    <button
-      class="login-button"
-      onclick="login()"
-    >
-
-      <i
-        data-lucide="log-in"
-        style="width:18px;vertical-align:middle;"
-      ></i>
-
-      เข้าสู่ระบบ
-
-    </button>
-
-
-
-    <div class="login-footer">
-
-      <i data-lucide="shield-check"></i>
-
-      ระบบปลอดภัย เข้าใช้งานได้อย่างมั่นใจ
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<!-- =========================================
-     APPLICATION
-========================================= -->
-
-<div id="app">
-
-  <div class="app-layout">
-
-
-    <!-- =====================================
-         SIDEBAR
-    ====================================== -->
-
-    <aside
-      class="sidebar"
-      id="sidebar"
-    >
-
-
-      <div class="sidebar-header">
-
-
-        <div class="brand">
-
-          <div class="brand-icon">
-
-            <i data-lucide="graduation-cap"></i>
-
-          </div>
-
-
-          <div>
-
-            <div class="brand-title">
-              ระบบประเมินการสอน
-            </div>
-
-            <div class="brand-subtitle">
-              Teacher Evaluation
-            </div>
-
-          </div>
-
-        </div>
-
-
-
-        <div class="user-box">
-
-          <div
-            class="user-name"
-            id="displayUserName"
-          >
-            -
-          </div>
-
-
-          <div
-            class="user-role"
-            id="displayUserRole"
-          >
-            -
-          </div>
-
-        </div>
-
-      </div>
-
-
-
-      <!-- MENU -->
-
-      <nav class="sidebar-menu">
-
-
-        <button
-          class="menu-item active"
-          onclick="showPage('dashboard')"
-        >
-
-          <i data-lucide="layout-dashboard"></i>
-
-          Dashboard
-
-        </button>
-
-
-
-        <button
-          class="menu-item"
-          onclick="showPage('users')"
-        >
-
-          <i data-lucide="user-cog"></i>
-
-          ผู้ใช้งาน
-
-        </button>
-
-
-
-        <button
-          class="menu-item"
-          onclick="showPage('classes')"
-        >
-
-          <i data-lucide="school"></i>
-
-          ห้องเรียน
-
-        </button>
-
-
-
-        <button
-          class="menu-item"
-          onclick="showPage('subjects')"
-        >
-
-          <i data-lucide="book-open"></i>
-
-          รายวิชา
-
-        </button>
-
-
-
-        <button
-          class="menu-item"
-          onclick="showPage('students')"
-        >
-
-          <i data-lucide="users"></i>
-
-          นักเรียน
-
-        </button>
-
-
-
-        <button
-          class="menu-item"
-          onclick="showPage('evaluations')"
-        >
-
-          <i data-lucide="clipboard-check"></i>
-
-          ผลการประเมิน
-
-        </button>
-
-
-
-        <button
-          class="menu-item logout-button"
-          onclick="logout()"
-        >
-
-          <i data-lucide="log-out"></i>
-
-          ออกจากระบบ
-
-        </button>
-
-      </nav>
-
-    </aside>
-
-
-
-    <!-- =====================================
-         MAIN CONTENT
-    ====================================== -->
-
-    <main class="main-content">
-
-
-      <div class="topbar">
-
-
-        <div>
-
-          <button
-            class="mobile-menu"
-            onclick="toggleSidebar()"
-            aria-label="เปิดเมนู"
-          >
-
-            <i data-lucide="menu"></i>
-
-          </button>
-
-        </div>
-
-
-        <div style="flex:1;margin-left:12px;">
-
-          <div
-            class="page-title"
-            id="pageTitle"
-          >
-            Dashboard
-          </div>
-
-
-          <div class="page-description">
-
-            ระบบแบบประเมินการสอนของครู
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-
-      <!-- =====================================
-           DASHBOARD
-      ====================================== -->
-
-      <section id="dashboardPage">
-
-
-        <div class="welcome-card">
-
-          <h2>
-            ยินดีต้อนรับ 👋
-          </h2>
-
-
-          <p id="welcomeText">
-            ระบบพร้อมใช้งาน
-          </p>
-
-        </div>
-
-
-
-        <div class="stats-grid">
-
-
-          <!-- SUBJECT -->
-
-          <div class="stat-card">
-
-            <div class="stat-icon">
-
-              <i data-lucide="book-open"></i>
-
-            </div>
-
-
-            <div>
-
-              <div
-                class="stat-number"
-                id="subjectCount"
-              >
-                -
-              </div>
-
-
-              <div class="stat-label">
-                รายวิชา
-              </div>
-
-            </div>
-
-          </div>
-
-
-
-          <!-- STUDENT -->
-
-          <div class="stat-card">
-
-            <div class="stat-icon">
-
-              <i data-lucide="users"></i>
-
-            </div>
-
-
-            <div>
-
-              <div
-                class="stat-number"
-                id="studentCount"
-              >
-                -
-              </div>
-
-
-              <div class="stat-label">
-                นักเรียน
-              </div>
-
-            </div>
-
-          </div>
-
-
-
-          <!-- EVALUATION -->
-
-          <div class="stat-card">
-
-            <div class="stat-icon">
-
-              <i data-lucide="clipboard-check"></i>
-
-            </div>
-
-
-            <div>
-
-              <div
-                class="stat-number"
-                id="evaluationCount"
-              >
-                -
-              </div>
-
-
-              <div class="stat-label">
-                แบบประเมิน
-              </div>
-
-            </div>
-
-          </div>
-
-
-
-          <!-- SCORE -->
-
-          <div class="stat-card">
-
-            <div class="stat-icon">
-
-              <i data-lucide="bar-chart-3"></i>
-
-            </div>
-
-
-            <div>
-
-              <div
-                class="stat-number"
-                id="averageScore"
-              >
-                -
-              </div>
-
-
-              <div class="stat-label">
-                คะแนนเฉลี่ย
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-
-        <div class="content-card">
-
-          <h3 style="margin-bottom:10px;">
-
-            🎓 ระบบพร้อมเชื่อมต่อฐานข้อมูล
-
-          </h3>
-
-
-          <p style="color:#78909C;">
-
-            ข้อมูลของระบบจะถูกอ่านและบันทึกผ่าน
-            Google Apps Script และ Google Sheets
-
-          </p>
-
-        </div>
-
-      </section>
-
-
-
-      <!-- =====================================
-           USERS
-      ====================================== -->
-
-      <section
-        id="usersPage"
-        style="display:none;"
-      >
-
-        <div class="content-card">
-
-
-          <div style="
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            gap:15px;
-            margin-bottom:20px;
-            flex-wrap:wrap;
-          ">
-
-
-            <div>
-
-              <h3>
-                👥 จัดการผู้ใช้งาน
-              </h3>
-
-
-              <p style="
-                color:#78909C;
-                margin-top:5px;
-              ">
-
-                จัดการบัญชีผู้ดูแลระบบและครู
-
-              </p>
-
-            </div>
-
-
-
-            <button
-              class="login-button"
-              style="
-                width:auto;
-                padding:10px 18px;
-                font-size:14px;
-              "
-              onclick="openUserModal()"
-            >
-
-              <i
-                data-lucide="user-plus"
-                style="width:17px;vertical-align:middle;"
-              ></i>
-
-              เพิ่มผู้ใช้งาน
-
-            </button>
-
-          </div>
-
-
-
-          <div style="overflow-x:auto;">
-
-            <table class="data-table">
-
-              <thead>
-
-                <tr>
-
-                  <th>
-                    ลำดับ
-                  </th>
-
-                  <th>
-                    ชื่อผู้ใช้
-                  </th>
-
-                  <th>
-                    ชื่อ-นามสกุล
-                  </th>
-
-                  <th>
-                    บทบาท
-                  </th>
-
-                  <th>
-                    สถานะ
-                  </th>
-
-                  <th>
-                    จัดการ
-                  </th>
-
-                </tr>
-
-              </thead>
-
-
-              <tbody id="usersTableBody">
-
-                <tr>
-
-                  <td
-                    colspan="6"
-                    style="
-                      text-align:center;
-                      color:#78909C;
-                    "
-                  >
-
-                    กำลังโหลดข้อมูล...
-
-                  </td>
-
-                </tr>
-
-              </tbody>
-
-            </table>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-
-      <!-- =====================================
-           CLASSES
-      ====================================== -->
-
-      <section
-        id="classesPage"
-        style="display:none;"
-      >
-
-        <div class="content-card">
-
-
-          <div style="
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            gap:15px;
-            margin-bottom:20px;
-            flex-wrap:wrap;
-          ">
-
-
-            <div>
-
-              <h3>
-                🏫 จัดการห้องเรียน
-              </h3>
-
-
-              <p style="
-                color:#78909C;
-                margin-top:5px;
-              ">
-
-                จัดการระดับชั้นและห้องเรียน
-
-              </p>
-
-            </div>
-
-
-
-            <button
-              class="login-button"
-              style="
-                width:auto;
-                padding:10px 18px;
-                font-size:14px;
-              "
-              onclick="openClassModal()"
-            >
-
-              <i
-                data-lucide="plus"
-                style="width:17px;vertical-align:middle;"
-              ></i>
-
-              เพิ่มห้องเรียน
-
-            </button>
-
-          </div>
-
-
-
-          <div style="overflow-x:auto;">
-
-            <table class="data-table">
-
-              <thead>
-
-                <tr>
-
-                  <th>
-                    ลำดับ
-                  </th>
-
-                  <th>
-                    ชื่อห้องเรียน
-                  </th>
-
-                  <th>
-                    ระดับการศึกษา
-                  </th>
-
-                  <th>
-                    จัดการ
-                  </th>
-
-                </tr>
-
-              </thead>
-
-
-              <tbody id="classesTableBody">
-
-                <tr>
-
-                  <td
-                    colspan="4"
-                    style="
-                      text-align:center;
-                      color:#78909C;
-                    "
-                  >
-
-                    กำลังโหลดข้อมูล...
-
-                  </td>
-
-                </tr>
-
-              </tbody>
-
-            </table>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-
-      <!-- =====================================
-           SUBJECTS
-      ====================================== -->
-
-      <section
-        id="subjectsPage"
-        style="display:none;"
-      >
-
-        <div class="content-card">
-
-          <h3>
-            📚 จัดการรายวิชา
-          </h3>
-
-
-          <p style="
-            color:#78909C;
-            margin-top:8px;
-          ">
-
-            ส่วนจัดการรายวิชาจะพัฒนาในขั้นถัดไป
-
-          </p>
-
-        </div>
-
-      </section>
-
-
-
-      <!-- =====================================
-           STUDENTS
-      ====================================== -->
-
-      <section
-        id="studentsPage"
-        style="display:none;"
-      >
-
-        <div class="content-card">
-
-          <h3>
-            👨‍🎓 จัดการนักเรียน
-          </h3>
-
-
-          <p style="
-            color:#78909C;
-            margin-top:8px;
-          ">
-
-            ส่วนจัดการนักเรียนจะพัฒนาในขั้นถัดไป
-
-          </p>
-
-        </div>
-
-      </section>
-
-
-
-      <!-- =====================================
-           EVALUATIONS
-      ====================================== -->
-
-      <section
-        id="evaluationsPage"
-        style="display:none;"
-      >
-
-        <div class="content-card">
-
-          <h3>
-            📊 ผลการประเมิน
-          </h3>
-
-
-          <p style="
-            color:#78909C;
-            margin-top:8px;
-          ">
-
-            ส่วนแสดงผลการประเมินจะพัฒนาในขั้นถัดไป
-
-          </p>
-
-        </div>
-
-      </section>
-
-
-    </main>
-
-  </div>
-
+  </main>
 </div>
 
-
-
-<!-- =========================================
-     USER MODAL
-========================================= -->
-
-<div
-  class="modal"
-  id="userModal"
->
-
-  <div class="modal-content">
-
-
-    <div class="modal-header">
-
-      <div>
-
-        <h3 id="userModalTitle">
-          เพิ่มผู้ใช้งาน
-        </h3>
-
-
-        <p class="modal-subtitle">
-          กรอกข้อมูลผู้ใช้งาน
-        </p>
-
-      </div>
-
-
-      <button
-        class="modal-close"
-        onclick="closeUserModal()"
-        aria-label="ปิด"
-      >
-
-        <i data-lucide="x"></i>
-
-      </button>
-
-    </div>
-
-
-
-    <input
-      type="hidden"
-      id="userId"
-    >
-
-
-
-    <div class="form-group">
-
-      <label>
-        ชื่อผู้ใช้
-      </label>
-
-
-      <input
-        type="text"
-        id="userUsername"
-        class="form-control"
-        style="padding-left:14px;"
-        placeholder="เช่น teacher01"
-        autocomplete="off"
-      >
-
-    </div>
-
-
-
-    <div class="form-group">
-
-      <label>
-        รหัสผ่าน
-      </label>
-
-
-      <input
-        type="password"
-        id="userPassword"
-        class="form-control"
-        style="padding-left:14px;"
-        placeholder="กรอกรหัสผ่าน"
-        autocomplete="new-password"
-      >
-
-
-      <small
-        id="passwordHelp"
-        style="
-          display:block;
-          color:#78909C;
-          font-size:12px;
-          margin-top:5px;
-        "
-      >
-        กรอกรหัสผ่านสำหรับผู้ใช้งานใหม่
-      </small>
-
-    </div>
-
-
-
-    <div class="form-group">
-
-      <label>
-        ชื่อ-นามสกุล
-      </label>
-
-
-      <input
-        type="text"
-        id="userFullName"
-        class="form-control"
-        style="padding-left:14px;"
-        placeholder="เช่น นางสาวกนกวรรณ กรมถิน"
-      >
-
-    </div>
-
-
-
-    <div class="form-group">
-
-      <label>
-        บทบาท
-      </label>
-
-
-      <select
-        id="userRole"
-        class="form-control"
-        style="padding-left:14px;"
-      >
-
-        <option value="teacher">
-          ครู
-        </option>
-
-        <option value="admin">
-          ผู้ดูแลระบบ
-        </option>
-
-      </select>
-
-    </div>
-
-
-
-    <div class="modal-actions">
-
-
-      <button
-        class="cancel-button"
-        onclick="closeUserModal()"
-      >
-        ยกเลิก
-      </button>
-
-
-      <button
-        onclick="saveUser()"
-        class="login-button"
-        style="
-          width:auto;
-          padding:11px 22px;
-        "
-      >
-
-        <i
-          data-lucide="save"
-          style="width:17px;vertical-align:middle;"
-        ></i>
-
-        บันทึก
-
-      </button>
-
-    </div>
-
-  </div>
-
+<!-- MODALS -->
+<div id="modalBackdrop" class="modal-backdrop" onclick="backdropClose(event)">
+  <div id="modal" class="modal"></div>
 </div>
-
-
-
-<!-- =========================================
-     CLASS MODAL
-========================================= -->
-
-<div
-  class="modal"
-  id="classModal"
->
-
-  <div class="modal-content">
-
-
-    <div class="modal-header">
-
-      <div>
-
-        <h3 id="classModalTitle">
-          เพิ่มห้องเรียน
-        </h3>
-
-
-        <p class="modal-subtitle">
-          กรอกข้อมูลห้องเรียน
-        </p>
-
-      </div>
-
-
-      <button
-        class="modal-close"
-        onclick="closeClassModal()"
-        aria-label="ปิด"
-      >
-
-        <i data-lucide="x"></i>
-
-      </button>
-
-    </div>
-
-
-
-    <input
-      type="hidden"
-      id="classId"
-    >
-
-
-
-    <div class="form-group">
-
-      <label>
-        ชื่อห้องเรียน
-      </label>
-
-
-      <input
-        type="text"
-        id="className"
-        class="form-control"
-        style="padding-left:14px;"
-        placeholder="เช่น ม.2/1"
-      >
-
-    </div>
-
-
-
-    <div class="form-group">
-
-      <label>
-        ระดับการศึกษา
-      </label>
-
-
-      <select
-        id="classLevel"
-        class="form-control"
-        style="padding-left:14px;"
-      >
-
-        <option value="ประถมศึกษา">
-          ประถมศึกษา
-        </option>
-
-        <option value="มัธยมศึกษา">
-          มัธยมศึกษา
-        </option>
-
-      </select>
-
-    </div>
-
-
-
-    <div class="modal-actions">
-
-
-      <button
-        class="cancel-button"
-        onclick="closeClassModal()"
-      >
-        ยกเลิก
-      </button>
-
-
-      <button
-        onclick="saveClass()"
-        class="login-button"
-        style="
-          width:auto;
-          padding:11px 22px;
-        "
-      >
-
-        <i
-          data-lucide="save"
-          style="width:17px;vertical-align:middle;"
-        ></i>
-
-        บันทึก
-
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-
-<!-- =========================================
-     JAVASCRIPT
-========================================= -->
 
 <script>
+const API_URL = "https://script.google.com/macros/s/AKfycbyQEQLczvcmqenKi7xQM6c9w_LIQuilzAQYsopJI6y5hRzKHq4jqHIYVGskz-EENK8L/exec";
 
+const QUESTIONS = [
+"ครูแจ้งผลการเรียนรู้ชัดเจน",
+"กิจกรรมการเรียนรู้สนุกและน่าสนใจ",
+"เนื้อหาที่สอนทันสมัยเสมอ",
+"ครูใช้สื่อประกอบการสอน",
+"ครูใช้คำถามถามนักเรียนบ่อยๆ",
+"ครูประยุกต์สาระที่สอนเข้ากับเหตุการณ์ปัจจุบัน/สภาพแวดล้อม",
+"ครูส่งเสริมให้นักเรียนคิดริเริ่มและรู้จักวิพากษ์วิจารณ์",
+"ครูยอมรับความคิดเห็นของนักเรียนที่ต่างไปจากครู",
+"ครูให้นักเรียนทำงานร่วมกันทั้งกลุ่มและรายบุคคล",
+"ครูให้นักเรียนแสวงหาความรู้จากแหล่งเรียนรู้ต่างๆ",
+"ครูให้โอกาสนักเรียนซักถามปัญหา",
+"ครูให้ความสนใจนักเรียนขณะสอนทั่วถึงทุกคน",
+"ครูให้ความช่วยเหลือหรืออำนวยความสะดวกแก่นักเรียนในการเรียน",
+"นักเรียนทราบเกณฑ์การวัดและประเมินผล",
+"นักเรียนมีส่วนร่วมในการวัดและประเมินผล",
+"ครูประเมินผลการเรียนอย่างยุติธรรม",
+"ครูมีความตั้งใจในการสอน",
+"บุคลิกภาพ การแต่งกายของครูเหมาะสม",
+"การพูดจาของครูเหมาะสม",
+"ครูเข้าสอนและออกตรงตามเวลา"
+];
+const SCORE_LABELS={5:"ดีเยี่ยม",4:"ดีเลิศ",3:"ดี",2:"ปานกลาง",1:"กำลังพัฒนา"};
+let state={user:null,students:[],subjects:[],users:[],classes:[],years:[],evaluations:[],student:null};
+let charts={level:null,item:null};
+let loginMode="staff";
 
-/* ========================================
-   API URL
-======================================== */
-
-const API_URL =
-  "https://script.google.com/macros/s/AKfycbyQEQLczvcmqenKi7xQM6c9w_LIQuilzAQYsopJI6y5hRzKHq4jqHIYVGskz-EENK8L/exec";
-
-
-let loginMode = "staff";
-
-let currentUser = null;
-
-let usersData = [];
-
-let classesData = [];
-
-
-
-/* ========================================
-   INITIALIZE
-======================================== */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
-
-    lucide.createIcons();
-
-  }
-);
-
-
-
-/* ========================================
-   LOGIN TAB
-======================================== */
-
-function switchLogin(mode) {
-
-  loginMode = mode;
-
-
-  const staffTab =
-    document.getElementById("staffTab");
-
-  const studentTab =
-    document.getElementById("studentTab");
-
-  const staffLogin =
-    document.getElementById("staffLogin");
-
-  const studentLogin =
-    document.getElementById("studentLogin");
-
-
-  if (mode === "staff") {
-
-    staffTab.classList.add("active");
-
-    studentTab.classList.remove("active");
-
-    staffLogin.style.display = "block";
-
-    studentLogin.style.display = "none";
-
-  } else {
-
-    staffTab.classList.remove("active");
-
-    studentTab.classList.add("active");
-
-    staffLogin.style.display = "none";
-
-    studentLogin.style.display = "block";
-
-  }
-
+function $(id){return document.getElementById(id)}
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function showLoading(title="กำลังโหลดข้อมูล..."){Swal.fire({title,text:title,allowOutsideClick:false,didOpen:()=>Swal.showLoading()})}
+async function getData(action){
+  const r=await fetch(API_URL+"?action="+encodeURIComponent(action),{cache:"no-store"});
+  const j=await r.json();
+  if(!j.success) throw new Error(j.message||"ไม่สามารถอ่านข้อมูลได้");
+  return j.data??j;
 }
-
-
-
-/* ========================================
-   LOGIN
-======================================== */
-
-async function login() {
-
-  if (loginMode === "staff") {
-
-    const username =
-      document
-        .getElementById("username")
-        .value
-        .trim();
-
-
-    const password =
-      document
-        .getElementById("password")
-        .value
-        .trim();
-
-
-    if (!username || !password) {
-
-      Swal.fire({
-        icon: "warning",
-        title: "กรุณากรอกข้อมูล",
-        text: "กรุณากรอกชื่อผู้ใช้และรหัสผ่าน"
-      });
-
-      return;
-
-    }
-
-
-    showLoading(true);
-
-
-    try {
-
-      const response =
-        await fetch(
-          API_URL,
-          {
-            method: "POST",
-
-            body: JSON.stringify({
-              action: "login",
-              username: username,
-              password: password
-            })
-          }
-        );
-
-
-      const result =
-        await response.json();
-
-
-      showLoading(false);
-
-
-      if (!result.success) {
-
-        Swal.fire({
-          icon: "error",
-          title: "เข้าสู่ระบบไม่สำเร็จ",
-          text:
-            result.message ||
-            "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง"
-        });
-
-        return;
-
-      }
-
-
-      currentUser =
-        result.user;
-
-
-      openApplication();
-
-
-    } catch (error) {
-
-      showLoading(false);
-
-      console.error(error);
-
-
-      Swal.fire({
-        icon: "error",
-        title: "ไม่สามารถเชื่อมต่อระบบได้",
-        text:
-          "กรุณาตรวจสอบ URL ของ Apps Script และการตั้งค่า Web App"
-      });
-
-    }
-
-
-  } else {
-
-
-    const studentId =
-      document
-        .getElementById("studentId")
-        .value
-        .trim();
-
-
-    if (!studentId) {
-
-      Swal.fire({
-        icon: "warning",
-        title: "กรุณากรอกรหัสนักเรียน",
-        text:
-          "กรุณากรอกรหัสนักเรียนก่อนเข้าสู่ระบบ"
-      });
-
-      return;
-
-    }
-
-
-    Swal.fire({
-      icon: "info",
-      title: "กำลังพัฒนาส่วนนี้",
-      text:
-        "ระบบเข้าสำหรับนักเรียนจะเชื่อมกับรายชื่อนักเรียนในขั้นถัดไป"
-    });
-
-  }
-
+async function postData(payload){
+  const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+  const j=await r.json();
+  if(!j.success) throw new Error(j.message||"ดำเนินการไม่สำเร็จ");
+  return j;
 }
+function closeSwal(){if(Swal.isVisible())Swal.close()}
 
+function switchLogin(mode){
+  loginMode=mode;
+  $("staffTab").classList.toggle("active",mode==="staff");
+  $("studentTab").classList.toggle("active",mode==="student");
+  $("staffForm").classList.toggle("hidden",mode!=="staff");
+  $("studentForm").classList.toggle("hidden",mode!=="student");
+}
+async function staffLogin(e){
+  e.preventDefault(); showLoading("กำลังเข้าสู่ระบบ...");
+  try{
+    const j=await postData({action:"login",username:$("loginUsername").value.trim(),password:$("loginPassword").value});
+    state.user=j.user; sessionStorage.setItem("teacherEvalUser",JSON.stringify(state.user));
+    closeSwal(); enterApp(); await loadAllData(); showPage("dashboard");
+  }catch(err){Swal.fire("เข้าสู่ระบบไม่สำเร็จ",err.message,"error")}
+}
+async function studentLogin(e){
+  e.preventDefault(); showLoading("กำลังตรวจสอบรหัสนักเรียน...");
+  try{
+    const students=await getData("getStudents");
+    const sid=$("studentLoginId").value.trim();
+    const s=students.find(x=>String(x.student_id).trim()===sid);
+    if(!s) throw new Error("ไม่พบรหัสนักเรียนนี้ในระบบ");
+    state.student=s;
+    state.subjects=await getData("getSubjects");
+    state.classes=await getData("getClasses");
+    state.users=await getData("getUsers").catch(()=>[]);
+    state.years=await getData("getAcademicYears");
+    closeSwal(); $("loginPage").classList.add("hidden"); $("app").classList.remove("hidden");
+    document.querySelectorAll(".menu button").forEach(b=>b.classList.add("hidden"));
+    showPage("student-evaluation"); prepareStudentEvaluation();
+  }catch(err){Swal.fire("เข้าสู่ระบบไม่สำเร็จ",err.message,"error")}
+}
+function enterApp(){
+  $("loginPage").classList.add("hidden"); $("app").classList.remove("hidden");
+  $("userName").textContent=state.user?.full_name||"ผู้ใช้งาน";
+  const admin=state.user?.role==="admin";
+  document.querySelectorAll(".admin-only").forEach(x=>x.classList.toggle("hidden",!admin));
+  document.querySelectorAll(".menu button").forEach(b=>{if(b.dataset.page!=="logout"&&!b.classList.contains("admin-only"))b.classList.remove("hidden")});
+}
+function logout(){
+  sessionStorage.removeItem("teacherEvalUser"); state.user=null;
+  $("app").classList.add("hidden"); $("loginPage").classList.remove("hidden"); switchLogin("staff");
+}
+function logoutStudent(){state.student=null;location.reload()}
+function openSidebar(){$("sidebar").classList.add("open");$("overlay").classList.add("show")}
+function closeSidebar(){$("sidebar").classList.remove("open");$("overlay").classList.remove("show")}
 
-
-/* ========================================
-   OPEN APPLICATION
-======================================== */
-
-function openApplication() {
-
-  document
-    .getElementById("loginPage")
-    .style.display = "none";
-
-
-  document
-    .getElementById("app")
-    .style.display = "block";
-
-
-  document
-    .getElementById("displayUserName")
-    .textContent =
-      currentUser.full_name || "-";
-
-
-  document
-    .getElementById("displayUserRole")
-    .textContent =
-      currentUser.role === "admin"
-        ? "ผู้ดูแลระบบ"
-        : "ครู";
-
-
-  document
-    .getElementById("welcomeText")
-    .textContent =
-      "เข้าสู่ระบบในชื่อ " +
-      (currentUser.full_name || "");
-
-
-  showPage("dashboard");
-
-
-  loadDashboard();
-
-
+async function loadAllData(){
+  try{
+    const [users,classes,years,subjects,students]=await Promise.all([
+      getData("getUsers"),getData("getClasses"),getData("getAcademicYears"),getData("getSubjects"),getData("getStudents")
+    ]);
+    state.users=users;state.classes=classes;state.years=years;state.subjects=subjects;state.students=students;
+    try{state.evaluations=await getData("getEvaluations")}catch(_){state.evaluations=[]}
+    renderUsers();renderClasses();renderYears();renderSubjects();renderStudents();renderEvaluations();renderDashboard();
+  }catch(err){Swal.fire("โหลดข้อมูลไม่สำเร็จ",err.message,"error")}
+}
+function showPage(page){
+  if(page==="logout"){logout();return}
+  document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
+  const target=$("page-"+page);if(target)target.classList.remove("hidden");
+  const titles={dashboard:"Dashboard",users:"ผู้ใช้งาน",classes:"ชั้นเรียน",years:"ปีการศึกษา",subjects:"รายวิชา",students:"นักเรียน",evaluations:"ผลการประเมิน", "student-evaluation":"แบบประเมินการสอน"};
+  $("pageTitle").textContent=titles[page]||page;
+  document.querySelectorAll(".menu button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+  if(page==="dashboard")renderDashboard();
+  closeSidebar();
   lucide.createIcons();
-
 }
 
+function openModal(html){$("modal").innerHTML=html;$("modalBackdrop").classList.add("show");lucide.createIcons()}
+function closeModal(){$("modalBackdrop").classList.remove("show")}
+function backdropClose(e){if(e.target===$("modalBackdrop"))closeModal()}
 
-
-/* ========================================
-   DASHBOARD
-======================================== */
-
-async function loadDashboard() {
-
-  try {
-
-    const subjects =
-      await getData("getSubjects");
-
-
-    const students =
-      await getData("getStudents");
-
-
-    document
-      .getElementById("subjectCount")
-      .textContent =
-        subjects.length;
-
-
-    document
-      .getElementById("studentCount")
-      .textContent =
-        students.length;
-
-
-    /*
-     * จะเชื่อมจำนวนแบบประเมิน
-     * ในขั้นพัฒนาระบบผลการประเมิน
-     */
-
-    document
-      .getElementById("evaluationCount")
-      .textContent =
-        "0";
-
-
-    document
-      .getElementById("averageScore")
-      .textContent =
-        "-";
-
-
-  } catch (error) {
-
-    console.error(
-      "Dashboard Error:",
-      error
-    );
-
-  }
-
+function openUserModal(item=null){
+ openModal(`<div class="modal-header"><h3>${item?"แก้ไข":"เพิ่ม"}ผู้ใช้งาน</h3><button class="close" onclick="closeModal()">×</button></div>
+ <div class="form-grid">
+ <div class="field"><label>ชื่อผู้ใช้</label><input id="fUsername" class="input" value="${esc(item?.username)}"></div>
+ <div class="field"><label>รหัสผ่าน ${item?"(เว้นว่างเพื่อใช้รหัสเดิม)":""}</label><input id="fPassword" class="input" type="password"></div>
+ <div class="field full"><label>ชื่อ-สกุล</label><input id="fFullName" class="input" value="${esc(item?.full_name)}"></div>
+ <div class="field"><label>บทบาท</label><select id="fRole" class="select"><option value="admin" ${item?.role==="admin"?"selected":""}>ผู้ดูแลระบบ</option><option value="teacher" ${item?.role==="teacher"?"selected":""}>ครู</option></select></div>
+ </div><div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">ยกเลิก</button><button class="btn btn-primary" onclick="saveUser('${esc(item?.id||"")}')">บันทึก</button></div>`);
+}
+async function saveUser(id){
+ try{
+  const payload={action:id?"updateUser":"addUser",id,username:$("fUsername").value.trim(),password:$("fPassword").value,full_name:$("fFullName").value.trim(),role:$("fRole").value};
+  if(id&&!payload.password)delete payload.password;
+  await postData(payload);closeModal();await loadAllData();Swal.fire("สำเร็จ","บันทึกข้อมูลผู้ใช้งานแล้ว","success");
+ }catch(e){Swal.fire("ไม่สำเร็จ",e.message,"error")}
+}
+function renderUsers(){
+ $("usersBody").innerHTML=state.users.length?state.users.map(x=>`<tr><td>${esc(x.username)}</td><td>${esc(x.full_name)}</td><td><span class="badge">${x.role==="admin"?"ผู้ดูแลระบบ":"ครู"}</span></td><td><span class="badge green">${esc(x.status||"active")}</span></td><td><button class="btn btn-warning" onclick='openUserModal(${JSON.stringify(x)})'>แก้ไข</button> <button class="btn btn-danger" onclick="deleteUser('${esc(x.id)}')">ลบ</button></td></tr>`).join(""):`<tr><td colspan="5" class="empty">ยังไม่มีข้อมูล</td></tr>`;
+}
+async function deleteUser(id){
+ const ok=await Swal.fire({title:"ยืนยันการลบ?",text:"ข้อมูลผู้ใช้งานจะถูกลบ",icon:"warning",showCancelButton:true,confirmButtonText:"ลบ",cancelButtonText:"ยกเลิก"});
+ if(!ok.isConfirmed)return;try{await postData({action:"deleteUser",id});await loadAllData();Swal.fire("ลบแล้ว","","success")}catch(e){Swal.fire("ไม่สำเร็จ",e.message,"error")}
 }
 
+function openClassModal(item=null){
+ openModal(`<div class="modal-header"><h3>${item?"แก้ไข":"เพิ่ม"}ชั้นเรียน</h3><button class="close" onclick="closeModal()">×</button></div>
+ <div class="form-grid"><div class="field"><label>ชั้นเรียน</label><input id="fClassName" class="input" value="${esc(item?.class_name)}" placeholder="เช่น ม.2/1"></div>
+ <div class="field"><label>ระดับการศึกษา</label><select id="fLevel" class="select"><option value="ประถมศึกษา" ${item?.level==="ประถมศึกษา"?"selected":""}>ประถมศึกษา</option><option value="มัธยมศึกษา" ${item?.level==="มัธยมศึกษา"?"selected":""}>มัธยมศึกษา</option></select></div></div>
+ <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">ยกเลิก</button><button class="btn btn-primary" onclick="saveClass('${esc(item?.id||"")}')">บันทึก</button></div>`);
+}
+async function saveClass(id){
+ try{await postData({action:id?"updateClass":"addClass",id,class_name:$("fClassName").value.trim(),education_level:$("fLevel").value});closeModal();await loadAllData();Swal.fire("สำเร็จ","บันทึกชั้นเรียนแล้ว","success")}
+ catch(e){Swal.fire("ไม่สำเร็จ",e.message,"error")}
+}
+function renderClasses(){
+ $("classesBody").innerHTML=state.classes.length?state.classes.map(x=>`<tr><td>${esc(x.class_name)}</td><td><span class="badge">${esc(x.level||x.education_level)}</span></td><td><button class="btn btn-warning" onclick='openClassModal(${JSON.stringify(x)})'>แก้ไข</button> <button class="btn btn-danger" onclick="deleteClass('${esc(x.id)}')">ลบ</button></td></tr>`).join(""):`<tr><td colspan="3" class="empty">ยังไม่มีข้อมูล</td></tr>`;
+}
+async function deleteClass(id){const ok=await Swal.fire({title:"ยืนยันการลบ?",icon:"warning",showCancelButton:true,confirmButtonText:"ลบ",cancelButtonText:"ยกเลิก"});if(!ok.isConfirmed)return;try{await postData({action:"deleteClass",id});await loadAllData();Swal.fire("ลบแล้ว","","success")}catch(e){Swal.fire("ไม่สำเร็จ",e.message,"error")}}
 
+function openYearModal(item=null){
+ openModal(`<div class="modal-header"><h3>${item?"แก้ไข":"เพิ่ม"}ปีการศึกษา</h3><button class="close" onclick="closeModal()">×</button></div>
+ <div class="field"><label>ปีการศึกษา</label><input id="fYear" class="input" value="${esc(item?.academic_year)}" placeholder="เช่น 2569"></div>
+ <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">ยกเลิก</button><button class="btn btn-primary" onclick="saveYear('${esc(item?.id||"")}')">บันทึก</button></div>`);
+}
+async function saveYear(id){try{await postData({action:id?"updateAcademicYear":"addAcademicYear",id,academic_year:$("fYear").value.trim()});closeModal();await loadAllData();Swal.fire("สำเร็จ","บันทึกปีการศึกษาแล้ว","success")}catch(e){Swal.fire("ไม่สำเร็จ",e.message,"error")}}
+function renderYears(){$("yearsBody").innerHTML=state.years.length?state.years.map(x=>`<tr><td>${esc(x.academic_year)}</td><td><button class="btn btn-warning" onclick='openYearModal(${JSON.stringify(x)})'>แก้ไข</button> <button class="btn btn-danger" onclick="deleteYear('${esc(x.id)}')">ลบ</button></td></tr>`).join(""):`<tr><td colspan="2" class="empty">ยังไม่มีข้อมูล</td></tr>`}
+async function deleteYear(id){const ok=await Swal.fire({title:"ยืนยันการลบ?",icon:"warning",showCancelButton:true,confirmButtonText:"ลบ",cancelButtonText:"ยกเลิก"});if(!ok.isConfirmed)return;try{await postData({action:"deleteAcademicYear",id});await loadAllData();Swal.fire("ลบแล้ว","","success")}catch(e){Swal.fire("ไม่สำเร็จ",e.message,"error")}}
 
-/* ========================================
-   GET DATA
-======================================== */
-
-async function getData(action) {
-
-  const response =
-    await fetch(
-      API_URL +
-      "?action=" +
-      encodeURIComponent(action)
-    );
-
-
-  if (!response.ok) {
-
-    throw new Error(
-      "ไม่สามารถเชื่อมต่อ API ได้"
-    );
-
-  }
-
-
-  const result =
-    await response.json();
-
-
-  if (!result.success) {
-
-    throw new Error(
-      result.message ||
-      "เกิดข้อผิดพลาด"
-    );
-
-  }
-
-
-  return result.data || [];
-
+function openSubjectModal(){
+ const teachers=state.users.filter(x=>x.role==="teacher");
+ openModal(`<div class="modal-header"><h3>เพิ่มรายวิชา</h3><button class="close" onclick="closeModal()">×</button></div>
+ <div class="form-grid">
+ <div class="field full"><label>ชื่อรายวิชา</label><input id="fSubjectName" class="input" placeholder="เช่น วิทยาการคำนวณ"></div>
+ <div class="field"><label>ครูผู้สอน</label><select id="fTeacher" class="select"><option value="">-- เลือกครู --</option>${teachers.map(x=>`<option value="${esc(x.id)}">${esc(x.full_name)}</option>`).join("")}</select></div>
+ <div class="field"><label>ชั้นเรียน</label><select id="fSubjectClass" class="select"><option value="">-- เลือกชั้นเรียน --</option>${state.classes.map(x=>`<option value="${esc(x.id)}">${esc(x.class_name)}</option>`).join("")}</select></div>
+ <div class="field"><label>ปีการศึกษา</label><select id="fSubjectYear" class="select"><option value="">-- เลือกปี --</option>${state.years.map(x=>`<option value="${esc(x.id)}">${esc(x.academic_year)}</option>`).join("")}</select></div>
+ </div><div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">ยกเลิก</button><button class="btn btn-primary" onclick="saveSubject()">บันทึก</button></div>`);
+}
+async function saveSubject(){
+ try{await postData({action:"addSubject",subject_name:$("fSubjectName").value.trim(),teacher_id:$("fTeacher").value,class_id:$("fSubjectClass").value,academic_year_id:$("fSubjectYear").value});closeModal();await loadAllData();Swal.fire("สำเร็จ","เพิ่มรายวิชาแล้ว","success")}
+ catch(e){Swal.fire("ไม่สำเร็จ",e.message,"error")}
+}
+function nameBy(arr,id,key="full_name"){const x=arr.find(a=>String(a.id)===String(id));return x?x[key]:"-"}
+function renderSubjects(){
+ $("subjectsBody").innerHTML=state.subjects.length?state.subjects.map(x=>`<tr><td>${esc(x.subject_name)}</td><td>${esc(nameBy(state.users,x.teacher_id))}</td><td>${esc(nameBy(state.classes,x.class_id,"class_name"))}</td><td>${esc(nameBy(state.years,x.academic_year_id,"academic_year"))}</td><td><span class="badge">รายวิชา</span></td></tr>`).join(""):`<tr><td colspan="5" class="empty">ยังไม่มีรายวิชา</td></tr>`;
 }
 
+function openStudentModal(){
+ openModal(`<div class="modal-header"><h3>เพิ่มนักเรียน</h3><button class="close" onclick="closeModal()">×</button></div>
+ <div class="form-grid"><div class="field"><label>รหัสนักเรียน</label><input id="fStudentId" class="input"></div><div class="field"><label>ชื่อ-สกุล</label><input id="fStudentName" class="input"></div>
+ <div class="field full"><label>ชั้นเรียน</label><select id="fStudentClass" class="select"><option value="">-- เลือกชั้นเรียน --</option>${state.classes.map(x=>`<option value="${esc(x.id)}">${esc(x.class_name)}</option>`).join("")}</select></div></div>
+ <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">ยกเลิก</button><button class="btn btn-primary" onclick="saveStudent()">บันทึก</button></div>`);
+}
+async function saveStudent(){try{await postData({action:"addStudent",student_id:$("fStudentId").value.trim(),full_name:$("fStudentName").value.trim(),class_id:$("fStudentClass").value});closeModal();await loadAllData();Swal.fire("สำเร็จ","เพิ่มนักเรียนแล้ว","success")}catch(e){Swal.fire("ไม่สำเร็จ",e.message,"error")}}
+function renderStudents(){$("studentsBody").innerHTML=state.students.length?state.students.map(x=>`<tr><td>${esc(x.student_id)}</td><td>${esc(x.full_name)}</td><td>${esc(nameBy(state.classes,x.class_id,"class_name"))}</td><td><span class="badge">นักเรียน</span></td></tr>`).join(""):`<tr><td colspan="4" class="empty">ยังไม่มีนักเรียน</td></tr>`}
 
+function renderDashboard(){
+ $("statUsers").textContent=state.users.length;$("statSubjects").textContent=state.subjects.length;$("statStudents").textContent=state.students.length;$("statEvaluations").textContent=state.evaluations.length;
+ const levelCounts={"ประถมศึกษา":0,"มัธยมศึกษา":0};
+ state.evaluations.forEach(e=>{const c=state.classes.find(x=>String(x.id)===String(e.class_id));if(c)levelCounts[c.level||c.education_level]=(levelCounts[c.level||c.education_level]||0)+1});
+ if(charts.level)charts.level.destroy();
+ charts.level=new Chart($("levelChart"),{type:"doughnut",data:{labels:Object.keys(levelCounts),datasets:[{data:Object.values(levelCounts)}]},options:{responsive:true,maintainAspectRatio:false}});
+ const avgs=QUESTIONS.map((_,i)=>{
+   const a=[];
+   state.evaluations.forEach(e=>{if(e.answers?.length){const q=e.answers.find(x=>Number(x.question_no)===i+1);if(q)a.push(Number(q.score))}});
+   return a.length?a.reduce((a,b)=>a+b,0)/a.length:0;
+ });
+ if(charts.item)charts.item.destroy();
+ charts.item=new Chart($("itemChart"),{type:"bar",data:{labels:QUESTIONS.map((_,i)=>"ข้อ "+(i+1)),datasets:[{label:"คะแนนเฉลี่ย",data:avgs}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{min:0,max:5}}}});
+}
+function fillSelect(id,arr,placeholder,key,labelKey){
+ const s=$(id);s.innerHTML=`<option value="">${placeholder}</option>`+arr.map(x=>`<option value="${esc(x[key])}">${esc(x[labelKey])}</option>`).join("");
+}
+function renderEvaluations(){
+ fillSelect("filterTeacher",state.users.filter(x=>x.role==="teacher"),"ครูทั้งหมด","id","full_name");
+ fillSelect("filterSubject",state.subjects,"รายวิชาทั้งหมด","id","subject_name");
+ fillSelect("filterYear",state.years,"ปีทั้งหมด","id","academic_year");
+ const tf=$("filterTeacher").value,sf=$("filterSubject").value,yf=$("filterYear").value;
+ let data=state.evaluations.filter(e=>(!tf||String(e.teacher_id)===tf)&&(!sf||String(e.subject_id)===sf)&&(!yf||String(e.academic_year_id)===yf));
+ $("evaluationsBody").innerHTML=data.length?data.map(e=>`<tr><td>${esc(nameBy(state.students,e.student_id,"full_name"))}</td><td>${esc(nameBy(state.users,e.teacher_id))}</td><td>${esc(nameBy(state.subjects,e.subject_id,"subject_name"))}</td><td>${esc(nameBy(state.years,e.academic_year_id,"academic_year"))}</td><td><strong>${Number(e.average_score||0).toFixed(2)}</strong></td><td>${Number(e.percentage||0).toFixed(2)}%</td><td>${formatDate(e.submitted_at)}</td></tr>`).join(""):`<tr><td colspan="7" class="empty">ยังไม่มีผลประเมิน</td></tr>`;
+ const avg=data.length?data.reduce((s,x)=>s+Number(x.average_score||0),0)/data.length:0;
+ $("evaluationSummary").textContent=data.length?`จำนวน ${data.length} รายการ • คะแนนเฉลี่ยรวม ${avg.toFixed(2)} / 5 (${((avg/5)*100).toFixed(2)}%)`:"ยังไม่มีข้อมูลการประเมิน";
+}
+function formatDate(v){if(!v)return"-";const d=new Date(v);return isNaN(d)?"-":d.toLocaleDateString("th-TH",{year:"numeric",month:"short",day:"numeric"})}
 
-/* ========================================
-   PAGE
-======================================== */
-
-function showPage(page) {
-
-
-  const pages = [
-    "dashboard",
-    "users",
-    "classes",
-    "subjects",
-    "students",
-    "evaluations"
-  ];
-
-
-  pages.forEach(
-    name => {
-
-      const element =
-        document.getElementById(
-          name + "Page"
-        );
-
-
-      if (element) {
-
-        element.style.display =
-          name === page
-            ? "block"
-            : "none";
-
-      }
-
-    }
-  );
-
-
-
-  const titles = {
-
-    dashboard:
-      "Dashboard",
-
-    users:
-      "จัดการผู้ใช้งาน",
-
-    classes:
-      "จัดการห้องเรียน",
-
-    subjects:
-      "จัดการรายวิชา",
-
-    students:
-      "จัดการนักเรียน",
-
-    evaluations:
-      "ผลการประเมิน"
-
-  };
-
-
-
-  document
-    .getElementById("pageTitle")
-    .textContent =
-      titles[page] ||
-      "Dashboard";
-
-
-
-  /*
-   * ตั้ง Active Menu
-   */
-
-  document
-    .querySelectorAll(".menu-item")
-    .forEach(
-      item => {
-
-        item.classList.remove(
-          "active"
-        );
-
-      }
-    );
-
-
-  const activeMenu =
-    document.querySelector(
-      `.menu-item[onclick="showPage('${page}')"]`
-    );
-
-
-  if (activeMenu) {
-
-    activeMenu.classList.add(
-      "active"
-    );
-
-  }
-
-
-
-  /*
-   * โหลดข้อมูลตามหน้า
-   */
-
-  if (page === "users") {
-
-    loadUsersPage();
-
-  }
-
-
-  if (page === "classes") {
-
-    loadClassesPage();
-
-  }
-
-
-
-  /*
-   * ปิด Sidebar บนมือถือ
-   */
-
-  if (
-    window.innerWidth <= 900
-  ) {
-
-    document
-      .getElementById("sidebar")
-      .classList.remove("open");
-
-  }
-
-
-  lucide.createIcons();
-
+function prepareStudentEvaluation(){
+ $("studentWelcome").textContent=state.student.full_name;
+ $("studentMeta").textContent="รหัสนักเรียน "+state.student.student_id;
+ const allowed=state.subjects.filter(s=>String(s.class_id)===String(state.student.class_id));
+ $("studentSubject").innerHTML=`<option value="">-- เลือกรายวิชาที่ต้องการประเมิน --</option>`+allowed.map(s=>`<option value="${esc(s.id)}">${esc(s.subject_name)}</option>`).join("");
+ $("studentClass").value=nameBy(state.classes,state.student.class_id,"class_name");
+ renderQuestions();
+ updateProgress();
+}
+function updateStudentMeta(){
+ const s=state.subjects.find(x=>String(x.id)===String($("studentSubject").value));
+ if(!s){$("studentTeacher").value="";$("studentYear").value="";return}
+ $("studentTeacher").value=nameBy(state.users,s.teacher_id);
+ $("studentYear").value=nameBy(state.years,s.academic_year_id,"academic_year");
+ $("studentMeta").textContent=`รหัสนักเรียน ${state.student.student_id} • ${nameBy(state.classes,s.class_id,"class_name")}`;
+}
+function renderQuestions(){
+ $("questionsContainer").innerHTML=QUESTIONS.map((q,i)=>`
+ <div class="question"><div class="q-text"><span class="q-no">${i+1}.</span> ${esc(q)}</div>
+ <div class="rating">${[5,4,3,2,1].map(score=>`<label><input type="radio" name="q${i+1}" value="${score}" onchange="updateProgress()"><span>${score}<br><small>${SCORE_LABELS[score]}</small></span></label>`).join("")}</div></div>`).join("");
+}
+function updateProgress(){
+ let done=0;for(let i=1;i<=20;i++)if(document.querySelector(`input[name=q${i}]:checked`))done++;
+ $("progressBar").style.width=(done/20*100)+"%";
+}
+async function submitStudentEvaluation(e){
+ e.preventDefault();
+ const subject=state.subjects.find(x=>String(x.id)===String($("studentSubject").value));
+ if(!subject){Swal.fire("กรุณาเลือกรายวิชา","","warning");return}
+ const answers=[];const missing=[];
+ for(let i=1;i<=20;i++){const r=document.querySelector(`input[name=q${i}]:checked`);if(!r)missing.push(i);else answers.push({question_no:i,question:QUESTIONS[i-1],score:Number(r.value)})}
+ if(missing.length){Swal.fire("กรุณาประเมินให้ครบ","ยังไม่ได้ตอบข้อ "+missing.join(", "),"warning");return}
+ const ok=await Swal.fire({title:"ยืนยันการส่งแบบประเมิน?",text:"เมื่อส่งแล้วจะไม่สามารถประเมินรายวิชาเดิมซ้ำได้",icon:"question",showCancelButton:true,confirmButtonText:"ยืนยันส่ง",cancelButtonText:"ตรวจสอบอีกครั้ง"});
+ if(!ok.isConfirmed)return;
+ try{
+  showLoading("กำลังบันทึกผลการประเมิน...");
+  const j=await postData({action:"submitEvaluation",student_id:state.student.student_id,teacher_id:subject.teacher_id,subject_id:subject.id,class_id:subject.class_id,academic_year_id:subject.academic_year_id,answers,teacher_thought:$("teacherThought").value.trim(),suggestion:$("suggestion").value.trim()});
+  closeSwal();
+  await Swal.fire("ส่งแบบประเมินเรียบร้อยแล้ว",`คะแนนเฉลี่ย ${Number(j.average_score||0).toFixed(2)} / 5<br>คิดเป็น ${Number(j.percentage||0).toFixed(2)}%`,"success");
+  logoutStudent();
+ }catch(err){Swal.fire("ส่งแบบประเมินไม่สำเร็จ",err.message,"error")}
 }
 
-
-
-/* ========================================
-   SIDEBAR
-======================================== */
-
-function toggleSidebar() {
-
-  document
-    .getElementById("sidebar")
-    .classList.toggle("open");
-
-}
-
-
-
-/* ========================================
-   LOGOUT
-======================================== */
-
-function logout() {
-
-  Swal.fire({
-
-    icon: "question",
-
-    title: "ออกจากระบบ?",
-
-    text:
-      "คุณต้องการออกจากระบบหรือไม่",
-
-    showCancelButton: true,
-
-    confirmButtonText:
-      "ออกจากระบบ",
-
-    cancelButtonText:
-      "ยกเลิก"
-
-  }).then(
-    result => {
-
-      if (!result.isConfirmed)
-        return;
-
-
-      currentUser = null;
-
-
-      document
-        .getElementById("app")
-        .style.display =
-          "none";
-
-
-      document
-        .getElementById("loginPage")
-        .style.display =
-          "flex";
-
-
-      document
-        .getElementById("username")
-        .value = "";
-
-
-      document
-        .getElementById("password")
-        .value = "";
-
-
-      document
-        .getElementById("studentId")
-        .value = "";
-
-
-      switchLogin("staff");
-
-    }
-  );
-
-}
-
-
-
-/* ========================================
-   LOADING
-======================================== */
-
-function showLoading(show) {
-
-  document
-    .getElementById("loading")
-    .style.display =
-      show
-        ? "flex"
-        : "none";
-
-}
-
-
-
-/* ========================================
-   CLASS MANAGEMENT
-======================================== */
-
-
-/* โหลดหน้า Classes */
-
-async function loadClassesPage() {
-
-  await loadClasses();
-
-}
-
-
-
-/* โหลดข้อมูล Classes */
-
-async function loadClasses() {
-
-  const tbody =
-    document.getElementById(
-      "classesTableBody"
-    );
-
-
-  if (!tbody)
-    return;
-
-
-  tbody.innerHTML = `
-
-    <tr>
-
-      <td
-        colspan="4"
-        style="
-          padding:25px;
-          text-align:center;
-          color:#78909C;
-        "
-      >
-
-        กำลังโหลดข้อมูล...
-
-      </td>
-
-    </tr>
-
-  `;
-
-
-  try {
-
-    classesData =
-      await getData(
-        "getClasses"
-      );
-
-
-    renderClasses();
-
-
-  } catch (error) {
-
-    console.error(
-      "Classes Error:",
-      error
-    );
-
-
-    tbody.innerHTML = `
-
-      <tr>
-
-        <td
-          colspan="4"
-          style="
-            padding:25px;
-            text-align:center;
-            color:#EF5350;
-          "
-        >
-
-          ไม่สามารถโหลดข้อมูลได้
-
-        </td>
-
-      </tr>
-
-    `;
-
-  }
-
-}
-
-
-
-/* แสดง Classes */
-
-function renderClasses() {
-
-  const tbody =
-    document.getElementById(
-      "classesTableBody"
-    );
-
-
-  if (!tbody)
-    return;
-
-
-  if (!classesData.length) {
-
-    tbody.innerHTML = `
-
-      <tr>
-
-        <td
-          colspan="4"
-          style="
-            padding:25px;
-            text-align:center;
-            color:#78909C;
-          "
-        >
-
-          ยังไม่มีข้อมูลห้องเรียน
-
-        </td>
-
-      </tr>
-
-    `;
-
-    return;
-
-  }
-
-
-
-  tbody.innerHTML =
-    classesData
-      .map(
-        (item, index) => {
-
-
-          const level =
-            item.level ||
-            item.education_level ||
-            "-";
-
-
-          return `
-
-            <tr>
-
-              <td style="
-                text-align:center;
-              ">
-                ${index + 1}
-              </td>
-
-
-              <td>
-
-                ${escapeHtml(
-                  item.class_name
-                )}
-
-              </td>
-
-
-              <td>
-
-                <span style="
-                  background:#E0F2F1;
-                  color:#00897B;
-                  padding:5px 10px;
-                  border-radius:20px;
-                  font-size:12px;
-                  white-space:nowrap;
-                ">
-
-                  ${escapeHtml(level)}
-
-                </span>
-
-              </td>
-
-
-              <td>
-
-
-                <button
-                  onclick="editClass('${escapeHtml(item.id)}')"
-                  style="
-                    border:none;
-                    background:#E0F2F1;
-                    color:#00897B;
-                    padding:7px 9px;
-                    border-radius:8px;
-                    cursor:pointer;
-                    margin-right:5px;
-                  "
-                  title="แก้ไข"
-                >
-
-                  <i
-                    data-lucide="edit-3"
-                    style="width:16px;"
-                  ></i>
-
-                </button>
-
-
-
-                <button
-                  onclick="deleteClass('${escapeHtml(item.id)}')"
-                  style="
-                    border:none;
-                    background:#FFEBEE;
-                    color:#EF5350;
-                    padding:7px 9px;
-                    border-radius:8px;
-                    cursor:pointer;
-                  "
-                  title="ลบ"
-                >
-
-                  <i
-                    data-lucide="trash-2"
-                    style="width:16px;"
-                  ></i>
-
-                </button>
-
-
-              </td>
-
-            </tr>
-
-          `;
-
-        }
-      )
-      .join("");
-
-
-  lucide.createIcons();
-
-}
-
-
-
-/* เปิด Class Modal */
-
-function openClassModal() {
-
-  document
-    .getElementById("classId")
-    .value = "";
-
-
-  document
-    .getElementById("className")
-    .value = "";
-
-
-  document
-    .getElementById("classLevel")
-    .value =
-      "มัธยมศึกษา";
-
-
-  document
-    .getElementById("classModalTitle")
-    .textContent =
-      "เพิ่มห้องเรียน";
-
-
-  document
-    .getElementById("classModal")
-    .style.display =
-      "flex";
-
-
-  setTimeout(
-    () => {
-
-      document
-        .getElementById("className")
-        .focus();
-
-    },
-    100
-  );
-
-
-  lucide.createIcons();
-
-}
-
-
-
-/* ปิด Class Modal */
-
-function closeClassModal() {
-
-  document
-    .getElementById("classModal")
-    .style.display =
-      "none";
-
-}
-
-
-
-/* แก้ไข Class */
-
-function editClass(id) {
-
-  const item =
-    classesData.find(
-      row =>
-        String(row.id) ===
-        String(id)
-    );
-
-
-  if (!item) {
-
-    Swal.fire({
-      icon: "error",
-      title: "ไม่พบข้อมูล",
-      text: "ไม่พบข้อมูลห้องเรียน"
-    });
-
-    return;
-
-  }
-
-
-  document
-    .getElementById("classId")
-    .value =
-      item.id;
-
-
-  document
-    .getElementById("className")
-    .value =
-      item.class_name || "";
-
-
-  document
-    .getElementById("classLevel")
-    .value =
-      item.level ||
-      item.education_level ||
-      "มัธยมศึกษา";
-
-
-  document
-    .getElementById("classModalTitle")
-    .textContent =
-      "แก้ไขห้องเรียน";
-
-
-  document
-    .getElementById("classModal")
-    .style.display =
-      "flex";
-
-
-  setTimeout(
-    () => {
-
-      document
-        .getElementById("className")
-        .focus();
-
-    },
-    100
-  );
-
-
-  lucide.createIcons();
-
-}
-
-
-
-/* บันทึก Class */
-
-async function saveClass() {
-
-  const id =
-    document
-      .getElementById("classId")
-      .value
-      .trim();
-
-
-  const className =
-    document
-      .getElementById("className")
-      .value
-      .trim();
-
-
-  const educationLevel =
-    document
-      .getElementById("classLevel")
-      .value;
-
-
-  if (!className) {
-
-    Swal.fire({
-      icon: "warning",
-      title: "กรุณากรอกข้อมูล",
-      text: "กรุณากรอกชื่อห้องเรียน"
-    });
-
-    return;
-
-  }
-
-
-  if (!educationLevel) {
-
-    Swal.fire({
-      icon: "warning",
-      title: "กรุณาเลือกระดับการศึกษา",
-      text: "กรุณาเลือกระดับการศึกษา"
-    });
-
-    return;
-
-  }
-
-
-  const action =
-    id
-      ? "updateClass"
-      : "addClass";
-
-
-  const confirm =
-    await Swal.fire({
-
-      icon: "question",
-
-      title:
-        id
-          ? "ยืนยันการแก้ไข?"
-          : "ยืนยันการเพิ่ม?",
-
-      text:
-        id
-          ? "ต้องการบันทึกการแก้ไขห้องเรียนหรือไม่"
-          : "ต้องการเพิ่มห้องเรียนนี้หรือไม่",
-
-      showCancelButton: true,
-
-      confirmButtonText:
-        "ยืนยัน",
-
-      cancelButtonText:
-        "ยกเลิก"
-
-    });
-
-
-  if (!confirm.isConfirmed)
-    return;
-
-
-  showLoading(true);
-
-
-  try {
-
-    const response =
-      await fetch(
-        API_URL,
-        {
-
-          method: "POST",
-
-          body: JSON.stringify({
-
-            action: action,
-
-            id: id,
-
-            class_name:
-              className,
-
-            education_level:
-              educationLevel
-
-          })
-
-        }
-      );
-
-
-    const result =
-      await response.json();
-
-
-    showLoading(false);
-
-
-    if (!result.success) {
-
-      throw new Error(
-        result.message ||
-        "บันทึกข้อมูลห้องเรียนไม่สำเร็จ"
-      );
-
-    }
-
-
-    closeClassModal();
-
-
-    await loadClasses();
-
-
-    Swal.fire({
-
-      icon: "success",
-
-      title: "สำเร็จ",
-
-      text:
-        result.message ||
-        "บันทึกข้อมูลห้องเรียนเรียบร้อยแล้ว",
-
-      timer: 1500,
-
-      showConfirmButton: false
-
-    });
-
-
-  } catch (error) {
-
-    showLoading(false);
-
-    console.error(error);
-
-
-    Swal.fire({
-
-      icon: "error",
-
-      title: "เกิดข้อผิดพลาด",
-
-      text:
-        error.message ||
-        "ไม่สามารถบันทึกข้อมูลได้"
-
-    });
-
-  }
-
-}
-
-
-
-/* ลบ Class */
-
-async function deleteClass(id) {
-
-  const item =
-    classesData.find(
-      row =>
-        String(row.id) ===
-        String(id)
-    );
-
-
-  if (!item)
-    return;
-
-
-  const confirm =
-    await Swal.fire({
-
-      icon: "warning",
-
-      title: "ยืนยันการลบ?",
-
-      text:
-        "ต้องการลบห้อง " +
-        (item.class_name || "") +
-        " ใช่หรือไม่",
-
-      showCancelButton: true,
-
-      confirmButtonText:
-        "ลบข้อมูล",
-
-      cancelButtonText:
-        "ยกเลิก",
-
-      confirmButtonColor:
-        "#EF5350"
-
-    });
-
-
-  if (!confirm.isConfirmed)
-    return;
-
-
-  showLoading(true);
-
-
-  try {
-
-    const response =
-      await fetch(
-        API_URL,
-        {
-
-          method: "POST",
-
-          body: JSON.stringify({
-
-            action:
-              "deleteClass",
-
-            id:
-              id
-
-          })
-
-        }
-      );
-
-
-    const result =
-      await response.json();
-
-
-    showLoading(false);
-
-
-    if (!result.success) {
-
-      throw new Error(
-        result.message ||
-        "ลบห้องเรียนไม่สำเร็จ"
-      );
-
-    }
-
-
-    await loadClasses();
-
-
-    Swal.fire({
-
-      icon: "success",
-
-      title:
-        "ลบข้อมูลสำเร็จ",
-
-      text:
-        result.message ||
-        "ลบข้อมูลห้องเรียนเรียบร้อยแล้ว",
-
-      timer: 1200,
-
-      showConfirmButton: false
-
-    });
-
-
-  } catch (error) {
-
-    showLoading(false);
-
-    console.error(error);
-
-
-    Swal.fire({
-
-      icon: "error",
-
-      title:
-        "เกิดข้อผิดพลาด",
-
-      text:
-        error.message ||
-        "ไม่สามารถลบข้อมูลได้"
-
-    });
-
-  }
-
-}
-
-
-
-/* ========================================
-   USER MANAGEMENT
-======================================== */
-
-
-/* เปิดหน้า Users */
-
-async function loadUsersPage() {
-
-  await loadUsers();
-
-}
-
-
-
-/* โหลดข้อมูล Users */
-
-async function loadUsers() {
-
-  const tbody =
-    document.getElementById(
-      "usersTableBody"
-    );
-
-
-  if (!tbody)
-    return;
-
-
-  tbody.innerHTML = `
-
-    <tr>
-
-      <td
-        colspan="6"
-        style="
-          padding:25px;
-          text-align:center;
-          color:#78909C;
-        "
-      >
-
-        กำลังโหลดข้อมูล...
-
-      </td>
-
-    </tr>
-
-  `;
-
-
-  try {
-
-    usersData =
-      await getData(
-        "getUsers"
-      );
-
-
-    renderUsers();
-
-
-  } catch (error) {
-
-    console.error(
-      "Users Error:",
-      error
-    );
-
-
-    tbody.innerHTML = `
-
-      <tr>
-
-        <td
-          colspan="6"
-          style="
-            padding:25px;
-            text-align:center;
-            color:#EF5350;
-          "
-        >
-
-          ไม่สามารถโหลดข้อมูลได้
-
-        </td>
-
-      </tr>
-
-    `;
-
-  }
-
-}
-
-
-
-/* แสดง Users */
-
-function renderUsers() {
-
-  const tbody =
-    document.getElementById(
-      "usersTableBody"
-    );
-
-
-  if (!tbody)
-    return;
-
-
-  if (!usersData.length) {
-
-    tbody.innerHTML = `
-
-      <tr>
-
-        <td
-          colspan="6"
-          style="
-            padding:25px;
-            text-align:center;
-            color:#78909C;
-          "
-        >
-
-          ยังไม่มีข้อมูลผู้ใช้งาน
-
-        </td>
-
-      </tr>
-
-    `;
-
-    return;
-
-  }
-
-
-
-  tbody.innerHTML =
-    usersData
-      .map(
-        (user, index) => {
-
-
-          const role =
-            user.role === "admin"
-              ? "ผู้ดูแลระบบ"
-              : "ครู";
-
-
-          const status =
-            user.status === "active"
-              ? "ใช้งาน"
-              : "ปิดใช้งาน";
-
-
-          return `
-
-            <tr>
-
-
-              <td style="
-                text-align:center;
-              ">
-
-                ${index + 1}
-
-              </td>
-
-
-
-              <td>
-
-                ${escapeHtml(
-                  user.username
-                )}
-
-              </td>
-
-
-
-              <td>
-
-                ${escapeHtml(
-                  user.full_name
-                )}
-
-              </td>
-
-
-
-              <td>
-
-                <span style="
-                  background:#E0F2F1;
-                  color:#00897B;
-                  padding:5px 10px;
-                  border-radius:20px;
-                  font-size:12px;
-                  white-space:nowrap;
-                ">
-
-                  ${role}
-
-                </span>
-
-              </td>
-
-
-
-              <td>
-
-                <span style="
-                  background:${
-                    user.status === "active"
-                      ? "#E8F5E9"
-                      : "#FFEBEE"
-                  };
-                  color:${
-                    user.status === "active"
-                      ? "#2E7D32"
-                      : "#C62828"
-                  };
-                  padding:5px 10px;
-                  border-radius:20px;
-                  font-size:12px;
-                  white-space:nowrap;
-                ">
-
-                  ${status}
-
-                </span>
-
-              </td>
-
-
-
-              <td>
-
-
-                <button
-                  onclick="editUser('${escapeHtml(user.id)}')"
-                  style="
-                    border:none;
-                    background:#E0F2F1;
-                    color:#00897B;
-                    padding:7px 9px;
-                    border-radius:8px;
-                    cursor:pointer;
-                    margin-right:5px;
-                  "
-                  title="แก้ไข"
-                >
-
-                  <i
-                    data-lucide="edit-3"
-                    style="width:16px;"
-                  ></i>
-
-                </button>
-
-
-
-                <button
-                  onclick="deleteUser('${escapeHtml(user.id)}')"
-                  style="
-                    border:none;
-                    background:#FFEBEE;
-                    color:#EF5350;
-                    padding:7px 9px;
-                    border-radius:8px;
-                    cursor:pointer;
-                  "
-                  title="ลบ"
-                >
-
-                  <i
-                    data-lucide="trash-2"
-                    style="width:16px;"
-                  ></i>
-
-                </button>
-
-
-              </td>
-
-            </tr>
-
-          `;
-
-        }
-      )
-      .join("");
-
-
-  lucide.createIcons();
-
-}
-
-
-
-/* เปิด User Modal */
-
-function openUserModal() {
-
-  document
-    .getElementById("userId")
-    .value = "";
-
-
-  document
-    .getElementById("userUsername")
-    .value = "";
-
-
-  document
-    .getElementById("userPassword")
-    .value = "";
-
-
-  document
-    .getElementById("userFullName")
-    .value = "";
-
-
-  document
-    .getElementById("userRole")
-    .value =
-      "teacher";
-
-
-  document
-    .getElementById("userModalTitle")
-    .textContent =
-      "เพิ่มผู้ใช้งาน";
-
-
-  document
-    .getElementById("passwordHelp")
-    .textContent =
-      "กรอกรหัสผ่านสำหรับผู้ใช้งานใหม่";
-
-
-  document
-    .getElementById("userModal")
-    .style.display =
-      "flex";
-
-
-  setTimeout(
-    () => {
-
-      document
-        .getElementById("userUsername")
-        .focus();
-
-    },
-    100
-  );
-
-
-  lucide.createIcons();
-
-}
-
-
-
-/* ปิด User Modal */
-
-function closeUserModal() {
-
-  document
-    .getElementById("userModal")
-    .style.display =
-      "none";
-
-}
-
-
-
-/* แก้ไข User */
-
-function editUser(id) {
-
-  const user =
-    usersData.find(
-      item =>
-        String(item.id) ===
-        String(id)
-    );
-
-
-  if (!user) {
-
-    Swal.fire({
-      icon: "error",
-      title: "ไม่พบข้อมูล",
-      text: "ไม่พบข้อมูลผู้ใช้งาน"
-    });
-
-    return;
-
-  }
-
-
-  document
-    .getElementById("userId")
-    .value =
-      user.id;
-
-
-  document
-    .getElementById("userUsername")
-    .value =
-      user.username || "";
-
-
-  /*
-   * ไม่ดึง Password จาก Google Sheets
-   * เพื่อความปลอดภัย
-   */
-
-  document
-    .getElementById("userPassword")
-    .value = "";
-
-
-  document
-    .getElementById("userFullName")
-    .value =
-      user.full_name || "";
-
-
-  document
-    .getElementById("userRole")
-    .value =
-      user.role || "teacher";
-
-
-  document
-    .getElementById("userModalTitle")
-    .textContent =
-      "แก้ไขผู้ใช้งาน";
-
-
-  document
-    .getElementById("passwordHelp")
-    .textContent =
-      "หากไม่ต้องการเปลี่ยนรหัสผ่าน ให้เว้นว่างไว้";
-
-
-  document
-    .getElementById("userModal")
-    .style.display =
-      "flex";
-
-
-  setTimeout(
-    () => {
-
-      document
-        .getElementById("userFullName")
-        .focus();
-
-    },
-    100
-  );
-
-
-  lucide.createIcons();
-
-}
-
-
-
-/* บันทึก User */
-
-async function saveUser() {
-
-  const id =
-    document
-      .getElementById("userId")
-      .value
-      .trim();
-
-
-  const username =
-    document
-      .getElementById("userUsername")
-      .value
-      .trim();
-
-
-  const password =
-    document
-      .getElementById("userPassword")
-      .value;
-
-
-  const fullName =
-    document
-      .getElementById("userFullName")
-      .value
-      .trim();
-
-
-  const role =
-    document
-      .getElementById("userRole")
-      .value;
-
-
-
-  if (!username) {
-
-    Swal.fire({
-      icon: "warning",
-      title: "กรุณากรอกข้อมูล",
-      text: "กรุณากรอกชื่อผู้ใช้"
-    });
-
-    return;
-
-  }
-
-
-  if (!id && !password) {
-
-    Swal.fire({
-      icon: "warning",
-      title: "กรุณากรอกรหัสผ่าน",
-      text:
-        "ผู้ใช้งานใหม่ต้องกำหนดรหัสผ่าน"
-    });
-
-    return;
-
-  }
-
-
-  if (!fullName) {
-
-    Swal.fire({
-      icon: "warning",
-      title: "กรุณากรอกข้อมูล",
-      text: "กรุณากรอกชื่อ-นามสกุล"
-    });
-
-    return;
-
-  }
-
-
-
-  const action =
-    id
-      ? "updateUser"
-      : "addUser";
-
-
-
-  const confirm =
-    await Swal.fire({
-
-      icon: "question",
-
-      title:
-        id
-          ? "ยืนยันการแก้ไข?"
-          : "ยืนยันการเพิ่ม?",
-
-      text:
-        id
-          ? "ต้องการบันทึกการแก้ไขผู้ใช้งานหรือไม่"
-          : "ต้องการเพิ่มผู้ใช้งานนี้หรือไม่",
-
-      showCancelButton: true,
-
-      confirmButtonText:
-        "ยืนยัน",
-
-      cancelButtonText:
-        "ยกเลิก"
-
-    });
-
-
-  if (!confirm.isConfirmed)
-    return;
-
-
-
-  showLoading(true);
-
-
-  try {
-
-    const response =
-      await fetch(
-        API_URL,
-        {
-
-          method: "POST",
-
-          body: JSON.stringify({
-
-            action:
-              action,
-
-            id:
-              id,
-
-            username:
-              username,
-
-            password:
-              password,
-
-            full_name:
-              fullName,
-
-            role:
-              role
-
-          })
-
-        }
-      );
-
-
-    const result =
-      await response.json();
-
-
-    showLoading(false);
-
-
-    if (!result.success) {
-
-      throw new Error(
-        result.message ||
-        "บันทึกข้อมูลไม่สำเร็จ"
-      );
-
-    }
-
-
-    closeUserModal();
-
-
-    await loadUsers();
-
-
-    Swal.fire({
-
-      icon: "success",
-
-      title: "สำเร็จ",
-
-      text:
-        result.message ||
-        "บันทึกข้อมูลเรียบร้อยแล้ว",
-
-      timer: 1500,
-
-      showConfirmButton: false
-
-    });
-
-
-  } catch (error) {
-
-    showLoading(false);
-
-    console.error(error);
-
-
-    Swal.fire({
-
-      icon: "error",
-
-      title: "เกิดข้อผิดพลาด",
-
-      text:
-        error.message ||
-        "ไม่สามารถบันทึกข้อมูลได้"
-
-    });
-
-  }
-
-}
-
-
-
-/* ลบ User */
-
-async function deleteUser(id) {
-
-  const user =
-    usersData.find(
-      item =>
-        String(item.id) ===
-        String(id)
-    );
-
-
-  if (!user)
-    return;
-
-
-  const confirm =
-    await Swal.fire({
-
-      icon: "warning",
-
-      title:
-        "ยืนยันการลบ?",
-
-      text:
-        "ต้องการลบ " +
-        (user.full_name || "") +
-        " ใช่หรือไม่",
-
-      showCancelButton: true,
-
-      confirmButtonText:
-        "ลบข้อมูล",
-
-      cancelButtonText:
-        "ยกเลิก",
-
-      confirmButtonColor:
-        "#EF5350"
-
-    });
-
-
-  if (!confirm.isConfirmed)
-    return;
-
-
-  showLoading(true);
-
-
-  try {
-
-    const response =
-      await fetch(
-        API_URL,
-        {
-
-          method: "POST",
-
-          body: JSON.stringify({
-
-            action:
-              "deleteUser",
-
-            id:
-              id
-
-          })
-
-        }
-      );
-
-
-    const result =
-      await response.json();
-
-
-    showLoading(false);
-
-
-    if (!result.success) {
-
-      throw new Error(
-        result.message ||
-        "ลบข้อมูลไม่สำเร็จ"
-      );
-
-    }
-
-
-    await loadUsers();
-
-
-    Swal.fire({
-
-      icon: "success",
-
-      title:
-        "ลบข้อมูลสำเร็จ",
-
-      text:
-        result.message ||
-        "ลบข้อมูลผู้ใช้งานเรียบร้อยแล้ว",
-
-      timer: 1200,
-
-      showConfirmButton: false
-
-    });
-
-
-  } catch (error) {
-
-    showLoading(false);
-
-    console.error(error);
-
-
-    Swal.fire({
-
-      icon: "error",
-
-      title:
-        "เกิดข้อผิดพลาด",
-
-      text:
-        error.message ||
-        "ไม่สามารถลบข้อมูลได้"
-
-    });
-
-  }
-
-}
-
-
-
-/* ========================================
-   ESCAPE HTML
-======================================== */
-
-function escapeHtml(value) {
-
-  return String(value ?? "")
-
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
-
-}
-
-
-
-/* ========================================
-   CLOSE MODAL WHEN CLICK OUTSIDE
-======================================== */
-
-document.addEventListener(
-  "click",
-  event => {
-
-    const userModal =
-      document.getElementById(
-        "userModal"
-      );
-
-
-    const classModal =
-      document.getElementById(
-        "classModal"
-      );
-
-
-    if (
-      event.target ===
-      userModal
-    ) {
-
-      closeUserModal();
-
-    }
-
-
-    if (
-      event.target ===
-      classModal
-    ) {
-
-      closeClassModal();
-
-    }
-
-  }
-);
-
-
-
-/* ========================================
-   ENTER KEY LOGIN
-======================================== */
-
-document.addEventListener(
-  "keydown",
-  event => {
-
-    if (
-      event.key === "Enter" &&
-      document
-        .getElementById("loginPage")
-        .style.display !== "none"
-    ) {
-
-      login();
-
-    }
-
-  }
-);
-
-
+window.addEventListener("DOMContentLoaded",()=>{
+ lucide.createIcons();
+ const saved=sessionStorage.getItem("teacherEvalUser");
+ if(saved){try{state.user=JSON.parse(saved);enterApp();loadAllData();}catch(e){}}
+});
 </script>
-
-
 </body>
-
 </html>
