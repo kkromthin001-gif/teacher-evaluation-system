@@ -1,556 +1,690 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ระบบแบบประเมินการสอนของครู</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://unpkg.com/lucide@latest"></script>
-
-<style>
-:root{
-  --teal:#26A69A; --green:#AED581; --yellow:#FFCA28;
-  --orange:#FF8A65; --red:#EF5350; --dark:#263238;
-  --muted:#78909C; --bg:#F5F8F8; --white:#fff; --border:#E3ECEB;
-  --shadow:0 8px 25px rgba(38,166,154,.10);
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:'Kanit',sans-serif;background:var(--bg);color:var(--dark)}
-button,input,select,textarea{font-family:inherit}
-button{cursor:pointer}
-.hidden{display:none!important}
-.app{min-height:100vh}
-.sidebar{
-  position:fixed;left:0;top:0;bottom:0;width:255px;background:#fff;
-  border-right:1px solid var(--border);z-index:100;padding:20px 14px;
-}
-.brand{display:flex;align-items:center;gap:12px;padding:8px 10px 22px}
-.brand-icon{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--teal),var(--green));
-display:grid;place-items:center;color:#fff}
-.brand h2{font-size:17px;margin:0}.brand small{color:var(--muted)}
-.menu{display:flex;flex-direction:column;gap:6px}
-.menu button{
-  border:0;background:transparent;color:#607D8B;text-align:left;padding:12px 14px;border-radius:12px;
-  display:flex;align-items:center;gap:12px;font-size:15px;width:100%;
-}
-.menu button:hover,.menu button.active{background:#E8F5F3;color:#178B80}
-.main{margin-left:255px;min-height:100vh}
-.topbar{height:72px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50}
-.page-title{font-size:21px;font-weight:600}.user-mini{display:flex;align-items:center;gap:10px}
-.avatar{width:38px;height:38px;border-radius:50%;background:#E0F2F1;color:#16877D;display:grid;place-items:center;font-weight:600}
-.content{padding:26px;max-width:1500px;margin:auto}
-.hamburger{display:none;border:0;background:transparent}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:22px}
-.card{background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:20px}
-.stat{display:flex;justify-content:space-between;align-items:center}.stat-label{color:var(--muted);font-size:14px}.stat-value{font-size:28px;font-weight:600;margin-top:5px}
-.stat-icon{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:#E8F5F3;color:var(--teal)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.card-title{font-size:18px;font-weight:600;margin:0 0 16px}
-.chart-wrap{height:300px;position:relative}
-.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
-.btn{border:0;border-radius:11px;padding:9px 15px;font-size:14px;display:inline-flex;align-items:center;gap:7px}
-.btn-primary{background:var(--teal);color:#fff}.btn-primary:hover{filter:brightness(.95)}
-.btn-secondary{background:#ECEFF1;color:#455A64}.btn-danger{background:#FFEBEE;color:#C62828}.btn-warning{background:#FFF8E1;color:#8D6E00}
-.input,.select,.textarea{
-  width:100%;border:1px solid #CFD8DC;border-radius:10px;padding:10px 12px;outline:none;background:#fff;
-}
-.input:focus,.select:focus,.textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(38,166,154,.10)}
-.table-wrap{overflow-x:auto}.table{width:100%;border-collapse:collapse;min-width:720px}
-.table th,.table td{padding:12px 10px;border-bottom:1px solid var(--border);text-align:left;font-size:14px;vertical-align:middle}
-.table th{background:#F8FAFA;color:#546E7A;font-weight:500}
-.badge{display:inline-flex;padding:4px 9px;border-radius:999px;font-size:12px;background:#ECEFF1;color:#546E7A}
-.badge.green{background:#E8F5E9;color:#2E7D32}.badge.orange{background:#FFF3E0;color:#EF6C00}
-.empty{text-align:center;color:#90A4AE;padding:35px!important}
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.42);display:none;align-items:center;justify-content:center;padding:18px;z-index:300}
-.modal-backdrop.show{display:flex}.modal{width:min(650px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:20px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
-.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.modal-header h3{margin:0}
-.close{border:0;background:#ECEFF1;border-radius:10px;width:38px;height:38px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field.full{grid-column:1/-1}.field label{display:block;font-size:13px;margin-bottom:6px;color:#546E7A}
-.modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
-.login-page{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,#E8F5F3,#F4F9E8)}
-.login-box{width:min(430px,100%);background:#fff;border-radius:25px;box-shadow:0 20px 60px rgba(38,166,154,.16);overflow:hidden}
-.login-head{background:linear-gradient(135deg,var(--teal),#8BCB74);padding:30px;text-align:center;color:#fff}
-.login-logo{width:72px;height:72px;border-radius:50%;background:#fff;color:var(--teal);display:grid;place-items:center;margin:auto auto 13px}
-.login-head h1{font-size:22px;margin:0 0 5px}.login-head p{margin:0;opacity:.9;font-size:14px}
-.login-body{padding:24px}.tabs{display:grid;grid-template-columns:1fr 1fr;background:#F1F5F4;border-radius:12px;padding:4px;margin-bottom:20px}
-.tabs button{border:0;background:transparent;padding:10px;border-radius:9px;color:#607D8B}.tabs button.active{background:#fff;color:var(--teal);box-shadow:0 2px 8px rgba(0,0,0,.07)}
-.login-footer{text-align:center;color:#78909C;font-size:12px;padding-top:18px}
-.student-head{background:linear-gradient(135deg,#26A69A,#AED581);color:#fff;border-radius:18px;padding:22px;margin-bottom:20px}
-.question{border:1px solid var(--border);border-radius:15px;padding:17px;margin-bottom:13px;background:#fff}
-.q-text{font-size:15px;margin-bottom:12px}.q-no{color:var(--teal);font-weight:600}
-.rating{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
-.rating label{border:1px solid #CFD8DC;border-radius:10px;padding:9px 5px;text-align:center;cursor:pointer;font-size:13px;color:#607D8B}
-.rating input{display:none}.rating input:checked+span{display:block;background:#E8F5F3;color:#16877D;font-weight:600;border-radius:8px;padding:5px}
-.progress{height:8px;background:#ECEFF1;border-radius:10px;overflow:hidden;margin:10px 0 20px}.progress-bar{height:100%;background:linear-gradient(90deg,var(--teal),var(--green));width:0}
-.notice{padding:13px 15px;border-radius:12px;background:#E8F5F3;color:#276E68;font-size:13px;margin-bottom:16px}
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:90}
-@media(max-width:900px){.sidebar{transform:translateX(-100%);transition:.25s}.sidebar.open{transform:translateX(0)}.overlay.show{display:block}.main{margin-left:0}.hamburger{display:block}.cards{grid-template-columns:repeat(2,1fr)}.grid2,.grid3{grid-template-columns:1fr}.topbar{padding:0 15px}.content{padding:18px}}
-@media(max-width:600px){.cards{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.rating{grid-template-columns:1fr 1fr}.rating label:last-child{grid-column:1/-1}.page-title{font-size:18px}.content{padding:13px}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบประเมินและวิเคราะห์ผลการสอนของครูโดยนักเรียน</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f8fafc;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
 </head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
-<body>
+    <!-- Header & Navigation Bar -->
+    <header class="bg-indigo-900 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center py-3 gap-3">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-xl text-amber-300 border border-indigo-400">
+                        🎓
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 class="text-lg md:text-xl font-bold tracking-tight">ระบบประเมินการสอนของครูโดยนักเรียน</h1>
+                            <span id="role-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-200 text-indigo-900 border border-indigo-400">โหมดนักเรียน</span>
+                        </div>
+                        <p class="text-xs text-indigo-200">โรงเรียนพานทองสภาชนูปถัมภ์ | โครงสร้างหลักสูตรแยกภาคเรียน</p>
+                    </div>
+                </div>
 
-<div id="loginPage" class="login-page">
-  <div class="login-box">
-    <div class="login-head">
-      <div class="login-logo"><i data-lucide="graduation-cap"></i></div>
-      <h1>ระบบแบบประเมินการสอนของครู</h1>
-      <p>เข้าสู่ระบบเพื่อใช้งาน</p>
-    </div>
-    <div class="login-body">
-      <div class="tabs">
-        <button id="staffTab" class="active" onclick="switchLogin('staff')">ครู / ผู้ดูแลระบบ</button>
-        <button id="studentTab" onclick="switchLogin('student')">นักเรียน</button>
-      </div>
+                <!-- Mode Control -->
+                <div class="flex items-center gap-2 flex-wrap justify-center">
+                    <button id="btn-toggle-student-mode" onclick="handleModeSwitchClick()" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-amber-400 hover:bg-amber-300 text-indigo-950 shadow flex items-center gap-1.5">
+                        <span id="toggle-mode-icon">🔓</span> <span id="toggle-mode-text">เข้าสู่โหมดผู้บริหาร (กรอก PIN)</span>
+                    </button>
+                </div>
+            </div>
 
-      <form id="staffForm" onsubmit="staffLogin(event)">
-        <div class="field" style="margin-bottom:13px">
-          <label>ชื่อผู้ใช้งาน</label>
-          <input id="loginUsername" class="input" required placeholder="กรอกชื่อผู้ใช้งาน">
+            <!-- Navigation Tabs -->
+            <div id="nav-tabs-container" class="py-2 border-t border-indigo-800/60 flex justify-center hidden">
+                <nav class="flex flex-wrap justify-center gap-1.5 bg-indigo-950/60 p-1.5 rounded-xl border border-indigo-800">
+                    <button onclick="switchTab('dashboard')" id="tab-dashboard" class="nav-btn px-4 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-colors text-indigo-200 hover:text-white hover:bg-indigo-800/50">
+                        📊 ภาพรวมโรงเรียน
+                    </button>
+                    <button onclick="switchTab('analytics')" id="tab-analytics" class="nav-btn px-4 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-colors text-indigo-200 hover:text-white hover:bg-indigo-800/50">
+                        🔍 วิเคราะห์รายบุคคล (ครูผู้สอน)
+                    </button>
+                    <button onclick="switchTab('form')" id="tab-form" class="nav-btn px-4 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-colors bg-indigo-600 text-white shadow">
+                        📝 ทำแบบประเมินออนไลน์
+                    </button>
+                    <button onclick="switchTab('criteria')" id="tab-criteria" class="nav-btn px-4 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-colors text-indigo-200 hover:text-white hover:bg-indigo-800/50">
+                        📚 เกณฑ์ประเมิน
+                    </button>
+                </nav>
+            </div>
         </div>
-        <div class="field">
-          <label>รหัสผ่าน</label>
-          <input id="loginPassword" class="input" type="password" required placeholder="กรอกรหัสผ่าน">
-        </div>
-        <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:18px">เข้าสู่ระบบ</button>
-      </form>
-
-      <form id="studentForm" class="hidden" onsubmit="studentLogin(event)">
-        <div class="field">
-          <label>รหัสนักเรียน</label>
-          <input id="studentLoginId" class="input" required placeholder="เช่น 12345">
-        </div>
-        <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:18px">เข้าสู่แบบประเมิน</button>
-      </form>
-      <div class="login-footer">🛡️ ระบบปลอดภัย เข้าใช้งานได้อย่างมั่นใจ</div>
-    </div>
-  </div>
-</div>
-
-<div id="app" class="app hidden">
-  <div id="overlay" class="overlay" onclick="closeSidebar()"></div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="brand">
-      <div class="brand-icon"><i data-lucide="graduation-cap"></i></div>
-      <div><h2>Teacher Eval</h2><small>ระบบประเมินการสอน</small></div>
-    </div>
-    <div class="menu">
-      <button data-page="dashboard" onclick="showPage('dashboard')"><i data-lucide="layout-dashboard"></i> Dashboard</button>
-      <button data-page="users" class="admin-only" onclick="showPage('users')"><i data-lucide="users"></i> ผู้ใช้งาน</button>
-      <button data-page="classes" class="admin-only" onclick="showPage('classes')"><i data-lucide="school"></i> ชั้นเรียน</button>
-      <button data-page="years" class="admin-only" onclick="showPage('years')"><i data-lucide="calendar-days"></i> ปีการศึกษา</button>
-      <button data-page="subjects" onclick="showPage('subjects')"><i data-lucide="book-open"></i> รายวิชา</button>
-      <button data-page="students" onclick="showPage('students')"><i data-lucide="graduation-cap"></i> นักเรียน</button>
-      <button data-page="evaluations" onclick="showPage('evaluations')"><i data-lucide="clipboard-check"></i> ผลประเมิน</button>
-      <button data-page="logout" onclick="logout()"><i data-lucide="log-out"></i> ออกจากระบบ</button>
-    </div>
-  </aside>
-
-  <main class="main">
-    <header class="topbar">
-      <div style="display:flex;align-items:center;gap:10px">
-        <button class="hamburger" onclick="openSidebar()"><i data-lucide="menu"></i></button>
-        <div id="pageTitle" class="page-title">Dashboard</div>
-      </div>
-      <div class="user-mini">
-        <div id="userName" style="font-size:14px"></div>
-        <div class="avatar"><i data-lucide="user-round"></i></div>
-      </div>
     </header>
 
-    <div class="content">
-
-      <!-- DASHBOARD -->
-      <section id="page-dashboard" class="page">
-        <div class="cards">
-          <div class="card stat"><div><div class="stat-label">ผู้ใช้งาน</div><div id="statUsers" class="stat-value">0</div></div><div class="stat-icon"><i data-lucide="users"></i></div></div>
-          <div class="card stat"><div><div class="stat-label">รายวิชา</div><div id="statSubjects" class="stat-value">0</div></div><div class="stat-icon"><i data-lucide="book-open"></i></div></div>
-          <div class="card stat"><div><div class="stat-label">นักเรียน</div><div id="statStudents" class="stat-value">0</div></div><div class="stat-icon"><i data-lucide="graduation-cap"></i></div></div>
-          <div class="card stat"><div><div class="stat-label">การประเมิน</div><div id="statEvaluations" class="stat-value">0</div></div><div class="stat-icon"><i data-lucide="clipboard-check"></i></div></div>
-        </div>
-        <div class="grid2">
-          <div class="card"><h3 class="card-title">สัดส่วนการประเมินตามระดับการศึกษา</h3><div class="chart-wrap"><canvas id="levelChart"></canvas></div></div>
-          <div class="card"><h3 class="card-title">คะแนนเฉลี่ยรายข้อ</h3><div class="chart-wrap"><canvas id="itemChart"></canvas></div></div>
-        </div>
-      </section>
-
-      <!-- USERS -->
-      <section id="page-users" class="page hidden">
-        <div class="card">
-          <div class="toolbar"><div><h3 class="card-title" style="margin:0">จัดการผู้ใช้งาน</h3><small style="color:#78909C">ผู้ดูแลระบบและครู</small></div><button class="btn btn-primary" onclick="openUserModal()"><i data-lucide="plus"></i> เพิ่มผู้ใช้งาน</button></div>
-          <div class="table-wrap"><table class="table"><thead><tr><th>ชื่อผู้ใช้</th><th>ชื่อ-สกุล</th><th>บทบาท</th><th>สถานะ</th><th>จัดการ</th></tr></thead><tbody id="usersBody"></tbody></table></div>
-        </div>
-      </section>
-
-      <!-- CLASSES -->
-      <section id="page-classes" class="page hidden">
-        <div class="card">
-          <div class="toolbar"><h3 class="card-title" style="margin:0">จัดการชั้นเรียน</h3><button class="btn btn-primary" onclick="openClassModal()"><i data-lucide="plus"></i> เพิ่มชั้นเรียน</button></div>
-          <div class="table-wrap"><table class="table"><thead><tr><th>ชั้นเรียน</th><th>ระดับ</th><th>จัดการ</th></tr></thead><tbody id="classesBody"></tbody></table></div>
-        </div>
-      </section>
-
-      <!-- YEARS -->
-      <section id="page-years" class="page hidden">
-        <div class="card">
-          <div class="toolbar"><h3 class="card-title" style="margin:0">ปีการศึกษา</h3><button class="btn btn-primary" onclick="openYearModal()"><i data-lucide="plus"></i> เพิ่มปีการศึกษา</button></div>
-          <div class="table-wrap"><table class="table"><thead><tr><th>ปีการศึกษา</th><th>จัดการ</th></tr></thead><tbody id="yearsBody"></tbody></table></div>
-        </div>
-      </section>
-
-      <!-- SUBJECTS -->
-      <section id="page-subjects" class="page hidden">
-        <div class="card">
-          <div class="toolbar"><div><h3 class="card-title" style="margin:0">จัดการรายวิชา</h3><small style="color:#78909C">ผูกรายวิชากับครู ชั้นเรียน และปีการศึกษา</small></div><button class="btn btn-primary" onclick="openSubjectModal()"><i data-lucide="plus"></i> เพิ่มรายวิชา</button></div>
-          <div class="table-wrap"><table class="table"><thead><tr><th>รายวิชา</th><th>ครู</th><th>ชั้นเรียน</th><th>ปีการศึกษา</th><th>จัดการ</th></tr></thead><tbody id="subjectsBody"></tbody></table></div>
-        </div>
-      </section>
-
-      <!-- STUDENTS -->
-      <section id="page-students" class="page hidden">
-        <div class="card">
-          <div class="toolbar"><div><h3 class="card-title" style="margin:0">จัดการนักเรียน</h3><small style="color:#78909C">เพิ่มข้อมูลนักเรียนเพื่อใช้เข้าสู่แบบประเมิน</small></div><button class="btn btn-primary" onclick="openStudentModal()"><i data-lucide="plus"></i> เพิ่มนักเรียน</button></div>
-          <div class="table-wrap"><table class="table"><thead><tr><th>รหัสนักเรียน</th><th>ชื่อ-สกุล</th><th>ชั้นเรียน</th><th>จัดการ</th></tr></thead><tbody id="studentsBody"></tbody></table></div>
-        </div>
-      </section>
-
-      <!-- EVALUATIONS -->
-      <section id="page-evaluations" class="page hidden">
-        <div class="card">
-          <div class="toolbar">
-            <div><h3 class="card-title" style="margin:0">ผลการประเมินการสอน</h3><small style="color:#78909C">สรุปจากแบบประเมินที่นักเรียนส่ง</small></div>
-            <button class="btn btn-secondary" onclick="loadAllData()"><i data-lucide="refresh-cw"></i> รีเฟรช</button>
-          </div>
-          <div class="grid3" style="margin-bottom:18px">
-            <div><label style="font-size:13px;color:#607D8B">ครู</label><select id="filterTeacher" class="select" onchange="renderEvaluations()"></select></div>
-            <div><label style="font-size:13px;color:#607D8B">รายวิชา</label><select id="filterSubject" class="select" onchange="renderEvaluations()"></select></div>
-            <div><label style="font-size:13px;color:#607D8B">ปีการศึกษา</label><select id="filterYear" class="select" onchange="renderEvaluations()"></select></div>
-          </div>
-          <div id="evaluationSummary" class="notice">ยังไม่มีข้อมูลการประเมิน</div>
-          <div class="table-wrap"><table class="table"><thead><tr><th>นักเรียน</th><th>ครู</th><th>รายวิชา</th><th>ปี</th><th>คะแนนเฉลี่ย</th><th>ร้อยละ</th><th>วันที่</th></tr></thead><tbody id="evaluationsBody"></tbody></table></div>
-        </div>
-      </section>
-
-      <!-- STUDENT EVALUATION -->
-      <section id="page-student-evaluation" class="page hidden">
-        <div class="student-head">
-          <div style="font-size:13px;opacity:.9">แบบประเมินการสอน</div>
-          <div id="studentWelcome" style="font-size:22px;font-weight:600"></div>
-          <div id="studentMeta" style="font-size:14px;opacity:.9"></div>
-        </div>
-
-        <div class="card" style="margin-bottom:18px">
-          <div class="form-grid">
-            <div class="field"><label>รายวิชา</label><select id="studentSubject" class="select" onchange="updateStudentMeta()"></select></div>
-            <div class="field"><label>ชั้นเรียน</label><input id="studentClass" class="input" readonly></div>
-            <div class="field"><label>ครูผู้สอน</label><input id="studentTeacher" class="input" readonly></div>
-            <div class="field"><label>ปีการศึกษา</label><input id="studentYear" class="input" readonly></div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="notice">กรุณาเลือกคะแนนให้ครบทั้ง 20 ข้อ โดย 5 = ดีเยี่ยม และ 1 = กำลังพัฒนา</div>
-          <div class="progress"><div id="progressBar" class="progress-bar"></div></div>
-          <form id="evaluationForm" onsubmit="submitStudentEvaluation(event)">
-            <div id="questionsContainer"></div>
-            <div class="field" style="margin-top:20px"><label>สิ่งที่อยากชื่นชมหรือบอกครูผู้สอน (ไม่บังคับ)</label><textarea id="teacherThought" class="textarea" rows="3" placeholder="เขียนความคิดเห็นได้ตามความเหมาะสม"></textarea></div>
-            <div class="field" style="margin-top:14px"><label>ข้อเสนอแนะเพื่อพัฒนาการสอน (ไม่บังคับ)</label><textarea id="suggestion" class="textarea" rows="3" placeholder="ข้อเสนอแนะเพิ่มเติม"></textarea></div>
-            <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:20px;flex-wrap:wrap">
-              <button type="button" class="btn btn-secondary" onclick="logoutStudent()">ออกจากแบบประเมิน</button>
-              <button type="submit" class="btn btn-primary"><i data-lucide="send"></i> ส่งแบบประเมิน</button>
-            </div>
-          </form>
-        </div>
-      </section>
+    <!-- Student Restricted Banner -->
+    <div id="student-mode-banner" class="bg-indigo-700 text-white py-2 px-4 text-center text-xs font-medium shadow-inner flex justify-center items-center gap-2">
+        <span>📌 ขณะนี้อยู่ใน <strong>"โหมดนักเรียน"</strong> (ระบบแสดงหน้าแบบประเมินทันที ผลประเมินถูกเก็บเป็นความลับ)</span>
     </div>
-  </main>
-</div>
 
-<!-- MODALS -->
-<div id="modalBackdrop" class="modal-backdrop" onclick="backdropClose(event)">
-  <div id="modal" class="modal"></div>
-</div>
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
-<script>
-const API_URL = "https://script.google.com/macros/s/AKfycbyQEQLczvcmqenKi7xQM6c9w_LIQuilzAQYsopJI6y5hRzKHq4jqHIYVGskz-EENK8L/exec";
+        <!-- SECTION 1: ONLINE EVALUATION FORM -->
+        <section id="sec-form" class="space-y-6">
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex items-center space-x-3 mb-2">
+                    <span class="px-3 py-1 bg-indigo-100 text-indigo-700 font-semibold text-xs rounded-full">สำหรับนักเรียนทำแบบประเมิน</span>
+                    <h2 class="text-2xl font-bold text-slate-900">แบบประเมินการสอนของครูโดยนักเรียน</h2>
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    ให้นักเรียนเลือกกลุ่มสาระฯ ครูผู้สอน ภาคเรียน และรายวิชาตามโครงสร้างหลักสูตรสถานศึกษา เพื่อประเมินการสอนของคุณครูตามความเป็นจริง
+                </p>
+            </div>
 
-const QUESTIONS = [
-"ครูแจ้งผลการเรียนรู้ชัดเจน",
-"กิจกรรมการเรียนรู้สนุกและน่าสนใจ",
-"เนื้อหาที่สอนทันสมัยเสมอ",
-"ครูใช้สื่อประกอบการสอน",
-"ครูใช้คำถามถามนักเรียนบ่อยๆ",
-"ครูประยุกต์สาระที่สอนเข้ากับเหตุการณ์ปัจจุบัน/สภาพแวดล้อม",
-"ครูส่งเสริมให้นักเรียนคิดริเริ่มและรู้จักวิพากษ์วิจารณ์",
-"ครูยอมรับความคิดเห็นของนักเรียนที่ต่างไปจากครู",
-"ครูให้นักเรียนทำงานร่วมกันทั้งกลุ่มและรายบุคคล",
-"ครูให้นักเรียนแสวงหาความรู้จากแหล่งเรียนรู้ต่างๆ",
-"ครูให้โอกาสนักเรียนซักถามปัญหา",
-"ครูให้ความสนใจนักเรียนขณะสอนทั่วถึงทุกคน",
-"ครูให้ความช่วยเหลือหรืออำนวยความสะดวกแก่นักเรียนในการเรียน",
-"นักเรียนทราบเกณฑ์การวัดและประเมินผล",
-"นักเรียนมีส่วนร่วมในการวัดและประเมินผล",
-"ครูประเมินผลการเรียนอย่างยุติธรรม",
-"ครูมีความตั้งใจในการสอน",
-"บุคลิกภาพ การแต่งกายของครูเหมาะสม",
-"การพูดจาของครูเหมาะสม",
-"ครูเข้าสอนและออกตรงตามเวลา"
-];
-const SCORE_LABELS={5:"ดีเยี่ยม",4:"ดีเลิศ",3:"ดี",2:"ปานกลาง",1:"กำลังพัฒนา"};
-let state={user:null,students:[],subjects:[],users:[],classes:[],years:[],evaluations:[],student:null};
-let charts={level:null,item:null};
-let loginMode="staff";
+            <form id="evaluation-form" onsubmit="handleFormSubmit(event)" class="space-y-6">
+                <!-- Part 1: General Info -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="text-lg font-bold text-indigo-900 border-b pb-2">ส่วนที่ 1: ข้อมูลทั่วไปและวิชาที่ประเมิน</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">กลุ่มสาระการเรียนรู้ <span class="text-rose-500">*</span></label>
+                            <select id="form-dept-select" onchange="onFormDeptOrSemesterChange()" required class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500">
+                                <option value="">-- เลือกกลุ่มสาระการเรียนรู้ --</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">ชื่อคุณครูผู้สอน <span class="text-rose-500">*</span></label>
+                            <select id="form-teacher-select" required class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500">
+                                <option value="">-- โปรดเลือกกลุ่มสาระฯ ก่อน --</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="md:col-span-1">
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">ภาคเรียน <span class="text-rose-500">*</span></label>
+                                <select id="form-semester-select" onchange="onFormDeptOrSemesterChange()" required class="w-full p-2.5 bg-indigo-50/70 border border-indigo-200 rounded-lg text-sm font-bold text-indigo-950 focus:ring-2 focus:ring-indigo-500">
+                                    <option value="ภาคเรียนที่ 1">ภาคเรียนที่ 1</option>
+                                    <option value="ภาคเรียนที่ 2">ภาคเรียนที่ 2</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">รายวิชาที่สอน <span class="text-rose-500">*</span></label>
+                                <select id="form-subject-select" required class="w-full p-2.5 bg-amber-50/60 border border-amber-300 rounded-lg text-sm font-medium text-amber-950 focus:ring-2 focus:ring-amber-500">
+                                    <option value="วิชาพื้นฐาน/เพิ่มเติม (อ้างอิงตามหลักสูตร)">วิชาพื้นฐาน/เพิ่มเติม (อ้างอิงตามหลักสูตร)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">รายวิชาเพิ่มเติม (ถ้ามี)</label>
+                            <input type="text" id="form-sub-extra" placeholder="ระบุชื่อวิชาเพิ่มเติม เช่น หุ่นยนต์ AI..." class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                    </div>
+                </div>
 
-function $(id){return document.getElementById(id)}
-function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-function showLoading(title="กำลังโหลดข้อมูล..."){Swal.fire({title,text:title,allowOutsideClick:false,didOpen:()=>Swal.showLoading()})}
-async function getData(action){
-  const r=await fetch(API_URL+"?action="+encodeURIComponent(action),{cache:"no-store"});
-  const j=await r.json();
-  if(!j.success) throw new Error(j.message||"ไม่สามารถอ่านข้อมูลได้");
-  return j.data??j;
-}
-async function postData(payload){
-  const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
-  const j=await r.json();
-  if(!j.success) throw new Error(j.message||"ดำเนินการไม่สำเร็จ");
-  return j;
-}
-function closeSwal(){if(Swal.isVisible())Swal.close()}
+                <!-- Part 2: 20 Items Evaluation Grid -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <h3 class="text-lg font-bold text-indigo-900 border-b pb-2">ส่วนที่ 2: รายการประเมินการสอน (20 ข้อ)</h3>
+                    <div id="domain-1-questions" class="space-y-3"></div>
+                    <div id="domain-2-questions" class="space-y-3 pt-2"></div>
+                    <div id="domain-3-questions" class="space-y-3 pt-2"></div>
+                    <div id="domain-4-questions" class="space-y-3 pt-2"></div>
+                </div>
 
-function switchLogin(mode){
-  loginMode=mode;
-  $("staffTab").classList.toggle("active",mode==="staff");
-  $("studentTab").classList.toggle("active",mode==="student");
-  $("staffForm").classList.toggle("hidden",mode!=="staff");
-  $("studentForm").classList.toggle("hidden",mode!=="student");
-}
-async function staffLogin(e){
-  e.preventDefault(); showLoading("กำลังเข้าสู่ระบบ...");
-  try{
-    const j=await postData({action:"login",username:$("loginUsername").value.trim(),password:$("loginPassword").value});
-    state.user=j.user; sessionStorage.setItem("teacherEvalUser",JSON.stringify(state.user));
-    closeSwal(); enterApp(); await loadAllData(); showPage("dashboard");
-  }catch(err){Swal.fire("เข้าสู่ระบบไม่สำเร็จ",err.message,"error")}
-}
-async function studentLogin(e){
-  e.preventDefault(); showLoading("กำลังตรวจสอบรหัสนักเรียน...");
-  try{
-    const students=await getData("getStudents");
-    const sid=$("studentLoginId").value.trim();
-    const s=students.find(x=>String(x.student_id).trim()===sid);
-    if(!s) throw new Error("ไม่พบรหัสนักเรียนนี้ในระบบ");
-    state.student=s;
-    state.subjects=await getData("getSubjects");
-    state.classes=await getData("getClasses");
-    state.users=await getData("getUsers").catch(()=>[]);
-    state.years=await getData("getAcademicYears");
-    closeSwal(); $("loginPage").classList.add("hidden"); $("app").classList.remove("hidden");
-    document.querySelectorAll(".menu button").forEach(b=>b.classList.add("hidden"));
-    showPage("student-evaluation"); prepareStudentEvaluation();
-  }catch(err){Swal.fire("เข้าสู่ระบบไม่สำเร็จ",err.message,"error")}
-}
-function enterApp(){
-  $("loginPage").classList.add("hidden"); $("app").classList.remove("hidden");
-  $("userName").textContent=state.user?.full_name||"ผู้ใช้งาน";
-  const admin=state.user?.role==="admin";
-  document.querySelectorAll(".admin-only").forEach(x=>x.classList.toggle("hidden",!admin));
-  document.querySelectorAll(".menu button").forEach(b=>{if(b.dataset.page!=="logout"&&!b.classList.contains("admin-only"))b.classList.remove("hidden")});
-}
-function logout(){
-  sessionStorage.removeItem("teacherEvalUser"); state.user=null;
-  $("app").classList.add("hidden"); $("loginPage").classList.remove("hidden"); switchLogin("staff");
-}
-function logoutStudent(){state.student=null;location.reload()}
-function openSidebar(){$("sidebar").classList.add("open");$("overlay").classList.add("show")}
-function closeSidebar(){$("sidebar").classList.remove("open");$("overlay").classList.remove("show")}
+                <!-- Part 3: Suggestions -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="text-lg font-bold text-indigo-900 border-b pb-2">ส่วนที่ 3: ข้อเสนอแนะเพิ่มเติม (ไม่บังคับ)</h3>
+                    <textarea id="form-impress" rows="2" placeholder="สิ่งที่นักเรียนประทับใจ..." class="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm"></textarea>
+                    <textarea id="form-suggestions" rows="2" placeholder="ข้อเสนอแนะเพื่อพัฒนา..." class="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm"></textarea>
+                </div>
 
-async function loadAllData(){
-  try{
-    const [users,classes,years,subjects,students]=await Promise.all([
-      getData("getUsers"),getData("getClasses"),getData("getAcademicYears"),getData("getSubjects"),getData("getStudents")
-    ]);
-    state.users=users;state.classes=classes;state.years=years;state.subjects=subjects;state.students=students;
-    try{state.evaluations=await getData("getEvaluations")}catch(_){state.evaluations=[]}
-    renderUsers();renderClasses();renderYears();renderSubjects();renderStudents();renderEvaluations();renderDashboard();
-  }catch(err){Swal.fire("โหลดข้อมูลไม่สำเร็จ",err.message,"error")}
-}
-function showPage(page){
-  if(page==="logout"){logout();return}
-  document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
-  const target=$("page-"+page);if(target)target.classList.remove("hidden");
-  const titles={dashboard:"Dashboard",users:"ผู้ใช้งาน",classes:"ชั้นเรียน",years:"ปีการศึกษา",subjects:"รายวิชา",students:"นักเรียน",evaluations:"ผลการประเมิน", "student-evaluation":"แบบประเมินการสอน"};
-  $("pageTitle").textContent=titles[page]||page;
-  document.querySelectorAll(".menu button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
-  if(page==="dashboard")renderDashboard();
-  closeSidebar();
-  lucide.createIcons();
-}
+                <!-- Submit Button -->
+                <div class="flex justify-end gap-4">
+                    <button type="submit" id="submit-btn" class="px-8 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-md transition-all text-sm">
+                        <span id="submit-text">ส่งแบบประเมิน</span> <span id="submit-icon">🚀</span>
+                    </button>
+                </div>
+            </form>
+        </section>
 
-function openModal(html){$("modal").innerHTML=html;$("modalBackdrop").classList.add("show");lucide.createIcons()}
-function closeModal(){$("modalBackdrop").classList.remove("show")}
-function backdropClose(e){if(e.target===$("modalBackdrop"))closeModal()}
+        <!-- SECTION 2: DASHBOARD (ADMIN ONLY) -->
+        <section id="sec-dashboard" class="hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-1">สรุปภาพรวมผลการประเมินโรงเรียน</h2>
+                </div>
+                <div class="flex items-center gap-2 bg-indigo-50 p-2 rounded-xl border border-indigo-100 flex-wrap">
+                    <select id="dashboard-semester-filter" onchange="updateDashboardView()" class="text-xs bg-white border border-indigo-300 font-bold text-indigo-950 px-3 py-1.5 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                        <option value="ทั้งหมด">ภาคเรียนทั้งหมด</option>
+                        <option value="ภาคเรียนที่ 1">เฉพาะ ภาคเรียนที่ 1</option>
+                        <option value="ภาคเรียนที่ 2">เฉพาะ ภาคเรียนที่ 2</option>
+                    </select>
+                </div>
+            </div>
 
-function openUserModal(item=null){
- openModal(`<div class="modal-header"><h3>${item?"แก้ไข":"เพิ่ม"}ผู้ใช้งาน</h3><button class="close" onclick="closeModal()">×</button></div>
- <div class="form-grid">
- <div class="field"><label>ชื่อผู้ใช้</label><input id="fUsername" class="input" value="${esc(item?.username)}"></div>
- <div class="field"><label>รหัสผ่าน ${item?"(เว้นว่างเพื่อใช้รหัสเดิม)":""}</label><input id="fPassword" class="input" type="password"></div>
- <div class="field full"><label>ชื่อ-สกุล</label><input id="fFullName" class="input" value="${esc(item?.full_name)}"></div>
- <div class="field"><label>บทบาท</label><select id="fRole" class="select"><option value="admin" ${item?.role==="admin"?"selected":""}>ผู้ดูแลระบบ</option><option value="teacher" ${item?.role==="teacher"?"selected":""}>ครู</option></select></div>
- </div><div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">ยกเลิก</button><button class="btn btn-primary" onclick="saveUser('${esc(item?.id||"")}')">บันทึก</button></div>`);
-}
-async function saveUser(id){
- try{
-  const payload={action:id?"updateUser":"addUser",id,username:$("fUsername").value.trim(),password:$("fPassword").value,full_name:$("fFullName").value.trim(),role:$("fRole").value};
-  if(id&&!payload.password)delete payload.password;
-  await postData(payload);closeModal();await loadAllData();Swal.fire("สำเร็จ","บันทึกข้อมูลผู้ใช้งานแล้ว","success");
- }catch(e){Swal.fire("ไม่สำเร็จ",e.message,"error")}
-}
-function renderUsers(){
- $("usersBody").innerHTML=state.users.length?state.users.map(x=>`<tr><td>${esc(x.username)}</td><td>${esc(x.full_name)}</td><td><span class="badge">${x.role==="admin"?"ผู้ดูแลระบบ":"ครู"}</span></td><td><span class="badge green">${esc(x.status||"active")}</span></td><td><button class="btn btn-warning" onclick='openUserModal(${JSON.stringify(x)})'>แก้ไข</button> <button class="btn btn-danger" onclick="deleteUser('${esc(x.id)}')">ลบ</button></td></tr>`).join(""):`<tr><td colspan="5" class="empty">ยังไม่มีข้อมูล</td></tr>`;
-}
-async function deleteUser(id){
- const ok=await Swal.fire({title:"ยืนยันการลบ?",text:"ข้อมูลผู้ใช้งานจะถูกลบ",icon:"warning",showCancelButton:true,confirmButtonText:"ลบ",cancelButtonText:"ยกเลิก"});
- if(!ok.isConfirmed)return;try{await postData({action:"deleteUser",id});await loadAllData();Swal.fire("ลบแล้ว","","success")}catch(e){Swal.fire("ไม่สำเร็จ",e.message,"error")}
-}
+            <!-- KPI Metric Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="text-xs font-semibold text-slate-500 uppercase">คะแนนเฉลี่ยรวม</div>
+                    <div class="text-2xl font-extrabold text-indigo-900" id="kpi-total-avg">0.00 / 5.00</div>
+                    <div class="text-xs text-amber-600 font-medium" id="kpi-status-tag">รอโหลดข้อมูล...</div>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="text-xs font-semibold text-slate-500 uppercase">จำนวนแบบประเมินสะสม</div>
+                    <div class="text-2xl font-extrabold text-purple-900" id="kpi-total-evaluations">0</div>
+                </div>
+            </div>
 
-function openClassModal(item=null){
- openModal(`<div class="modal-header"><h3>${item?"แก้ไข":"เพิ่ม"}ชั้นเรียน</h3><button class="close" onclick="closeModal()">×</button></div>
- <div class="form-grid"><div class="field"><label>ชั้นเรียน</label><input id="fClassName" class="input" value="${esc(item?.class_name)}" placeholder="เช่น ม.2/1"></div>
- <div class="field"><label>ระดับการศึกษา</label><select id="fLevel" class="select"><option value="ประถมศึกษา" ${item?.level==="ประถมศึกษา"?"selected":""}>ประถมศึกษา</option><option value="มัธยมศึกษา" ${item?.level==="มัธยมศึกษา"?"selected":""}>มัธยมศึกษา</option></select></div></div>
- <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">ยกเลิก</button><button class="btn btn-primary" onclick="saveClass('${esc(item?.id||"")}')">บันทึก</button></div>`);
-}
-async function saveClass(id){
- try{await postData({action:id?"updateClass":"addClass",id,class_name:$("fClassName").value.trim(),education_level:$("fLevel").value});closeModal();await loadAllData();Swal.fire("สำเร็จ","บันทึกชั้นเรียนแล้ว","success")}
- catch(e){Swal.fire("ไม่สำเร็จ",e.message,"error")}
-}
-function renderClasses(){
- $("classesBody").innerHTML=state.classes.length?state.classes.map(x=>`<tr><td>${esc(x.class_name)}</td><td><span class="badge">${esc(x.level||x.education_level)}</span></td><td><button class="btn btn-warning" onclick='openClassModal(${JSON.stringify(x)})'>แก้ไข</button> <button class="btn btn-danger" onclick="deleteClass('${esc(x.id)}')">ลบ</button></td></tr>`).join(""):`<tr><td colspan="3" class="empty">ยังไม่มีข้อมูล</td></tr>`;
-}
-async function deleteClass(id){const ok=await Swal.fire({title:"ยืนยันการลบ?",icon:"warning",showCancelButton:true,confirmButtonText:"ลบ",cancelButtonText:"ยกเลิก"});if(!ok.isConfirmed)return;try{await postData({action:"deleteClass",id});await loadAllData();Swal.fire("ลบแล้ว","","success")}catch(e){Swal.fire("ไม่สำเร็จ",e.message,"error")}}
+            <!-- Visualization -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <h3 class="text-lg font-bold text-slate-900 mb-4">คะแนนเฉลี่ย 4 ด้านหลัก</h3>
+                    <div class="chart-container"><canvas id="chart-dimensions-radar"></canvas></div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <h3 class="text-lg font-bold text-slate-900 mb-4">สัดส่วนระดับความพึงพอใจ</h3>
+                    <div class="chart-container"><canvas id="chart-rating-donut"></canvas></div>
+                </div>
+            </div>
+        </section>
 
-function openYearModal(item=null){
- openModal(`<div class="modal-header"><h3>${item?"แก้ไข":"เพิ่ม"}ปีการศึกษา</h3><button class="close" onclick="closeModal()">×</button></div>
- <div class="field"><label>ปีการศึกษา</label><input id="fYear" class="input" value="${esc(item?.academic_year)}" placeholder="เช่น 2569"></div>
- <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">ยกเลิก</button><button class="btn btn-primary" onclick="saveYear('${esc(item?.id||"")}')">บันทึก</button></div>`);
-}
-async function saveYear(id){try{await postData({action:id?"updateAcademicYear":"addAcademicYear",id,academic_year:$("fYear").value.trim()});closeModal();await loadAllData();Swal.fire("สำเร็จ","บันทึกปีการศึกษาแล้ว","success")}catch(e){Swal.fire("ไม่สำเร็จ",e.message,"error")}}
-function renderYears(){$("yearsBody").innerHTML=state.years.length?state.years.map(x=>`<tr><td>${esc(x.academic_year)}</td><td><button class="btn btn-warning" onclick='openYearModal(${JSON.stringify(x)})'>แก้ไข</button> <button class="btn btn-danger" onclick="deleteYear('${esc(x.id)}')">ลบ</button></td></tr>`).join(""):`<tr><td colspan="2" class="empty">ยังไม่มีข้อมูล</td></tr>`}
-async function deleteYear(id){const ok=await Swal.fire({title:"ยืนยันการลบ?",icon:"warning",showCancelButton:true,confirmButtonText:"ลบ",cancelButtonText:"ยกเลิก"});if(!ok.isConfirmed)return;try{await postData({action:"deleteAcademicYear",id});await loadAllData();Swal.fire("ลบแล้ว","","success")}catch(e){Swal.fire("ไม่สำเร็จ",e.message,"error")}}
+        <!-- SECTION 3: INDIVIDUAL TEACHER ANALYTICS -->
+        <section id="sec-analytics" class="hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4">
+                <h2 class="text-xl font-bold text-slate-900">วิเคราะห์ผลประเมินรายบุคคล</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <select id="analytics-dept-select" onchange="updateAnalyticsTeacherDropdown()" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm font-semibold"></select>
+                    <select id="analytics-teacher-select" onchange="renderTeacherAnalytics()" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm font-semibold"></select>
+                    <select id="analytics-semester-filter" onchange="renderTeacherAnalytics()" class="w-full p-2.5 bg-indigo-50/70 border border-indigo-200 rounded-lg text-sm font-bold text-indigo-900">
+                        <option value="ทั้งหมด">ภาคเรียนทั้งหมด</option>
+                        <option value="ภาคเรียนที่ 1">เฉพาะ ภาคเรียนที่ 1</option>
+                        <option value="ภาคเรียนที่ 2">เฉพาะ ภาคเรียนที่ 2</option>
+                    </select>
+                </div>
+            </div>
 
-function openSubjectModal(){
- const teachers=state.users.filter(x=>x.role==="teacher");
- openModal(`<div class="modal-header"><h3>เพิ่มรายวิชา</h3><button class="close" onclick="closeModal()">×</button></div>
- <div class="form-grid">
- <div class="field full"><label>ชื่อรายวิชา</label><input id="fSubjectName" class="input" placeholder="เช่น วิทยาการคำนวณ"></div>
- <div class="field"><label>ครูผู้สอน</label><select id="fTeacher" class="select"><option value="">-- เลือกครู --</option>${teachers.map(x=>`<option value="${esc(x.id)}">${esc(x.full_name)}</option>`).join("")}</select></div>
- <div class="field"><label>ชั้นเรียน</label><select id="fSubjectClass" class="select"><option value="">-- เลือกชั้นเรียน --</option>${state.classes.map(x=>`<option value="${esc(x.id)}">${esc(x.class_name)}</option>`).join("")}</select></div>
- <div class="field"><label>ปีการศึกษา</label><select id="fSubjectYear" class="select"><option value="">-- เลือกปี --</option>${state.years.map(x=>`<option value="${esc(x.id)}">${esc(x.academic_year)}</option>`).join("")}</select></div>
- </div><div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">ยกเลิก</button><button class="btn btn-primary" onclick="saveSubject()">บันทึก</button></div>`);
-}
-async function saveSubject(){
- try{await postData({action:"addSubject",subject_name:$("fSubjectName").value.trim(),teacher_id:$("fTeacher").value,class_id:$("fSubjectClass").value,academic_year_id:$("fSubjectYear").value});closeModal();await loadAllData();Swal.fire("สำเร็จ","เพิ่มรายวิชาแล้ว","success")}
- catch(e){Swal.fire("ไม่สำเร็จ",e.message,"error")}
-}
-function nameBy(arr,id,key="full_name"){const x=arr.find(a=>String(a.id)===String(id));return x?x[key]:"-"}
-function renderSubjects(){
- $("subjectsBody").innerHTML=state.subjects.length?state.subjects.map(x=>`<tr><td>${esc(x.subject_name)}</td><td>${esc(nameBy(state.users,x.teacher_id))}</td><td>${esc(nameBy(state.classes,x.class_id,"class_name"))}</td><td>${esc(nameBy(state.years,x.academic_year_id,"academic_year"))}</td><td><span class="badge">รายวิชา</span></td></tr>`).join(""):`<tr><td colspan="5" class="empty">ยังไม่มีรายวิชา</td></tr>`;
-}
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-5">
+                <div class="flex flex-col md:flex-row justify-between border-b pb-4">
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-900" id="teacher-summary-name">-- โปรดเลือกครูผู้สอน --</h3>
+                        <p class="text-xs text-slate-500" id="teacher-summary-dept">สังกัดกลุ่มสาระการเรียนรู้</p>
+                    </div>
+                    <div class="text-right bg-slate-50 p-3 rounded-xl border">
+                        <div class="text-[11px] text-slate-500 font-semibold">คะแนนเฉลี่ยภาพรวม</div>
+                        <div class="text-2xl font-black text-indigo-700" id="teacher-summary-score">0.00 / 5.00</div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="p-4 bg-slate-50 rounded-xl border"><div class="text-xs text-slate-500 mb-1">จำนวนการประเมิน</div><div class="text-xl font-bold text-slate-800" id="teacher-metric-count">0 ครั้ง</div></div>
+                </div>
+            </div>
 
-function openStudentModal(){
- openModal(`<div class="modal-header"><h3>เพิ่มนักเรียน</h3><button class="close" onclick="closeModal()">×</button></div>
- <div class="form-grid"><div class="field"><label>รหัสนักเรียน</label><input id="fStudentId" class="input"></div><div class="field"><label>ชื่อ-สกุล</label><input id="fStudentName" class="input"></div>
- <div class="field full"><label>ชั้นเรียน</label><select id="fStudentClass" class="select"><option value="">-- เลือกชั้นเรียน --</option>${state.classes.map(x=>`<option value="${esc(x.id)}">${esc(x.class_name)}</option>`).join("")}</select></div></div>
- <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">ยกเลิก</button><button class="btn btn-primary" onclick="saveStudent()">บันทึก</button></div>`);
-}
-async function saveStudent(){try{await postData({action:"addStudent",student_id:$("fStudentId").value.trim(),full_name:$("fStudentName").value.trim(),class_id:$("fStudentClass").value});closeModal();await loadAllData();Swal.fire("สำเร็จ","เพิ่มนักเรียนแล้ว","success")}catch(e){Swal.fire("ไม่สำเร็จ",e.message,"error")}}
-function renderStudents(){$("studentsBody").innerHTML=state.students.length?state.students.map(x=>`<tr><td>${esc(x.student_id)}</td><td>${esc(x.full_name)}</td><td>${esc(nameBy(state.classes,x.class_id,"class_name"))}</td><td><span class="badge">นักเรียน</span></td></tr>`).join(""):`<tr><td colspan="4" class="empty">ยังไม่มีนักเรียน</td></tr>`}
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border">
+                    <h3 class="font-bold text-slate-900 mb-4">กราฟเปรียบเทียบ 4 ด้าน (ครู vs โรงเรียน)</h3>
+                    <div class="chart-container"><canvas id="chart-teacher-domain-radar"></canvas></div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border">
+                    <h3 class="font-bold text-slate-900 mb-4">กราฟสรุปคะแนนแท่งแยก 4 มิติ</h3>
+                    <div class="chart-container"><canvas id="chart-teacher-domain-bars"></canvas></div>
+                </div>
+            </div>
 
-function renderDashboard(){
- $("statUsers").textContent=state.users.length;$("statSubjects").textContent=state.subjects.length;$("statStudents").textContent=state.students.length;$("statEvaluations").textContent=state.evaluations.length;
- const levelCounts={"ประถมศึกษา":0,"มัธยมศึกษา":0};
- state.evaluations.forEach(e=>{const c=state.classes.find(x=>String(x.id)===String(e.class_id));if(c)levelCounts[c.level||c.education_level]=(levelCounts[c.level||c.education_level]||0)+1});
- if(charts.level)charts.level.destroy();
- charts.level=new Chart($("levelChart"),{type:"doughnut",data:{labels:Object.keys(levelCounts),datasets:[{data:Object.values(levelCounts)}]},options:{responsive:true,maintainAspectRatio:false}});
- const avgs=QUESTIONS.map((_,i)=>{
-   const a=[];
-   state.evaluations.forEach(e=>{if(e.answers?.length){const q=e.answers.find(x=>Number(x.question_no)===i+1);if(q)a.push(Number(q.score))}});
-   return a.length?a.reduce((a,b)=>a+b,0)/a.length:0;
- });
- if(charts.item)charts.item.destroy();
- charts.item=new Chart($("itemChart"),{type:"bar",data:{labels:QUESTIONS.map((_,i)=>"ข้อ "+(i+1)),datasets:[{label:"คะแนนเฉลี่ย",data:avgs}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{min:0,max:5}}}});
-}
-function fillSelect(id,arr,placeholder,key,labelKey){
- const s=$(id);s.innerHTML=`<option value="">${placeholder}</option>`+arr.map(x=>`<option value="${esc(x[key])}">${esc(x[labelKey])}</option>`).join("");
-}
-function renderEvaluations(){
- fillSelect("filterTeacher",state.users.filter(x=>x.role==="teacher"),"ครูทั้งหมด","id","full_name");
- fillSelect("filterSubject",state.subjects,"รายวิชาทั้งหมด","id","subject_name");
- fillSelect("filterYear",state.years,"ปีทั้งหมด","id","academic_year");
- const tf=$("filterTeacher").value,sf=$("filterSubject").value,yf=$("filterYear").value;
- let data=state.evaluations.filter(e=>(!tf||String(e.teacher_id)===tf)&&(!sf||String(e.subject_id)===sf)&&(!yf||String(e.academic_year_id)===yf));
- $("evaluationsBody").innerHTML=data.length?data.map(e=>`<tr><td>${esc(nameBy(state.students,e.student_id,"full_name"))}</td><td>${esc(nameBy(state.users,e.teacher_id))}</td><td>${esc(nameBy(state.subjects,e.subject_id,"subject_name"))}</td><td>${esc(nameBy(state.years,e.academic_year_id,"academic_year"))}</td><td><strong>${Number(e.average_score||0).toFixed(2)}</strong></td><td>${Number(e.percentage||0).toFixed(2)}%</td><td>${formatDate(e.submitted_at)}</td></tr>`).join(""):`<tr><td colspan="7" class="empty">ยังไม่มีผลประเมิน</td></tr>`;
- const avg=data.length?data.reduce((s,x)=>s+Number(x.average_score||0),0)/data.length:0;
- $("evaluationSummary").textContent=data.length?`จำนวน ${data.length} รายการ • คะแนนเฉลี่ยรวม ${avg.toFixed(2)} / 5 (${((avg/5)*100).toFixed(2)}%)`:"ยังไม่มีข้อมูลการประเมิน";
-}
-function formatDate(v){if(!v)return"-";const d=new Date(v);return isNaN(d)?"-":d.toLocaleDateString("th-TH",{year:"numeric",month:"short",day:"numeric"})}
+            <div class="bg-white p-6 rounded-2xl shadow-sm border space-y-4">
+                <h3 class="text-lg font-bold text-slate-900">รายละเอียดคะแนนเฉลี่ยทั้ง 20 ข้อ</h3>
+                <div class="chart-container" style="height: 480px; max-height: 520px;">
+                    <canvas id="chart-itemized-bars"></canvas>
+                </div>
+            </div>
+            
+        </section>
+        
+        <!-- SECTION 4: CRITERIA -->
+        <section id="sec-criteria" class="hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                <h2 class="text-xl font-bold text-slate-900 mb-4">โครงสร้างรายการประเมินการสอน 20 ข้อ</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-4 bg-indigo-50 rounded-xl"><h3 class="font-bold text-indigo-900">1. ด้านการเตรียมการสอน (ข้อ 1-5)</h3></div>
+                    <div class="p-4 bg-amber-50 rounded-xl"><h3 class="font-bold text-amber-900">2. วิธีการสอน เทคนิค (ข้อ 6-10)</h3></div>
+                    <div class="p-4 bg-teal-50 rounded-xl"><h3 class="font-bold text-teal-900">3. การดูแล และประเมินผล (ข้อ 11-16)</h3></div>
+                    <div class="p-4 bg-purple-50 rounded-xl"><h3 class="font-bold text-purple-900">4. คุณธรรม จริยธรรม (ข้อ 17-20)</h3></div>
+                </div>
+            </div>
+        </section>
 
-function prepareStudentEvaluation(){
- $("studentWelcome").textContent=state.student.full_name;
- $("studentMeta").textContent="รหัสนักเรียน "+state.student.student_id;
- const allowed=state.subjects.filter(s=>String(s.class_id)===String(state.student.class_id));
- $("studentSubject").innerHTML=`<option value="">-- เลือกรายวิชาที่ต้องการประเมิน --</option>`+allowed.map(s=>`<option value="${esc(s.id)}">${esc(s.subject_name)}</option>`).join("");
- $("studentClass").value=nameBy(state.classes,state.student.class_id,"class_name");
- renderQuestions();
- updateProgress();
-}
-function updateStudentMeta(){
- const s=state.subjects.find(x=>String(x.id)===String($("studentSubject").value));
- if(!s){$("studentTeacher").value="";$("studentYear").value="";return}
- $("studentTeacher").value=nameBy(state.users,s.teacher_id);
- $("studentYear").value=nameBy(state.years,s.academic_year_id,"academic_year");
- $("studentMeta").textContent=`รหัสนักเรียน ${state.student.student_id} • ${nameBy(state.classes,s.class_id,"class_name")}`;
-}
-function renderQuestions(){
- $("questionsContainer").innerHTML=QUESTIONS.map((q,i)=>`
- <div class="question"><div class="q-text"><span class="q-no">${i+1}.</span> ${esc(q)}</div>
- <div class="rating">${[5,4,3,2,1].map(score=>`<label><input type="radio" name="q${i+1}" value="${score}" onchange="updateProgress()"><span>${score}<br><small>${SCORE_LABELS[score]}</small></span></label>`).join("")}</div></div>`).join("");
-}
-function updateProgress(){
- let done=0;for(let i=1;i<=20;i++)if(document.querySelector(`input[name=q${i}]:checked`))done++;
- $("progressBar").style.width=(done/20*100)+"%";
-}
-async function submitStudentEvaluation(e){
- e.preventDefault();
- const subject=state.subjects.find(x=>String(x.id)===String($("studentSubject").value));
- if(!subject){Swal.fire("กรุณาเลือกรายวิชา","","warning");return}
- const answers=[];const missing=[];
- for(let i=1;i<=20;i++){const r=document.querySelector(`input[name=q${i}]:checked`);if(!r)missing.push(i);else answers.push({question_no:i,question:QUESTIONS[i-1],score:Number(r.value)})}
- if(missing.length){Swal.fire("กรุณาประเมินให้ครบ","ยังไม่ได้ตอบข้อ "+missing.join(", "),"warning");return}
- const ok=await Swal.fire({title:"ยืนยันการส่งแบบประเมิน?",text:"เมื่อส่งแล้วจะไม่สามารถประเมินรายวิชาเดิมซ้ำได้",icon:"question",showCancelButton:true,confirmButtonText:"ยืนยันส่ง",cancelButtonText:"ตรวจสอบอีกครั้ง"});
- if(!ok.isConfirmed)return;
- try{
-  showLoading("กำลังบันทึกผลการประเมิน...");
-  const j=await postData({action:"submitEvaluation",student_id:state.student.student_id,teacher_id:subject.teacher_id,subject_id:subject.id,class_id:subject.class_id,academic_year_id:subject.academic_year_id,answers,teacher_thought:$("teacherThought").value.trim(),suggestion:$("suggestion").value.trim()});
-  closeSwal();
-  await Swal.fire("ส่งแบบประเมินเรียบร้อยแล้ว",`คะแนนเฉลี่ย ${Number(j.average_score||0).toFixed(2)} / 5<br>คิดเป็น ${Number(j.percentage||0).toFixed(2)}%`,"success");
-  logoutStudent();
- }catch(err){Swal.fire("ส่งแบบประเมินไม่สำเร็จ",err.message,"error")}
-}
+    </main>
 
-window.addEventListener("DOMContentLoaded",()=>{
- lucide.createIcons();
- const saved=sessionStorage.getItem("teacherEvalUser");
- if(saved){try{state.user=JSON.parse(saved);enterApp();loadAllData();}catch(e){}}
-});
-</script>
+    <!-- PIN LOGIN MODAL -->
+    <div id="pin-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl shadow-xl max-w-sm w-full p-6 text-center space-y-4">
+            <h3 class="text-lg font-bold text-slate-900">ยืนยันตัวตนผู้บริหาร</h3>
+            <input type="password" id="pin-input" maxlength="4" placeholder="••••" class="w-full text-center text-2xl font-bold tracking-[0.5em] py-3 bg-slate-50 border rounded-xl outline-none">
+            <p id="pin-error-msg" class="text-xs text-rose-600 hidden">⚠️ รหัส PIN ไม่ถูกต้อง</p>
+            <div class="flex gap-2">
+                <button onclick="closePinModal()" class="w-1/2 py-2.5 rounded-xl border text-xs font-bold">ยกเลิก</button>
+                <button onclick="handlePinSubmit(event)" class="w-1/2 py-2.5 rounded-xl bg-indigo-600 text-white text-xs font-bold">ยืนยัน</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div id="success-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl shadow-xl max-w-sm w-full p-6 text-center">
+            <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl mx-auto font-bold mb-4">✅</div>
+            <h3 class="text-xl font-bold text-slate-900 mb-2">ส่งแบบประเมินสำเร็จ!</h3>
+            <p class="text-sm text-slate-600 mb-6" id="success-modal-msg"></p>
+            <button onclick="closeSuccessModal()" class="w-full py-2.5 rounded-xl bg-emerald-600 text-white font-bold">ตกลง</button>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION MODAL -->
+    <div id="notification-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl shadow-xl max-w-sm w-full p-6 text-center">
+            <h3 class="text-xl font-bold text-slate-900 mb-2" id="notification-title">แจ้งเตือน</h3>
+            <p class="text-sm text-slate-600 mb-6" id="notification-msg"></p>
+            <button onclick="closeNotificationModal()" class="w-full py-2.5 rounded-xl bg-indigo-600 text-white font-bold">ตกลง</button>
+        </div>
+    </div>
+
+    <script>
+        let isStudentMode = true;
+        const ADMIN_PIN = "1234"; 
+
+        // 🌟 ใส่ URL ของ Google Apps Script ของคุณที่นี่ (Web app)
+        const GOOGLE_SHEET_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwa3uLlpIWb7QI1Th4-Rr-wt1l6a5QLKsAJQB147OZmnK7BXEdgZsAToyJ35nHF5xSX/exec"; 
+
+        let evaluationsStore = [];
+
+        // ฐานข้อมูลครู
+        const teacherDatabase = [
+            {
+                dept: "กลุ่มสาระภาษาไทย",
+                teachers: ["ว่าที่ร้อยตรีหญิงเจนจิรา มาเรือน", "นายนิทัศน์ ชาวโพธิ์พระ", "นางสาวพรประภา ดีผิว", "นางสาวสิโรธร หน่ายคอน", "นายวชิรวิชญ์ จอมศิลป์", "นางสาวธนัญญา ยลถวิล", "นางสาวกุลณัฐ ภูสมพงษ์", "นายธนภัทร เปี่ยมสิน", "นางสาวปัทมา พรมศักดิ์", "นางสาวภาวิณี ศรีทะชิต"]
+            },
+            {
+                dept: "กลุ่มสาระคณิตศาสตร์",
+                teachers: ["นางสาวเบญจมาศ หาญเสมอ", "นางธิดา สุขสถิตย์", "นายธนวัฒน์ เสรีเกียรติ", "สิบเอกหญิงวรารัตน์ ด้วงคำ", "นางสาววริศรา กทิศาสตร์", "นางสาวรัตติกาล โยนะพันธ์", "นางสาวปนัดดา ศรีมุล", "นางสาวสายรุ้ง โพธิ์นา", "นางสาวสุภารัตน์ ดอกพอง", "นายสิงหา ชัยทอง", "นางสาวสุดา ศรีประสาน"]
+            },
+            {
+                dept: "กลุ่มสาระวิทยาศาสตร์และเทคโนโลยี",
+                teachers: ["นางชมภักดิ์ ฐิตธรรมโม", "นางสาวกชกร อินทสังข์", "นายไพโรจน์ แก้วมา", "นางสาวธนิษฐา อินทมาตยากูล", "นางอลิสา ราชวัตร", "ว่าที่ร้อยตรีสวิทชัย วงษ์พินิจ", "นางสาวณัฏฐกุลนลิน กิจปัญญาคุณณ์", "นายธนากร พูลพิพัฒน์", "นางสาวกนกวรรณ กรมถิน", "นางสาวประภาพร โยธี", "นางสาวทิพย์ฤดี ผดุงล้อม", "นางสาวกชพร ใจกระเสน", "นายศราวุฒิ วิจิตร", "นายธนาวุฒิ อารีเอื้อ", "นางสาววิรัล เกษียร", "นางวรรณวิสา เสรีเกียรติ", "นางสาววิภาดา บุญรักษา", "นายจิรัฏฐ์ เจริญมฤคกัญจน์", "นายอนุพันธ์ ทุยประโคน", "นายณัฐกมล สร้อยทองพูล", "นายเตชินท์ จอมทะรักษ์", "นายชยุตพงศ์ โพธิ์ประจักษ์", "นางสาวสุวิมล แกล้วกล้า"]
+            },
+            {
+                dept: "กลุ่มสาระสุขศึกษาพลศึกษา",
+                teachers: ["นายสมอานุภาพ ศรีมงคล", "นางสาวธารทิพย์ แก้วกูล", "ว่าที่ร้อยตรีหญิงอิสรีย์ ศรีหะสุทธิ์", "ว่าที่ร้อยตรีหญิงสุกัญญา สุปัญญาบุตร", "นายไตรปิฎก บุญปถัมภ์", "นายอนุพงษ์ เหลืองอ่อน"]
+            },
+            {
+                dept: "กลุ่มสาระภาษาต่างประเทศ",
+                teachers: ["นางสาวเจษฎาภรณ์ ป้องเขตร", "นางสาวศศิลักษณ์ เกตุจรุง", "นางสาววันนิภา ทองเหลือง", "นางสาวคัทริน สอนแสนสุข", "นางสาวภัศรา บุญเจือ", "นางจินดาหรา ลมัยเกศ", "นางสาวบุณญนุช พรมานุสรณ์", "นายปริญญา ศิริเตียวศรี", "นายนวพล แก้วทรัพย์ทวีกุล", "นางสาวศิริรัตน์ แพงศิริ", "นางสาวกัญญา ปัญจพาณิชย์กุล", "นางสาวทิพย์สุดา สวนม่วง", "นางสาววิลาวัลย์ คลายทุกข์", "นางสาวจุฑาทิพ สายจันดี", "นางสาวชลลดา เกล็ดงูเหลือม"]
+            },
+            {
+                dept: "กลุ่มสาระสังคมศึกษา ศาสนาและวัฒนธรรม",
+                teachers: ["นายศตวีร์ ทีภูเวียง", "นางสาวนิรมล อดทน", "นางสาวนิตยา จันทร์สงเคราะห์", "นางพิชญ์พิสุทธิ์ คุรุธรรมวงศา", "นายเชาวเลิศ มากสมบูรณ์", "นางสาววิมลรัตน์ กาญจนวิลาศ", "นายนพดล หาทรัพย์", "นางสาวทิพรดา สว่างไพร", "นายศุภชัย เบ้าทอง", "นางสาวอัญธิญาน์ อมรสิริเมธารัฐ", "นางสาวณัฏฐณิชา สีเมืองเพีย", "นายนพรัตน์ สัตย์ซ้ำ", "นายคิมหันต์ มูลเมือง"]
+            },
+            {
+                dept: "กลุ่มสาระการงานอาชีพฯ",
+                teachers: ["นางสาวเพชรไพลิน มหาเพชร", "นายณรัณธกรณ์ นาราณฐนันทน์", "นางสาวปัทมวัลย์ บุญถนอม", "นางสาวธัญญาภรณ์ ปาสำลี", "นายนิพนธิ์ ร้านจันทร์", "นางสาวณาตยา สุเมธีนฤมิต", "นางสาววริศรา จันหัวนา", "นางสาวกมลวรรณ สุขเจริญ", "นางสาวศิริถาพร สำแดงเดช"]
+            },
+            {
+                dept: "กลุ่มสาระศิลปะ",
+                teachers: ["นางสาวฉัตรแก้ว ชื่นกมล", "นายวิศวชัย คงศร", "นายวิชิต อุ่นทะเล", "นางสาวกมณนันต์ โทธกานันท์", "นางสาวณัฐธิดา สุขสุผล", "นางสาวสุพิชญา พงศ์สุวรรณ", "นางสาวสุกัลยา ทองคำ", "ว่าที่ร้อยตรีทศพร วรรณคำ"]
+            },
+            {
+                dept: "แนะแนว/ห้องสมุด",
+                teachers: ["นางสาวนันทิกร โพธิภูมิ", "นางสาวสุกัญญา เอี่ยมประยูร", "นางสาวทิพย์นภา ยี่สุ่น", "นายจิรยุทธ ธราปุญญสิน"]
+            },
+            {
+                dept: "ครูพี่เลี้ยง",
+                teachers: ["นางสาววริษฐา เสนาธรรม"]
+            },
+            {
+                dept: "ครูต่างชาติ",
+                teachers: ["MISS JEAN SISON MAQUINTO", "MISS MARY ELEONOR OROSIO LUBO", "MR. EMAD AHMED KHALAF ABDULLAH", "MR. FRANCISCO JR LERADO MAIT"]
+            }
+        ];
+
+        // คำถาม 20 ข้อ
+        const questionsList = [
+            { id: 1, domain: 1, text: "ครูแจ้งผลการเรียนรู้ชัดเจน" }, { id: 2, domain: 1, text: "เนื้อหาที่สอนทันสมัยเสมอ" }, { id: 3, domain: 1, text: "ครูใช้สื่อประกอบการสอน" }, { id: 4, domain: 1, text: "ครูประยุกต์สาระที่สอนเข้ากับเหตุการณ์ปัจจุบัน / สภาพแวดล้อม" }, { id: 5, domain: 1, text: "ครูให้นักเรียนแสวงหาความรู้จากแหล่งเรียนรู้ต่างๆ" },
+            { id: 6, domain: 2, text: "กิจกรรมการเรียนรู้สนุกและน่าสนใจ" }, { id: 7, domain: 2, text: "ครูใช้คำถามถามนักเรียนบ่อยๆ" }, { id: 8, domain: 2, text: "ครูส่งเสริมให้นักเรียนคิดริเริ่มและรู้จักวิพากษ์วิจารณ์" }, { id: 9, domain: 2, text: "ครูให้นักเรียนทำงานร่วมกันทั้งกลุ่มและรายบุคคล" }, { id: 10, domain: 2, text: "ครูให้โอกาสนักเรียนซักถามปัญหา" },
+            { id: 11, domain: 3, text: "ครูยอมรับความคิดเห็นของนักเรียนที่ต่างไปจากครู" }, { id: 12, domain: 3, text: "ครูให้ความสนใจนักเรียนขณะสอนทั่วถึงทุกคน" }, { id: 13, domain: 3, text: "ครูให้ความช่วยเหลือหรืออำนวยความสะดวกแก่นักเรียนในการเรียน" }, { id: 14, domain: 3, text: "นักเรียนทราบเกณฑ์การวัดและประเมินผล" }, { id: 15, domain: 3, text: "นักเรียนมีส่วนร่วมในการวัดและประเมินผล" }, { id: 16, domain: 3, text: "ครูประเมินผลการเรียนอย่างยุติธรรม" },
+            { id: 17, domain: 4, text: "ครูมีความตั้งใจในการสอน" }, { id: 18, domain: 4, text: "บุคลิกภาพ การแต่งกายของครูเหมาะสม" }, { id: 19, domain: 4, text: "การพูดจาของครูเหมาะสม" }, { id: 20, domain: 4, text: "ครูเข้าสอนและออกตรงตามเวลา" }
+        ];
+
+        let radarChartInstance, donutChartInstance, teacherRadarInstance, teacherDomainBarInstance, teacherBarInstance;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initDepartmentDropdowns();
+            renderFormQuestions();
+            initOverallCharts();
+            if (GOOGLE_SHEET_WEB_APP_URL !== "") fetchCloudData();
+            enableStudentMode(true);
+        });
+
+        function showNotification(title, msg) {
+            document.getElementById('notification-title').textContent = title;
+            document.getElementById('notification-msg').textContent = msg;
+            document.getElementById('notification-modal').classList.remove('hidden');
+        }
+
+        function closeNotificationModal() {
+            document.getElementById('notification-modal').classList.add('hidden');
+        }
+
+        async function fetchCloudData() {
+            try {
+                const kpiTag = document.getElementById('kpi-status-tag');
+                if(kpiTag) kpiTag.textContent = "กำลังดึงข้อมูล...";
+
+                const response = await fetch(GOOGLE_SHEET_WEB_APP_URL);
+                const textData = await response.text();
+                
+                let data;
+                try {
+                    data = JSON.parse(textData);
+                } catch (parseError) {
+                    throw new Error("ตั้งค่าสิทธิ์ผิดพลาด กรุณาตั้งเว็บแอปเป็น 'ทุกคน (Anyone)'");
+                }
+                
+                if (data && Array.isArray(data)) {
+                    // กรองข้อมูลที่ถูกต้อง และบังคับตัดช่องว่าง .trim() ทุกครั้ง
+                    const fetchedData = data.filter(item => 
+                        item.teacher && item.teacher.trim() !== "" && item.teacher !== "ชื่อครูผู้สอน" && 
+                        Array.isArray(item.scores) && item.scores.length === 20
+                    ).map(item => ({
+                        ...item,
+                        teacher: item.teacher.trim(), // ตัดช่องว่างเสมอ ป้องกันชื่อไม่ตรงกัน
+                        semester: item.semester ? item.semester.trim() : "",
+                        timestamp: new Date(item.timestamp)
+                    }));
+                    
+                    // ระบบป้องกันข้อมูลซ้ำ และป้องกันข้อมูลเก่าหาย
+                    const existingKeys = new Set(evaluationsStore.map(e => `${e.timestamp.getTime()}_${e.teacher}`));
+                    fetchedData.forEach(newItem => {
+                        const key = `${newItem.timestamp.getTime()}_${newItem.teacher}`;
+                        if (!existingKeys.has(key)) {
+                            evaluationsStore.push(newItem);
+                        }
+                    });
+                    
+                    if(kpiTag) kpiTag.textContent = evaluationsStore.length > 0 ? "อัปเดตข้อมูลล่าสุดสำเร็จ" : "ระบบพร้อมใช้งาน (ยังไม่มีข้อมูล)";
+                    updateDashboardView();
+                    renderTeacherAnalytics();
+                }
+            } catch (error) {
+                console.error("Fetch Data Error:", error);
+                if(document.getElementById('kpi-status-tag')) document.getElementById('kpi-status-tag').textContent = "ออฟไลน์: " + error.message;
+            }
+        }
+
+        function handleModeSwitchClick() {
+            if (isStudentMode) openPinModal();
+            else enableStudentMode(true);
+        }
+
+        function openPinModal() {
+            document.getElementById('pin-modal').classList.remove('hidden');
+            document.getElementById('pin-input').value = '';
+            document.getElementById('pin-error-msg').classList.add('hidden');
+        }
+
+        function closePinModal() { document.getElementById('pin-modal').classList.add('hidden'); }
+
+        function handlePinSubmit(event) {
+            event.preventDefault();
+            if (document.getElementById('pin-input').value === ADMIN_PIN) {
+                closePinModal();
+                enableStudentMode(false);
+            } else {
+                document.getElementById('pin-error-msg').classList.remove('hidden');
+            }
+        }
+
+        function enableStudentMode(enable) {
+            isStudentMode = enable;
+            if (enable) {
+                document.getElementById('role-badge').textContent = "โหมดนักเรียน";
+                document.getElementById('nav-tabs-container').classList.add('hidden');
+                document.getElementById('student-mode-banner').classList.remove('hidden');
+                switchTab('form');
+            } else {
+                document.getElementById('role-badge').textContent = "โหมดผู้บริหาร";
+                document.getElementById('nav-tabs-container').classList.remove('hidden');
+                document.getElementById('student-mode-banner').classList.add('hidden');
+                switchTab('dashboard');
+            }
+        }
+
+        function switchTab(tabId) {
+            if (isStudentMode && tabId !== 'form') return;
+            ['dashboard', 'analytics', 'form', 'criteria'].forEach(t => {
+                document.getElementById(`tab-${t}`)?.classList.toggle('bg-indigo-600', t === tabId);
+                document.getElementById(`tab-${t}`)?.classList.toggle('text-white', t === tabId);
+                document.getElementById(`sec-${t}`)?.classList.toggle('hidden', t !== tabId);
+            });
+            window.dispatchEvent(new Event('resize'));
+        }
+
+        function initDepartmentDropdowns() {
+            const formDept = document.getElementById('form-dept-select');
+            const analyticsDept = document.getElementById('analytics-dept-select');
+            teacherDatabase.forEach(item => {
+                formDept.add(new Option(item.dept, item.dept));
+                analyticsDept.add(new Option(item.dept, item.dept));
+            });
+            onFormDeptOrSemesterChange();
+            updateAnalyticsTeacherDropdown();
+        }
+
+        function onFormDeptOrSemesterChange() {
+            const deptVal = document.getElementById('form-dept-select').value;
+            const teacherSelect = document.getElementById('form-teacher-select');
+            teacherSelect.innerHTML = '<option value="">-- เลือก --</option>';
+            
+            const deptData = teacherDatabase.find(d => d.dept === deptVal);
+            if (deptData) {
+                // บังคับตัดช่องว่าง .trim() ตอนสร้างตัวเลือก
+                deptData.teachers.forEach(t => teacherSelect.add(new Option(t.trim(), t.trim()))); 
+            }
+        }
+
+        function updateAnalyticsTeacherDropdown() {
+            const deptVal = document.getElementById('analytics-dept-select').value;
+            const teacherSelect = document.getElementById('analytics-teacher-select');
+            teacherSelect.innerHTML = '';
+            const deptData = teacherDatabase.find(d => d.dept === deptVal);
+            if (deptData) {
+                // บังคับตัดช่องว่าง .trim() ตอนสร้างตัวเลือก
+                deptData.teachers.forEach(t => teacherSelect.add(new Option(t.trim(), t.trim())));
+            }
+            renderTeacherAnalytics();
+        }
+
+        function renderFormQuestions() {
+            questionsList.forEach(q => {
+                const container = document.getElementById(`domain-${q.domain}-questions`);
+                if (!container) return;
+                const div = document.createElement('div');
+                div.className = "p-3 bg-slate-50 border rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-3";
+                div.innerHTML = `
+                    <div class="text-sm font-medium"><span class="font-bold text-indigo-700">${q.id}.</span> ${q.text}</div>
+                    <div class="flex items-center space-x-2 md:space-x-4">
+                        ${[5, 4, 3, 2, 1].map(s => `<label class="flex flex-col items-center cursor-pointer text-xs"><input type="radio" name="q_${q.id}" value="${s}" required class="w-4 h-4 text-indigo-600"><span class="mt-0.5">${s}</span></label>`).join('')}
+                    </div>`;
+                container.appendChild(div);
+            });
+        }
+
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            
+            // บังคับ Trim ขจัดช่องว่างทั้งหมดก่อนเซฟ
+            const teacherName = document.getElementById('form-teacher-select').value.trim();
+            const semester = document.getElementById('form-semester-select').value.trim();
+            const subject = document.getElementById('form-subject-select').value.trim();
+            const impress = document.getElementById('form-impress').value;
+            const suggestions = document.getElementById('form-suggestions').value;
+
+            btn.disabled = true;
+            btn.innerHTML = `กำลังบันทึกข้อมูล... ⏳`;
+
+            const scores = [];
+            // สร้าง URL Encoded String เพื่อให้ Google Sheet อ่านออก (แทนที่ FormData แบบเดิมที่ทำให้อ่านไม่ได้)
+            let urlEncodedData = new URLSearchParams();
+            urlEncodedData.append('teacher', teacherName);
+            urlEncodedData.append('semester', semester);
+            urlEncodedData.append('level', 'มัธยมศึกษา');
+            urlEncodedData.append('subject', subject);
+            urlEncodedData.append('impress', impress);
+            urlEncodedData.append('suggestions', suggestions);
+
+            for (let i = 1; i <= 20; i++) {
+                const val = document.querySelector(`input[name="q_${i}"]:checked`)?.value || 5;
+                scores.push(parseInt(val, 10));
+                urlEncodedData.append(`q_${i}`, val);
+            }
+
+            try {
+                if (GOOGLE_SHEET_WEB_APP_URL) {
+                    fetch(GOOGLE_SHEET_WEB_APP_URL, {
+                        method: 'POST',
+                        body: urlEncodedData.toString(), // ส่งเป็น URL Encoded
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        mode: 'no-cors'
+                    });
+                }
+
+                // เซฟลงหน้าเว็บ (Trim ข้อมูลเสมอ)
+                evaluationsStore.push({
+                    teacher: teacherName, semester: semester, level: 'มัธยมศึกษา', subject: subject,
+                    scores: scores, impress: impress, suggestions: suggestions, timestamp: new Date()
+                });
+
+                document.getElementById('success-modal-msg').innerHTML = `บันทึกข้อมูลของ <strong>${teacherName}</strong> สำเร็จ!`;
+                document.getElementById('success-modal').classList.remove('hidden');
+                
+                document.getElementById('evaluation-form').reset();
+                onFormDeptOrSemesterChange();
+                updateDashboardView();
+                renderTeacherAnalytics();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            } catch(e) { 
+                showNotification("เกิดข้อผิดพลาด", "ไม่สามารถส่งข้อมูลได้ กรุณาลองใหม่อีกครั้ง");
+            }
+            finally { btn.disabled = false; btn.innerHTML = `ส่งแบบประเมิน 🚀`; }
+        }
+
+        function closeSuccessModal() { document.getElementById('success-modal').classList.add('hidden'); }
+
+        function initOverallCharts() {
+            radarChartInstance = new Chart(document.getElementById('chart-dimensions-radar'), {
+                type: 'radar', data: { labels: ['ด้านที่ 1', 'ด้านที่ 2', 'ด้านที่ 3', 'ด้านที่ 4'], datasets: [{ label: 'คะแนนเฉลี่ย', data: [0,0,0,0], backgroundColor: 'rgba(79, 70, 229, 0.2)', borderColor: 'rgba(79, 70, 229, 1)' }] },
+                options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 5 } } }
+            });
+            donutChartInstance = new Chart(document.getElementById('chart-rating-donut'), {
+                type: 'doughnut', data: { labels: ['5','4','3','2','1'], datasets: [{ data: [0,0,0,0,0], backgroundColor: ['#4f46e5', '#0d9488', '#f59e0b', '#fb923c', '#ef4444'] }] },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        function getSchoolDomainAverages(semFilter) {
+            let list = semFilter === "ทั้งหมด" ? evaluationsStore : evaluationsStore.filter(e => e.semester === semFilter);
+            if (list.length === 0) return [0,0,0,0];
+            const sums = Array(20).fill(0);
+            list.forEach(ev => ev.scores.forEach((s, i) => sums[i] += s));
+            const avgs = sums.map(s => s / list.length);
+            return [
+                (avgs[0]+avgs[1]+avgs[2]+avgs[3]+avgs[4])/5, (avgs[5]+avgs[6]+avgs[7]+avgs[8]+avgs[9])/5,
+                (avgs[10]+avgs[11]+avgs[12]+avgs[13]+avgs[14]+avgs[15])/6, (avgs[16]+avgs[17]+avgs[18]+avgs[19])/4
+            ];
+        }
+
+        function updateDashboardView() {
+            const sem = document.getElementById('dashboard-semester-filter').value;
+            const list = sem === "ทั้งหมด" ? evaluationsStore : evaluationsStore.filter(e => e.semester === sem);
+            
+            document.getElementById('kpi-total-evaluations').textContent = list.length;
+            if(list.length === 0) return;
+
+            let total = 0; const counts = {5:0, 4:0, 3:0, 2:0, 1:0};
+            list.forEach(ev => ev.scores.forEach(s => { total += s; counts[s]++; }));
+            
+            document.getElementById('kpi-total-avg').textContent = `${(total/(list.length*20)).toFixed(2)} / 5.00`;
+            
+            radarChartInstance.data.datasets[0].data = getSchoolDomainAverages(sem);
+            radarChartInstance.update();
+            
+            donutChartInstance.data.datasets[0].data = [counts[5], counts[4], counts[3], counts[2], counts[1]];
+            donutChartInstance.update();
+        }
+
+        function renderTeacherAnalytics() {
+            // บังคับ Trim ตอนอ่านค่าจาก Dropdown เพื่อให้จับคู่ได้เป๊ะ 100%
+            const teacherName = document.getElementById('analytics-teacher-select').value.trim();
+            const semFilter = document.getElementById('analytics-semester-filter').value;
+            if (!teacherName) return;
+
+            document.getElementById('teacher-summary-name').textContent = teacherName;
+            
+            // กรองข้อมูลด้วยการ Trim() ทั้งคู่ (กันพลาดกรณีชื่อในฐานข้อมูลมีเว้นวรรค)
+            let evals = evaluationsStore.filter(e => e.teacher.trim() === teacherName);
+            if (semFilter !== "ทั้งหมด") evals = evals.filter(e => e.semester === semFilter);
+
+            document.getElementById('teacher-metric-count').textContent = `${evals.length} ครั้ง`;
+
+            if(evals.length > 0) {
+                const sums = Array(20).fill(0);
+                evals.forEach(ev => ev.scores.forEach((s, i) => sums[i] += s));
+                const avgs = sums.map(s => s / evals.length);
+                const overall = avgs.reduce((a,b)=>a+b,0)/20;
+                
+                document.getElementById('teacher-summary-score').textContent = `${overall.toFixed(2)} / 5.00`;
+                
+                const doms = [
+                    (avgs[0]+avgs[1]+avgs[2]+avgs[3]+avgs[4])/5, (avgs[5]+avgs[6]+avgs[7]+avgs[8]+avgs[9])/5,
+                    (avgs[10]+avgs[11]+avgs[12]+avgs[13]+avgs[14]+avgs[15])/6, (avgs[16]+avgs[17]+avgs[18]+avgs[19])/4
+                ];
+
+                if(teacherRadarInstance) teacherRadarInstance.destroy();
+                teacherRadarInstance = new Chart(document.getElementById('chart-teacher-domain-radar'), {
+                    type: 'radar', data: { labels: ['ด้าน 1', 'ด้าน 2', 'ด้าน 3', 'ด้าน 4'], datasets: [{ label: 'คะแนนครู', data: doms, borderColor: '#4f46e5' }, { label: 'เฉลี่ยโรงเรียน', data: getSchoolDomainAverages(semFilter), borderDash: [5,5] }] }
+                });
+
+                if(teacherDomainBarInstance) teacherDomainBarInstance.destroy();
+                teacherDomainBarInstance = new Chart(document.getElementById('chart-teacher-domain-bars'), {
+                    type: 'bar', data: { labels: ['ด้าน 1', 'ด้าน 2', 'ด้าน 3', 'ด้าน 4'], datasets: [{ data: doms, backgroundColor: ['#4f46e5', '#d97706', '#0d9488', '#9333ea'] }] }
+                });
+
+                if(teacherBarInstance) teacherBarInstance.destroy();
+                teacherBarInstance = new Chart(document.getElementById('chart-itemized-bars'), {
+                    type: 'bar', data: { labels: questionsList.map(q => `ข้อ ${q.id}`), datasets: [{ data: avgs, backgroundColor: '#4f46e5' }] },
+                    options: { indexAxis: 'y' }
+                });
+            } else {
+                document.getElementById('teacher-summary-score').textContent = `0.00 / 5.00`;
+                if(teacherRadarInstance) teacherRadarInstance.destroy();
+                if(teacherDomainBarInstance) teacherDomainBarInstance.destroy();
+                if(teacherBarInstance) teacherBarInstance.destroy();
+            }
+        }
+    </script>
 </body>
 </html>
